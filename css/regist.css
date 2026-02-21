@@ -1,0 +1,108 @@
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    height: 100vh;
+    background: linear-gradient(135deg, #2b1e14, #1a120b);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+}
+.register-box{
+    position: relative; /* สำคัญ*/
+}
+.back-btn{
+    background: rgba(242,201,76,0.15);      /* Box ตรงลูกศรย้อนกลับ*/ 
+     padding: 6px 12px;
+     border-radius: 8px;
+
+    position: absolute;
+    top: 23px;
+    left: 20px;
+
+    color: #F2C94C;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 0.9rem;
+
+    opacity: 0.85;
+    transition: 0.25s ease;
+}
+/* ===== Scroll แล้วค่อยๆขึ้้นมา ===== */
+.fade {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: 0.6s;
+}
+.fade.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.back-btn:hover{
+    opacity: 1;
+    transform: translateX(-4px);
+}
+
+/*ส่วนของสมัครสมาชิก*/
+form {
+    background: rgba(0, 0, 0, 0.4);
+    padding: 30px 40px;
+    border-radius: 12px;
+    width: 350px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #f5c76a;
+}
+
+label {
+    display: block;
+    margin-top: 12px;
+    font-size: 14px;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="date"] {
+    width: 100%;
+    padding: 8px 10px;
+    margin-top: 5px;
+    border-radius: 6px;
+    border: none;
+    outline: none;
+}
+
+.gender {
+    margin-top: 10px;
+}
+
+.gender label {
+    display: inline-block;
+    margin-right: 15px;
+}
+
+.checkbox {
+    margin-top: 10px;
+}
+
+button {
+    width: 100%;
+    margin-top: 20px;
+    padding: 10px;
+    border: none;
+    border-radius: 8px;
+    background: #f5c76a;
+    color: #2b1e14;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #ffd98a;
+}
+/*จบส่วนสมัครสมาชิก*/
