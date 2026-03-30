@@ -13,7 +13,7 @@
     <div class="content-item fade">
         <div class="register-box">
             <a href="../pages/index.html" class="back-btn">←</a>
-            <form>
+            <form id="registForm">
                 <h2>สมัครสมาชิก</h2>
 
                 <label>ชื่อ *</label>
@@ -34,22 +34,28 @@
                 </div>
 
                 <label>Email *</label>
-                <input type="text" placeholder="Enter Email">
+                <input type="email" id="emailInput" placeholder="Enter Email" required>
 
                 <!-- <div class="checkbox">
             <label><input type="checkbox"> ข้อมูลถูกต้อง</label>
         </div> -->
 
-                <label>Password</label>
-                <input type="password">
+                <label>Password *</label>
+                <input type="password" id="passwordInput" required>
 
-                <label>Confirm Password</label>
-                <input type="password">
+                <label>Confirm Password *</label>
+                <input type="password" id="confirmPasswordInput" required>
 
-                <button>Submit</button>
+                <p id="errorMessage" style="color: #ff6b6b; font-size: 13px; text-align: center; margin-top: 10px; display: none;"></p>
+
+                <button type="submit">Submit</button>
+                <div style="text-align: center; margin-top: 15px; font-size: 14px;">
+                    <span style="color: #ccc;">มีบัญชีอยู่แล้วใช่หรือไม่?</span> 
+                    <a href="login.html" style="color: #f5c76a; text-decoration: none;">เข้าสู่ระบบ</a>
+                </div>
+            </form>
         </div>
-        </form>
-        <script src="../js/regist.js"></script>
+        <script type="module" src="../js/regist.js"></script>
 
 </body>
 

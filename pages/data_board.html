@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>กระดานรีวิวภาพยนตร์</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="../css/data_board.css">
+</head>
+<body>
+    <!-- ===== MENU ===== -->
+    <nav>
+        <div class="container">
+            <div class="nav-con">
+                <div class="logo"><a href="index.html">DO <span>MOVIE</span></a></div>
+                <ul class="menu" id="navMenu">
+                    <li><a href="index.html">หน้าหลัก</a></li>
+                    <li><a href="data_board.html" style="color: #f5c76a;">กระดานรีวิว</a></li>
+                    <li><a href="main.html">หมวดหมู่หนัง</a></li>
+                    <li id="authLink"><a href="login.html">เข้าสู่ระบบ</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ===== BOARD HEADER ===== -->
+    <div class="container board-header">
+        <h1>กระดานรีวิวภาพยนตร์</h1>
+        <p>แบ่งปันและค้นหาความเห็นจากคอหนังตัวจริง</p>
+    </div>
+
+    <!-- ===== MAIN CONTENT ===== -->
+    <div class="container">
+        
+        <!-- Form Section -->
+        <div class="review-form-container" id="reviewFormSection" style="display: none;">
+            <h2>เขียนรีวิวของคุณ</h2>
+            <form id="reviewForm">
+                <div>
+                    <input type="text" id="movieTitle" placeholder="ชื่อภาพยนตร์ *" required>
+                </div>
+                <div>
+                    <textarea id="reviewContent" rows="4" placeholder="ความเห็นของคุณ..." required></textarea>
+                </div>
+                <button type="submit">โพสต์รีวิว</button>
+                <div id="postMessage" style="margin-top: 10px; font-size: 14px; text-align: left; color: #4CAF50; display: none;"></div>
+            </form>
+        </div>
+        
+        <!-- Login Prompt Warning -->
+        <div id="loginPrompt" style="background: rgba(245, 199, 106, 0.1); border: 1px solid #f5c76a; color: #f5c76a; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 40px; display: none;">
+            <p>กรุณา <a href="login.html" style="color: #fff; font-weight: bold; text-decoration: underline;">เข้าสู่ระบบ</a> เพื่อเขียนรีวิวใหม่</p>
+        </div>
+
+        <!-- Reviews Grid Section -->
+        <div class="reviews-grid" id="reviewsContainer">
+            <!-- Data will be loaded here via JS -->
+            <p style="color: #aaa; text-align: center; width: 100%;">กำลังโหลดรีวิว...</p>
+        </div>
+
+    </div>
+
+    <!-- ===== Firebase Scripts ===== -->
+    <script type="module" src="../js/data_board.js"></script>
+</body>
+</html>

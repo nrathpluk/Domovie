@@ -18,11 +18,10 @@
                 <div class="logo"><a href="#">DO <span>MOVIE</span></a></div>
                 <!-- ul กด Enter พื้ม class="munu" เอง-->
                 <ul class="menu">
-                    <li><a href="../pages/main.html">หน้าหลัก</a></li>
-                    <li><a href="">หนังScifi</a></li>
-                    <li><a href="">สินค้าที่ระลึก</a></li>
-                    <li><a href="../pages/regist.html">สมัครสมาชิก</a></li>
-                    <li><a href="">ผู้เขียน</a></li>
+                    <li><a href="../pages/index.html" style="color: #f5c76a;">หน้าหลัก</a></li>
+                    <li><a href="../pages/data_board.html">กระดานรีวิว</a></li>
+                    <li><a href="../pages/main.html">หมวดหมู่หนัง</a></li>
+                    <li><a href="../pages/login.html">เข้าสู่ระบบ</a></li>
                 </ul>
 
     </nav>
@@ -35,25 +34,16 @@
             <div class="maincontent-con">
                 <div class="maincontent-info">
                     <div class="content-item fade">
-                        <h4>Inception
-                            <p>
-                                จิตพิฆาตโลก (อังกฤษ: Inception) เป็นภาพยนตร์อเมริกันปี 2010
-                                แนวนวนิยายวิทยาศาสตร์-แอ็กชัน เขียนบท อำนวยการสร้างและกำกับโดยคริสโตเฟอร์ โน
-                                แลน นำแสดงโดยลีโอนาร์โด ดีคาปริโอ, เคน วะตะนะเบะ, โจเซฟ กอร์ดอน-เลวิตต์, เอลเลน เพจ,
-                                มารียง กอตียาร์ และคิลเลียน เมอร์ฟี ภาพยนตร์ได้รับแรง
-                                บันดาลใจจากภาวะที่คนเราสามารถที่จะรู้สึกตัวและตระหนักได้ว่าตนเองนั้นอยู่ในความฝัน (lucid
-                                dream) โดยมีเนื้อเรื่องเกี่ยวกับการโจรกรรมของดอม คอบบ์
-                                ที่มีความสามารถในการเข้าไปในฝันของคนอื่นเพื่อขโมยข้อมูล
-                                ความสามารถนี้ทำให้คอบบ์กลายเป็นอาชญากรและต้องหลบหนี รวมทั้งสูญสิ้นทุกสิ่ง แต่เขาก็ได้รับ
-                                ข้อเสนอในการที่จะกลับมาใช้ชีวิตแบบเดิม แลกกับการปฏิบัติภารกิจปลูกฝังความคิดของเป้าหมาย
-                                กระบวนการในการปลูกฝังความคิดเรียกว่า "Inception"
+                        <h4><span id="movie-title">กำลังโหลด...</span>
+                            <p id="movie-desc">
+                                กำลังเชื่อมต่อข้อมูลภาพยนตร์จากฐานข้อมูล (Firebase Firestore)...
                             </p>
                             <a href="" class="maincontent-btn">เพื่มเติม</a>
                         </h4>
                     </div>
                 </div>
-                <div class="Inception-img fade delay" alt="">
-                    <img src="../images/Movie/Inception/INCEPTION.jpg" alt="">
+                <div class="Inception-img fade delay">
+                    <img id="movie-poster" src="../images/Movie/Inception/INCEPTION.jpg" alt="movie poster">
                 </div>
             </div>
         </div>
@@ -175,7 +165,7 @@
     <div class="footer-bottom">
         &copy; 2026 Web DoMovie. All rights reserved.
     </div>
-    <script src="../js/index.js"></script>
+    <script type="module" src="../js/index.js"></script>
 </body>
 
 </html>

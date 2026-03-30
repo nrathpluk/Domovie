@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="th">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>เข้าสู่ระบบ</title>
+    <link rel="stylesheet" href="../css/regist.css">
+</head>
+
+<body>
+    <div class="content-item fade">
+        <div class="register-box">
+            <a href="../pages/index.html" class="back-btn">←</a>
+            <form id="loginForm">
+                <h2>เข้าสู่ระบบ</h2>
+
+                <label>Email *</label>
+                <input type="email" id="emailInput" placeholder="Enter Email" required>
+
+                <label>Password *</label>
+                <input type="password" id="passwordInput" placeholder="Enter Password" required>
+
+                <p id="errorMessage" style="color: #ff6b6b; font-size: 13px; text-align: center; margin-top: 10px; display: none;"></p>
+
+                <button type="submit">เข้าสู่ระบบ</button>
+
+                <div style="text-align: center; margin-top: 20px; font-size: 14px;">
+                    <span style="color: #ccc;">ยังไม่มีบัญชีใช่หรือไม่?</span> 
+                    <a href="regist.html" style="color: #f5c76a; text-decoration: none;">สมัครสมาชิกเลย</a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Script แบบโมดูลเพื่อเรียกใช้ Firebase -->
+    <script type="module" src="../js/login.js"></script>
+</body>
+
+</html>
