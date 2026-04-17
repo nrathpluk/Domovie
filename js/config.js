@@ -1,5 +1,4 @@
-const API_BASE = 'http://localhost:8000/api';
-// const API_BASE = 'https://your-app.onrender.com/api'; // production
+const API_BASE = 'https://domovie-backend.onrender.com/api';
 
 function getImageUrl(url) {
   if (!url) return '../images/placeholder.jpg';
