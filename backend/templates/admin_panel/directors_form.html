@@ -1,0 +1,49 @@
+{% extends "admin_panel/base_admin.html" %}
+
+{% block admin_title %}{{ action }} ผู้กำกับ{% endblock %}
+
+{% block admin_content %}
+<h1 class="page-title">{{ action }} ผู้กำกับ</h1>
+
+<div class="form-card">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label>ชื่อผู้กำกับ *</label>
+            <input type="text" name="name" value="{{ form.name.value|default:'' }}" required>
+        </div>
+
+        <div class="form-group">
+            <label>ประวัติ</label>
+            <textarea name="bio" rows="5">{{ form.bio.value|default:'' }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label>สัญชาติ</label>
+            <input type="text" name="nationality" value="{{ form.nationality.value|default:'' }}">
+        </div>
+
+        <div class="form-group">
+            <label>ปีเกิด</label>
+            <input type="number" name="birth_year" value="{{ form.birth_year.value|default:'' }}" min="1800" max="2100">
+        </div>
+
+        <div class="form-group">
+            <label>รูปผู้กำกับ</label>
+            {% if current_image %}
+            <div class="current-img">
+                <p style="font-size: 0.8rem; color: #888; margin-bottom: 6px;">รูปปัจจุบัน:</p>
+                <img src="{{ current_image.url }}" alt="current image">
+            </div>
+            {% endif %}
+            <input type="file" name="profile_image" accept="image/*" style="margin-top: 8px;">
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+            <button type="submit" class="btn btn-primary">บันทึก</button>
+            <a href="{% url 'admin_panel:directors_list' %}" class="btn btn-secondary">ยกเลิก</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

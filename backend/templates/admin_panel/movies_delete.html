@@ -1,0 +1,17 @@
+{% extends "admin_panel/base_admin.html" %}
+
+{% block admin_title %}ลบหนัง{% endblock %}
+
+{% block admin_content %}
+<h1 class="page-title">ยืนยันการลบ</h1>
+<div class="confirm-box">
+    <p style="font-size: 1.1rem; margin-bottom: 1.5rem;">
+        คุณต้องการลบหนัง <strong style="color: #F2C94C;">{{ movie.title }}</strong> ใช่หรือไม่?
+    </p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger" style="margin-right: 1rem;">ลบ</button>
+        <a href="{% url 'admin_panel:movies_list' %}" class="btn btn-secondary">ยกเลิก</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}DO MOVIE{% endblock %}</title>
+    {% block css %}{% endblock %}
+</head>
+<body>
+
+<nav>
+    <div class="container">
+        <div class="nav-con">
+            <div class="logo"><a href="{% url 'movies:index' %}">DO <span>MOVIE</span></a></div>
+            <ul class="menu" id="navMenu">
+                <li><a href="{% url 'movies:index' %}" {% if request.resolver_match.url_name == 'index' %}style="color: #f5c76a;"{% endif %}>หน้าหลัก</a></li>
+                <li><a href="{% url 'movies:data_board' %}" {% if request.resolver_match.url_name == 'data_board' %}style="color: #f5c76a;"{% endif %}>กระดานรีวิว</a></li>
+                <li><a href="{% url 'movies:genre_list' %}" {% if request.resolver_match.url_name == 'genre_list' %}style="color: #f5c76a;"{% endif %}>หมวดหมู่หนัง</a></li>
+                {% if user.is_authenticated %}
+                    {% if user.is_staff %}
+                        <li><a href="{% url 'admin_panel:movies_list' %}">Admin Panel</a></li>
+                    {% endif %}
+                    <li><a href="{% url 'accounts:logout' %}" style="color: #ff6b6b;">ออกจากระบบ ({{ user.username }})</a></li>
+                {% else %}
+                    <li><a href="{% url 'accounts:login' %}">เข้าสู่ระบบ</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+{% if messages %}
+    <div class="container" style="margin-top: 10px;">
+        {% for message in messages %}
+            <div style="padding: 10px 15px; border-radius: 8px; margin-bottom: 8px;
+                background: {% if message.tags == 'error' %}rgba(255,107,107,0.15){% else %}rgba(76,175,80,0.15){% endif %};
+                color: {% if message.tags == 'error' %}#ff6b6b{% else %}#4CAF50{% endif %};
+                border: 1px solid {% if message.tags == 'error' %}#ff6b6b{% else %}#4CAF50{% endif %};">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+{% block content %}{% endblock %}
+
+{% block js %}{% endblock %}
+
+</body>
+</html>

@@ -2,39 +2,77 @@
 <html lang="th">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>เข้าสู่ระบบ</title>
-    <link rel="stylesheet" href="../css/regist.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>เข้าสู่ระบบ — DO MOVIE</title>
+  <link rel="stylesheet" href="../css/regist.css">
+  <script src="../js/config.js"></script>
 </head>
 
 <body>
-    <div class="content-item fade">
-        <div class="register-box">
-            <a href="../pages/index.html" class="back-btn">←</a>
-            <form id="loginForm">
-                <h2>เข้าสู่ระบบ</h2>
 
-                <label>Email *</label>
-                <input type="email" id="emailInput" placeholder="Enter Email" required>
+  <div class="auth-wrapper fade">
+    <a href="main.html" class="back-btn">← กลับหน้าหลัก</a>
+    <div class="auth-card">
+      <h2>เข้าสู่ระบบ</h2>
+      <form id="loginForm">
+        <label>Username *</label>
+        <input type="text" id="usernameInput" placeholder="พิมพ์ชื่อผู้ใช้" required>
 
-                <label>Password *</label>
-                <input type="password" id="passwordInput" placeholder="Enter Password" required>
+        <label>Password *</label>
+        <input type="password" id="passwordInput" placeholder="พิมพ์รหัสผ่าน" required>
 
-                <p id="errorMessage" style="color: #ff6b6b; font-size: 13px; text-align: center; margin-top: 10px; display: none;"></p>
+        <p id="errorMessage" style="color:#ff6b6b;font-size:0.85rem;text-align:center;margin-top:1rem;display:none;"></p>
 
-                <button type="submit">เข้าสู่ระบบ</button>
-
-                <div style="text-align: center; margin-top: 20px; font-size: 14px;">
-                    <span style="color: #ccc;">ยังไม่มีบัญชีใช่หรือไม่?</span> 
-                    <a href="regist.html" style="color: #f5c76a; text-decoration: none;">สมัครสมาชิกเลย</a>
-                </div>
-            </form>
-        </div>
+        <button type="submit">เข้าสู่ระบบ</button>
+      </form>
+      <div class="auth-link">
+        ยังไม่มีบัญชีใช่หรือไม่? <a href="regist.html">สมัครสมาชิกเลย</a>
+      </div>
     </div>
+  </div>
 
-    <!-- Script แบบโมดูลเพื่อเรียกใช้ Firebase -->
-    <script type="module" src="../js/login.js"></script>
+  <script>
+    document.querySelectorAll('.fade').forEach(el => el.classList.add('show'));
+
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('usernameInput').value;
+      const password = document.getElementById('passwordInput').value;
+      const errorMsg = document.getElementById('errorMessage');
+      const btn = e.target.querySelector('button');
+
+      btn.disabled = true;
+      btn.textContent = 'กำลังเข้าสู่ระบบ...';
+
+      try {
+        const res = await fetch(`${API_BASE}/auth/login/`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, password }),
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+          localStorage.setItem('access_token', data.access);
+          localStorage.setItem('refresh_token', data.refresh);
+          localStorage.setItem('is_staff', data.is_staff);
+          localStorage.setItem('username', data.username);
+          window.location.href = 'main.html';
+        } else {
+          errorMsg.textContent = 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง';
+          errorMsg.style.display = 'block';
+        }
+      } catch {
+        errorMsg.textContent = 'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้';
+        errorMsg.style.display = 'block';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'เข้าสู่ระบบ';
+      }
+    });
+  </script>
+
 </body>
 
 </html>

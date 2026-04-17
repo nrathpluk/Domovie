@@ -1,427 +1,189 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Sarabun:wght@300;400;600;700&display=swap');
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-    background-color: #F5EFE6;
-    color: #3A2A1A;
-    font-family: sans-serif;
+  font-family: 'Sarabun', sans-serif;
+  background-color: #F5EFE6;
+  color: #3A2A1A;
 }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-}
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
 
-/* ===== Scroll แล้วค่อยๆขึ้้นมา ===== */
-body {
-    min-height: 200vh;
-    /* ===== หน้าเว็บยาวขึ้นค่อยลบ ===== */
-}
+/* Fade animation */
+.fade { opacity: 0; transform: translateY(40px); transition: 0.6s; }
+.fade.show { opacity: 1; transform: translateY(0); }
 
-.fade {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: 0.6s;
-}
-
-.fade.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* ===== Menu ===== */
+/* ===== NAVBAR ===== */
 nav {
-    padding: 1rem;
-    background-color: #2B1F14;
+  padding: 0.9rem 0;
+  background-color: #2B1F14;
+  position: sticky;
+  top: 0;
+  z-index: 500;
 }
-
 .nav-con {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-
 .logo a {
-    font-size: 2rem;
-    color: #F2C94C;
-    text-decoration: none;
-    font-weight: 900;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    transition: 0.3s;
+  font-family: 'Cinzel', serif;
+  font-size: 1.7rem;
+  color: #F2C94C;
+  text-decoration: none;
+  font-weight: 900;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  transition: 0.3s;
 }
-
-.logo a span {
-    color: #FFF8E7;
-    transition: 0.3s;
-}
-
-.logo a:hover {
-    text-shadow: 0 0 15px rgba(242, 201, 76, 0.4);
-}
-
-.logo a:hover span {
-    color: #F2C94C;
-}
+.logo a span { color: #FFF8E7; transition: 0.3s; }
+.logo a:hover { text-shadow: 0 0 15px rgba(242,201,76,0.4); }
+.logo a:hover span { color: #F2C94C; }
 
 .menu {
-    display: flex;
-    list-style: none;
-    align-items: center;
+  display: flex;
+  list-style: none;
+  align-items: center;
+  gap: 0;
+  flex-wrap: wrap;
 }
-
-.menu li {
-    margin: 0 1rem;
-}
-
 .menu li a {
-    color: #FFF8E7;
-    text-decoration: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    background-color: transparent;
-    border: 2px solid transparent;
-    transition: all 0.3s ease;
-    display: inline-block;
+  color: #FFF8E7;
+  text-decoration: none;
+  padding: 7px 11px;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  transition: all 0.3s ease;
+  display: inline-block;
+  font-size: 0.88rem;
+  white-space: nowrap;
+}
+.menu li a:hover,
+.menu li a.active {
+  color: #F2C94C;
+  background-color: rgba(242,201,76,0.1);
+  border-color: #F2C94C;
 }
 
-.menu li a:hover {
-    color: #F2C94C;
-    background-color: rgba(242, 201, 76, 0.1);
-    border-color: #F2C94C;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(242, 201, 76, 0.2);
+/* Dropdown */
+.has-dropdown { position: relative; }
+.dropdown {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  background: #2B1F14;
+  border: 1px solid rgba(242,201,76,0.25);
+  border-radius: 10px;
+  min-width: 130px;
+  z-index: 100;
+  padding: 0.4rem 0;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+.has-dropdown:hover .dropdown { display: block; }
+.dropdown li { list-style: none; }
+.dropdown li a {
+  padding: 8px 16px;
+  display: block;
+  color: #FFF8E7;
+  border: none;
+  border-radius: 0;
+  font-size: 0.85rem;
+  background: transparent;
+}
+.dropdown li a:hover {
+  color: #F2C94C;
+  background: rgba(242,201,76,0.1);
+  border-color: transparent;
 }
 
-/* ===== Main รูปและข้อมูล INSEPTION===== */
-.maincontent {
-    background-color: #F5EFE6;
-    padding: 4rem 0;
-}
-
-.delay {
-    /* =====Delay ของรูปInception===== */
-    transition-delay: 0.2s;
-}
-
-.maincontent-con {
-    max-width: 1100px;
-    margin: auto;
-    display: flex;
-    gap: 3rem;
-    align-items: center;
-}
-
-/* ฝั่งข้อความ */
-.maincontent-info {
-    flex: 1;
-    padding: 1rem;
-}
-
-.maincontent-info h3 {
-    font-size: 2.3rem;
-    color: #2B1F14;
-    margin-bottom: 1rem;
-}
-
-.maincontent-info p {
-    margin: 1.2rem 0;
-    line-height: 1.8;
-    color: #3a2a1c;
-    max-width: 520px;
-}
-
-.maincontent-info .maincontent-btn {
-    display: inline-block;
-    margin-top: 1rem;
-    background-color: #F2C94C;
-    color: #2B1F14;
-    padding: 0.9rem 1.6rem;
-    border-radius: 999px;
-    text-decoration: none;
-    font-weight: bold;
-    transition: 0.3s;
-}
-
-.maincontent-info .maincontent-btn:hover {
-    background-color: #C9A227;
-    transform: translateY(-2px);
-}
-
-/* ฝั่งรูป */
-.Inception-img {
-    flex: 0.9;
-    display: flex;
-    justify-content: center;
-}
-
-.Inception-img img {
-    width: 100%;
-    max-width: 320px;
-    border-radius: 16px;
-    object-fit: cover;
-    filter: saturate(1.05);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
-}
-
-
-/* ===== Content ===== */
-/* ===== Content Section ===== */
-.content {
-    background-color: #2B1F14;
-    padding: 3rem 0;
-}
-
-/* Title */
-.content-title {
-    margin-bottom: 2.5rem;
-    color: #F2C94C;
-    text-align: center;
-    font-size: 1.6rem;
-}
-
-/* Grid */
-.content-con {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    align-items: stretch;
-}
-
-/* Card */
-.content-item {
-    background-color: #3A2A1A;
-    border-radius: 18px;
-    padding: 1.2rem;
-
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-    text-align: center;
-}
-
-/* ===== Image Frame (มาตรฐานโปสเตอร์) ===== */
-.content-item-jpg {
-    width: 100%;
-    aspect-ratio: 3 / 4;
-    /* ⭐ รักษาความสวยรูปแผ่นหนัง */
-    overflow: hidden;
-    border-radius: 14px;
-    margin-bottom: 1rem;
-    background-color: #1e140c;
-}
-
-/* Image */
-.content-item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    /* ครอปอย่างสุภาพ */
-    object-position: center;
-    display: block;
-}
-
-/* Text */
-.content-item h4 {
-    color: #F2C94C;
-    font-size: 1.2rem;
-    margin: 0.6rem 0;
-}
-
-.content-item p {
-    color: #FFF8E7;
-    margin-bottom: 1rem;
-    font-size: 0.95rem;
-}
-
-/* Button */
-.content-btn {
-    margin-top: auto;
-    /* ⭐ ทุกปุ่มอยู่ระดับเดียวกัน */
-    align-self: center;
-
-    display: inline-block;
-    padding: 0.6rem 1.4rem;
-    background-color: #F2C94C;
-    color: #2B1F14;
-    text-decoration: none;
-    border-radius: 999px;
-    font-size: 0.9rem;
-    transition: all 0.25s ease;
-}
-
-.content-btn:hover {
-    background-color: #C9A227;
-    transform: translateY(-2px);
-}
-
-
-/* ===== Low Content (ปรับระยะตัวหนังสือ) ===== */
-.lowcontent {
-    background-color: #F5EFE6;
-    padding: 2rem 0;
-    /* ลดจาก 3rem */
-}
-
-.lowcontent-con {
-    display: flex;
-    align-items: flex-start;
-    /* จาก center → ชิดบน */
-    justify-content: space-between;
-    max-width: 1000px;
-    margin: 0 auto;
-    gap: 2rem;
-}
-
-.lowcontent-info {
-    width: 60%;
-    padding: 1rem 2rem;
-    /* ลด padding บน */
-}
-
-.lowcontent-info h3 {
-    font-size: 1.8rem;
-    margin-top: 0;
-    /* สำคัญ */
-    margin-bottom: 0.8rem;
-    color: #2B1F14;
-}
-
-.lowcontent-info p {
-    margin-top: 0;
-    /* ตัดช่องว่างส่วนเกิน */
-    line-height: 1.8;
-    max-width: 500px;
-    color: #3A2A1A;
-}
-
-/* รูป */
-.lowcontent-jpg {
-    width: 40%;
-    max-width: 300px;
-    padding-top: 1rem;
-    /* ให้ระดับใกล้ข้อความ */
-}
-
-.lowcontent-jpg img {
-    width: 100%;
-    max-height: 450px;
-    object-fit: cover;
-    border-radius: 12px;
-    filter: saturate(0.9);
-}
-
-/* ================= FOOTER ================= */
+/* ===== FOOTER ===== */
 .footer-top {
-    background-color: #2B1F14;
-    padding: 60px 0;
-    color: #FFF8E7;
-    border-top: 2px solid #F2C94C;
-    /* เส้นขอบด้านบนสีทอง */
+  background-color: #2B1F14;
+  padding: 60px 0;
+  color: #FFF8E7;
+  border-top: 2px solid #F2C94C;
 }
-
 .footer-top-con {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr;
-    gap: 40px;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr;
+  gap: 40px;
 }
-
 .footer-top-item h4 {
-    color: #F2C94C;
-    font-size: 1.4rem;
-    margin-bottom: 25px;
-    position: relative;
-    padding-bottom: 10px;
+  font-family: 'Cinzel', serif;
+  color: #F2C94C;
+  font-size: 1rem;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  position: relative;
 }
-
 .footer-top-item h4::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 60px;
-    height: 3px;
-    background-color: #F2C94C;
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 48px;
+  height: 2px;
+  background-color: #F2C94C;
 }
-
 .footer-top-item p {
-    color: #FFF8E7;
-    line-height: 1.8;
-    opacity: 0.8;
+  color: #FFF8E7;
+  line-height: 1.8;
+  opacity: 0.8;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
 }
-
-/* ข่าวสารหนัง */
-.footer-top-item-con {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
+.footer-top-item p a { color: #FFF8E7; text-decoration: none; transition: 0.3s; }
+.footer-top-item p:hover a { color: #F2C94C; }
+.footer-top-item-con { display: flex; gap: 14px; margin-bottom: 18px; }
 .date {
-    background-color: #F2C94C;
-    color: #2B1F14;
-    padding: 10px;
-    border-radius: 8px;
-    text-align: center;
-    min-width: 65px;
-    font-weight: bold;
-    font-size: 0.9rem;
-    line-height: 1.2;
+  background-color: #F2C94C;
+  color: #2B1F14;
+  padding: 8px 10px;
+  border-radius: 8px;
+  text-align: center;
+  min-width: 56px;
+  font-weight: bold;
+  font-size: 0.82rem;
+  line-height: 1.2;
+  flex-shrink: 0;
 }
-
-.info {
-    flex: 1;
-}
-
+.info { flex: 1; }
 .info.title {
-    color: #F2C94C;
-    font-weight: bold;
-    margin-bottom: 5px;
-    display: block;
-    text-decoration: none;
-    transition: 0.3s;
+  color: #F2C94C;
+  font-weight: bold;
+  margin-bottom: 4px;
+  display: block;
+  text-decoration: none;
+  transition: 0.3s;
+  font-size: 0.85rem;
+  line-height: 1.4;
 }
-
-.info.title:hover {
-    text-decoration: underline;
-}
-
-.info-descrip {
-    font-size: 0.85rem;
-    opacity: 0.7;
-    line-height: 1.4;
-    display: block;
-}
-
-/* Social Links */
-.footer-top-item p a {
-    color: #FFF8E7;
-    text-decoration: none;
-    transition: 0.3s;
-}
-
-.footer-top-item p {
-    margin-bottom: 10px;
-}
-
-.footer-top-item p i {
-    margin-right: 10px;
-    color: #F2C94C;
-}
-
-.footer-top-item p:hover a {
-    color: #F2C94C;
-    padding-left: 8px;
-}
-
-/* Bottom Footer */
+.info.title:hover { text-decoration: underline; }
+.info-descrip { font-size: 0.78rem; opacity: 0.7; line-height: 1.4; display: block; }
 .footer-bottom {
-    background-color: #1a120b;
-    padding: 20px 0;
-    text-align: center;
-    color: #FFF8E7;
-    font-size: 0.9rem;
-    opacity: 0.6;
+  background-color: #1a120b;
+  padding: 18px 0;
+  text-align: center;
+  color: #FFF8E7;
+  font-size: 0.85rem;
+  opacity: 0.6;
+}
+
+/* ===== CONTENT CARDS (shared) ===== */
+.content-btn {
+  display: inline-block;
+  padding: 0.6rem 1.4rem;
+  background-color: #F2C94C;
+  color: #2B1F14;
+  text-decoration: none;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  transition: all 0.25s ease;
+}
+.content-btn:hover {
+  background-color: #C9A227;
+  transform: translateY(-2px);
 }

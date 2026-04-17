@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}DO MOVIE - หมวดหมู่หนัง{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'movies/css/main.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="home">
+    <div class="container">
+        <div class="bottom-box">
+            <h2 class="section-title">แนวหนังทั้งหมด</h2>
+            <div class="movie-list">
+                <div class="content-item fade">
+                    <div class="movie-item scifi" data-link="{% url 'movies:movie_list' 'scifi' %}">
+                        <h3>Sci-Fi</h3>
+                        <p>โลกอนาคต เทคโนโลยี อวกาศ</p>
+                    </div>
+                </div>
+                <div class="content-item fade">
+                    <div class="movie-item horror" data-link="{% url 'movies:movie_list' 'horror' %}">
+                        <h3>Horror</h3>
+                        <p>สยองขวัญ ระทึกขวัญ</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="zoom-overlay"></div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'movies/js/main.js' %}"></script>
+{% endblock %}

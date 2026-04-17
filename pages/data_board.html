@@ -1,66 +1,160 @@
 <!DOCTYPE html>
 <html lang="th">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>กระดานรีวิวภาพยนตร์</title>
-    <!-- CSS -->
-    <link rel="stylesheet" href="../css/data_board.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>กระดานรีวิว — DO MOVIE</title>
+  <link rel="stylesheet" href="../css/data_board.css">
+  <script src="../js/config.js"></script>
 </head>
+
 <body>
-    <!-- ===== MENU ===== -->
-    <nav>
-        <div class="container">
-            <div class="nav-con">
-                <div class="logo"><a href="index.html">DO <span>MOVIE</span></a></div>
-                <ul class="menu" id="navMenu">
-                    <li><a href="index.html">หน้าหลัก</a></li>
-                    <li><a href="data_board.html" style="color: #f5c76a;">กระดานรีวิว</a></li>
-                    <li><a href="main.html">หมวดหมู่หนัง</a></li>
-                    <li id="authLink"><a href="login.html">เข้าสู่ระบบ</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
 
-    <!-- ===== BOARD HEADER ===== -->
-    <div class="container board-header">
-        <h1>กระดานรีวิวภาพยนตร์</h1>
-        <p>แบ่งปันและค้นหาความเห็นจากคอหนังตัวจริง</p>
-    </div>
-
-    <!-- ===== MAIN CONTENT ===== -->
+  <nav>
     <div class="container">
-        
-        <!-- Form Section -->
-        <div class="review-form-container" id="reviewFormSection" style="display: none;">
-            <h2>เขียนรีวิวของคุณ</h2>
-            <form id="reviewForm">
-                <div>
-                    <input type="text" id="movieTitle" placeholder="ชื่อภาพยนตร์ *" required>
-                </div>
-                <div>
-                    <textarea id="reviewContent" rows="4" placeholder="ความเห็นของคุณ..." required></textarea>
-                </div>
-                <button type="submit">โพสต์รีวิว</button>
-                <div id="postMessage" style="margin-top: 10px; font-size: 14px; text-align: left; color: #4CAF50; display: none;"></div>
-            </form>
-        </div>
-        
-        <!-- Login Prompt Warning -->
-        <div id="loginPrompt" style="background: rgba(245, 199, 106, 0.1); border: 1px solid #f5c76a; color: #f5c76a; padding: 20px; border-radius: 8px; text-align: center; margin-bottom: 40px; display: none;">
-            <p>กรุณา <a href="login.html" style="color: #fff; font-weight: bold; text-decoration: underline;">เข้าสู่ระบบ</a> เพื่อเขียนรีวิวใหม่</p>
-        </div>
+      <div class="nav-con">
+        <div class="logo"><a href="main.html">DO <span>MOVIE</span></a></div>
+        <ul class="menu">
+          <li><a href="main.html">หน้าหลัก</a></li>
+          <li class="has-dropdown">
+            <a href="#">หมวดหมู่ ▾</a>
+            <ul class="dropdown">
+              <li><a href="Scifi_movie.html">Sci-Fi</a></li>
+              <li><a href="Horor_movie.html">Horror</a></li>
+            </ul>
+          </li>
+          <li><a href="DVD_INCEPTION.html">DVD</a></li>
+          <li><a href="Item_forsale.html">ของที่ระลึก</a></li>
+          <li><a href="data_board.html" class="active">กระดานรีวิว</a></li>
+          <li><a href="directors.html">ผู้กำกับ</a></li>
+          <li id="authNav"></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-        <!-- Reviews Grid Section -->
-        <div class="reviews-grid" id="reviewsContainer">
-            <!-- Data will be loaded here via JS -->
-            <p style="color: #aaa; text-align: center; width: 100%;">กำลังโหลดรีวิว...</p>
-        </div>
+  <div class="container board-header">
+    <h1>กระดานรีวิวภาพยนตร์</h1>
+    <p>แบ่งปันและค้นหาความเห็นจากคอหนังตัวจริง</p>
+  </div>
 
+  <div class="container">
+
+    <!-- Review Form (shown when logged in) -->
+    <div class="review-form-container" id="reviewFormSection" style="display:none;">
+      <h2>เขียนรีวิวของคุณ</h2>
+      <form id="reviewForm">
+        <input type="text" id="movieTitle" placeholder="ชื่อภาพยนตร์ *" required>
+        <textarea id="reviewContent" rows="4" placeholder="ความเห็นของคุณ..." required></textarea>
+        <button type="submit">โพสต์รีวิว</button>
+        <div id="postMessage" style="margin-top:10px;font-size:0.88rem;display:none;"></div>
+      </form>
     </div>
 
-    <!-- ===== Firebase Scripts ===== -->
-    <script type="module" src="../js/data_board.js"></script>
+    <!-- Login Prompt (shown when not logged in) -->
+    <div class="login-prompt" id="loginPrompt" style="display:none;">
+      กรุณา <a href="login.html">เข้าสู่ระบบ</a> เพื่อเขียนรีวิวใหม่
+    </div>
+
+    <!-- Reviews Grid -->
+    <div class="reviews-grid" id="reviewsContainer">
+      <p style="color:rgba(255,248,231,0.4);text-align:center;width:100%;padding:2rem 0;">กำลังโหลดรีวิว...</p>
+    </div>
+
+  </div>
+
+  <script>
+    const token = localStorage.getItem('access_token');
+    const username = localStorage.getItem('username');
+    const isStaff = localStorage.getItem('is_staff');
+
+    // Auth nav
+    const authLink = document.getElementById('authNav');
+    if (username) {
+      authLink.innerHTML = `${isStaff === 'true' ? '<a href="/admin-panel/" style="color:#F2C94C;margin-right:8px;">Admin Panel</a>' : ''}<a href="#" id="logoutBtn" style="color:#ff6b6b;">${username} (ออก)</a>`;
+      document.getElementById('logoutBtn').addEventListener('click', e => {
+        e.preventDefault(); localStorage.clear(); window.location.reload();
+      });
+    } else {
+      authLink.innerHTML = '<a href="login.html">เข้าสู่ระบบ</a>';
+    }
+
+    // Show form or login prompt
+    if (token) {
+      document.getElementById('reviewFormSection').style.display = 'block';
+    } else {
+      document.getElementById('loginPrompt').style.display = 'block';
+    }
+
+    // Load reviews
+    async function loadReviews() {
+      try {
+        const res = await fetch(`${API_BASE}/reviews/`);
+        const data = await res.json();
+        const container = document.getElementById('reviewsContainer');
+        if (!data.length) {
+          container.innerHTML = "<p style='color:rgba(255,248,231,0.4);text-align:center;width:100%;padding:2rem 0;'>ยังไม่มีรีวิว เป็นคนแรกที่รีวิวสิ!</p>";
+          return;
+        }
+        container.innerHTML = data.map(r => `
+          <div class="review-card">
+            <div class="review-header">
+              <div class="movie-title">${r.movie_title}</div>
+              <div class="reviewer-name">${new Date(r.created_at).toLocaleDateString('th-TH')}</div>
+            </div>
+            <div class="review-text">${r.content}</div>
+            <div class="review-author">โดย: ${r.author_username}</div>
+          </div>
+        `).join('');
+      } catch (err) {
+        document.getElementById('reviewsContainer').innerHTML =
+          '<p style="color:#ff6b6b;text-align:center;width:100%;padding:2rem 0;">ไม่สามารถโหลดข้อมูลได้</p>';
+      }
+    }
+
+    loadReviews();
+
+    // Submit review
+    document.getElementById('reviewForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const movieTitle = document.getElementById('movieTitle').value;
+      const content = document.getElementById('reviewContent').value;
+      const postMessage = document.getElementById('postMessage');
+      const submitBtn = e.target.querySelector('button');
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'กำลังโพสต์...';
+
+      try {
+        const res = await fetch(`${API_BASE}/reviews/`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ movie_title: movieTitle, content }),
+        });
+        if (res.ok) {
+          e.target.reset();
+          postMessage.textContent = 'โพสต์รีวิวสำเร็จ!';
+          postMessage.style.color = '#4CAF50';
+          postMessage.style.display = 'block';
+          setTimeout(() => { postMessage.style.display = 'none'; }, 3000);
+          loadReviews();
+        } else {
+          postMessage.textContent = 'เกิดข้อผิดพลาด กรุณาลองใหม่';
+          postMessage.style.color = '#ff6b6b';
+          postMessage.style.display = 'block';
+        }
+      } catch {
+        postMessage.textContent = 'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้';
+        postMessage.style.color = '#ff6b6b';
+        postMessage.style.display = 'block';
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'โพสต์รีวิว';
+      }
+    });
+  </script>
+
 </body>
+
 </html>

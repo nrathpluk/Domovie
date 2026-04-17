@@ -1,0 +1,48 @@
+{% extends "admin_panel/base_admin.html" %}
+
+{% block admin_title %}จัดการผู้กำกับ{% endblock %}
+
+{% block admin_content %}
+<div style="display: flex; justify-content: space-between; align-items: center;">
+    <h1 class="page-title">รายการผู้กำกับทั้งหมด</h1>
+    <a href="{% url 'admin_panel:directors_create' %}" class="btn btn-primary">+ เพิ่มผู้กำกับใหม่</a>
+</div>
+
+<table class="admin-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>รูป</th>
+            <th>ชื่อ</th>
+            <th>สัญชาติ</th>
+            <th>ปีเกิด</th>
+            <th>จำนวนหนัง</th>
+            <th>จัดการ</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for director in directors %}
+        <tr>
+            <td>{{ director.id }}</td>
+            <td>
+                {% if director.profile_image %}
+                    <img src="{{ director.profile_image.url }}" height="60" style="border-radius: 6px;">
+                {% else %}
+                    <span style="color: #888;">—</span>
+                {% endif %}
+            </td>
+            <td>{{ director.name }}</td>
+            <td>{{ director.nationality }}</td>
+            <td>{{ director.birth_year }}</td>
+            <td>{{ director.movies.count }}</td>
+            <td>
+                <a href="{% url 'admin_panel:directors_edit' director.id %}" class="btn btn-secondary">แก้ไข</a>
+                <a href="{% url 'admin_panel:directors_delete' director.id %}" class="btn btn-danger">ลบ</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="7" style="text-align: center; color: #888;">ยังไม่มีผู้กำกับ</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

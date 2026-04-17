@@ -1,0 +1,49 @@
+{% extends "admin_panel/base_admin.html" %}
+
+{% block admin_title %}{{ action }} สินค้า{% endblock %}
+
+{% block admin_content %}
+<h1 class="page-title">{{ action }} สินค้า</h1>
+
+<div class="form-card">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label>ชื่อสินค้า *</label>
+            <input type="text" name="name" value="{{ form.name.value|default:'' }}" required>
+        </div>
+
+        <div class="form-group">
+            <label>คำอธิบาย</label>
+            <textarea name="description" rows="4">{{ form.description.value|default:'' }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label>ราคา (บาท) *</label>
+            <input type="number" name="price" value="{{ form.price.value|default:'' }}" step="0.01" min="0" required>
+        </div>
+
+        <div class="form-group">
+            <label>จำนวนสินค้า (Stock)</label>
+            <input type="number" name="stock" value="{{ form.stock.value|default:'0' }}" min="0">
+        </div>
+
+        <div class="form-group">
+            <label>รูปสินค้า</label>
+            {% if current_image %}
+            <div class="current-img">
+                <p style="font-size: 0.8rem; color: #888; margin-bottom: 6px;">รูปปัจจุบัน:</p>
+                <img src="{{ current_image.url }}" alt="current image">
+            </div>
+            {% endif %}
+            <input type="file" name="image" accept="image/*" style="margin-top: 8px; color: #FFF8E7;">
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+            <button type="submit" class="btn btn-primary">บันทึก</button>
+            <a href="{% url 'admin_panel:products_list' %}" class="btn btn-secondary">ยกเลิก</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

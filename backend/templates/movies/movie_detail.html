@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}DO MOVIE - {{ movie.title }}{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'movies/css/index.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="maincontent">
+    <div class="container">
+        <div class="maincontent-con">
+            <div class="maincontent-info">
+                <div class="content-item fade">
+                    <h4>
+                        <span>{{ movie.title }}</span>
+                        <p>{{ movie.synopsis }}</p>
+                        <p style="color: #888; font-size: 0.9rem; margin-top: 0.5rem;">
+                            ปี {{ movie.release_year }} | {{ movie.get_genre_display }}
+                        </p>
+                    </h4>
+                </div>
+            </div>
+            <div class="Inception-img fade delay">
+                {% if movie.poster_image %}
+                    <img src="{{ movie.poster_image.url }}" alt="{{ movie.title }}">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+{% if movie.director %}
+<section class="lowcontent">
+    <div class="container">
+        <div class="lowcontent-con">
+            <div class="lowcontent-info">
+                <h4>ประวัติผู้กำกับ
+                    <p>
+                        {{ movie.director.name }}<br><br>
+                        {{ movie.director.bio }}
+                    </p>
+                </h4>
+            </div>
+            <div class="lowcontent-jpg">
+                {% if movie.director.profile_image %}
+                    <img src="{{ movie.director.profile_image.url }}" alt="{{ movie.director.name }}">
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<div class="footer-bottom">
+    &copy; 2026 Web DoMovie. All rights reserved.
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+window.addEventListener("load", () => {
+    document.querySelectorAll(".fade").forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight) el.classList.add("show");
+    });
+});
+</script>
+{% endblock %}

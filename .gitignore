@@ -1,0 +1,21 @@
+# IDEs and Tools
+.claude/
+.superpowers/
+.vscode/
+
+# Firebase
+.firebase/
+
+# Backend (Django/Python)
+backend/db.sqlite3
+backend/media/
+**/__pycache__/
+*.py[cod]
+*$py.class
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Enviroment variables
+.env

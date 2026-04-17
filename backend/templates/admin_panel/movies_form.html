@@ -1,0 +1,61 @@
+{% extends "admin_panel/base_admin.html" %}
+
+{% block admin_title %}{{ action }} หนัง{% endblock %}
+
+{% block admin_content %}
+<h1 class="page-title">{{ action }} หนัง</h1>
+
+<div class="form-card">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="form-group">
+            <label>ชื่อหนัง *</label>
+            <input type="text" name="title" value="{{ form.title.value|default:'' }}" required>
+        </div>
+
+        <div class="form-group">
+            <label>เนื้อเรื่องโดยย่อ</label>
+            <textarea name="synopsis" rows="4">{{ form.synopsis.value|default:'' }}</textarea>
+        </div>
+
+        <div class="form-group">
+            <label>ปีที่ออกฉาย</label>
+            <input type="number" name="release_year" value="{{ form.release_year.value|default:'' }}" min="1900" max="2100">
+        </div>
+
+        <div class="form-group">
+            <label>แนวหนัง</label>
+            <select name="genre">
+                <option value="scifi" {% if form.genre.value == 'scifi' %}selected{% endif %}>Sci-Fi</option>
+                <option value="horror" {% if form.genre.value == 'horror' %}selected{% endif %}>Horror</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>ผู้กำกับ</label>
+            <select name="director">
+                {% for director in directors %}
+                <option value="{{ director.id }}" {% if form.director.value|stringformat:"s" == director.id|stringformat:"s" %}selected{% endif %}>{{ director.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>รูปโปสเตอร์</label>
+            {% if current_image %}
+            <div class="current-img">
+                <p style="font-size: 0.8rem; color: #888; margin-bottom: 6px;">รูปปัจจุบัน:</p>
+                <img src="{{ current_image.url }}" alt="current poster">
+            </div>
+            {% endif %}
+            <input type="file" name="poster_image" accept="image/*" style="margin-top: 8px;">
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+            <button type="submit" class="btn btn-primary">บันทึก</button>
+            <a href="{% url 'admin_panel:movies_list' %}" class="btn btn-secondary">ยกเลิก</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

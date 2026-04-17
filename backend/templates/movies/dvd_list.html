@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}DO MOVIE - รายการ DVD{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'movies/css/index.css' %}">
+<link rel="stylesheet" href="{% static 'movies/css/DVD_movie.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="dvd-content">
+    <div class="container">
+        <h2 class="dvd-title">รายการแผ่นหนัง (DVD)</h2>
+        <div class="order">
+            <a href="{% url 'movies:list_order' %}">คำสั่งซื้อ</a>
+        </div>
+        <div class="dvd-grid">
+            <div class="dvd-item fade show">
+                <div class="dvd-poster"><img src="{% static 'movies/images/Movie/Inception/INCEPTION_BD.jpg' %}" alt="Inception DVD"></div>
+                <div class="dvd-info"><h4>Inception</h4><p>ความฝันซ้อนความฝัน ภารกิจจารกรรมข้อมูลที่สุดล้ำเหนือจินตนาการ</p><span class="dvd-price">300 บาท</span><a href="#" class="dvd-btn">หยิบใส่ตะกร้า</a></div>
+            </div>
+            <div class="dvd-item fade show">
+                <div class="dvd-poster"><img src="{% static 'movies/images/Movie/Interstalla/INTERSTALLA.jpg' %}" alt="Interstellar DVD"></div>
+                <div class="dvd-info"><h4>Interstellar</h4><p>การเดินทางข้ามกาลเวลาและมิติเพื่อหาบ้านใหม่ให้มนุษยชาติ</p><span class="dvd-price">300 บาท</span><a href="#" class="dvd-btn">หยิบใส่ตะกร้า</a></div>
+            </div>
+            <div class="dvd-item fade show">
+                <div class="dvd-poster"><img src="{% static 'movies/images/Movie/The matric/the matric.jpg' %}" alt="The Matrix DVD"></div>
+                <div class="dvd-info"><h4>The Matrix</h4><p>ตื่นจากโลกเสมือนจริง และเข้าสู่ความจริงที่ถูกซ่อนไว้โดยเครื่องจักร</p><span class="dvd-price">200 บาท</span><a href="#" class="dvd-btn">หยิบใส่ตะกร้า</a></div>
+            </div>
+            <div class="dvd-item fade show">
+                <div class="dvd-poster"><img src="{% static 'movies/images/Movie/TheShining/TheShining.jpg' %}" alt="The Shining DVD"></div>
+                <div class="dvd-info"><h4>The Shining</h4><p>ความสยองขวัญระดับตำนานในโรงแรมลึกลับกลางหุบเขาหิมะ</p><span class="dvd-price">200 บาท</span><a href="#" class="dvd-btn">หยิบใส่ตะกร้า</a></div>
+            </div>
+            <div class="dvd-item fade show">
+                <div class="dvd-poster"><img src="{% static 'movies/images/Movie/Scream/scream.jpg' %}" alt="Scream DVD"></div>
+                <div class="dvd-info"><h4>Encounter</h4><p>เมื่อสิ่งมีชีวิตจากนอกโลกกลายเป็นฝันร้ายที่คุกคามลูกเรืออวกาศ</p><span class="dvd-price">150 บาท</span><a href="#" class="dvd-btn">หยิบใส่ตะกร้า</a></div>
+            </div>
+            <div class="dvd-item fade show">
+                <div class="dvd-poster"><img src="{% static 'movies/images/Movie/Blade Runner 2049/DVD_BLN.jpg' %}" alt="Blade Runner 2049 DVD"></div>
+                <div class="dvd-info"><h4>Blade Runner 2049</h4><p>การค้นพบความลับที่ถูกฝังไว้นานอาจนำไปสู่หายนะของสังคมที่เหลืออยู่</p><span class="dvd-price">300 บาท</span><a href="#" class="dvd-btn">หยิบใส่ตะกร้า</a></div>
+            </div>
+            <div class="dvd-item fade show">
+                <div class="dvd-poster"><img src="{% static 'movies/images/Movie/A Quiet Place/A Quiet Place.jpg' %}" alt="A Quiet Place DVD"></div>
+                <div class="dvd-info"><h4>A Quiet Place</h4><p>ถ้าพวกมันได้ยิน... พวกมันจะออกล่า ครอบครัวหนึ่งต้องใช้ชีวิตในความเงียบเพื่อความอยู่รอด</p><span class="dvd-price">200 บาท</span><a href="#" class="dvd-btn">หยิบใส่ตะกร้า</a></div>
+            </div>
+            <div class="dvd-item fade show">
+                <div class="dvd-poster"><img src="{% static 'movies/images/Movie/Arrival/Arrival.jpg' %}" alt="Arrival DVD"></div>
+                <div class="dvd-info"><h4>Arrival</h4><p>เมื่อยานอวกาศลึกลับลงจอดทั่วโลก นักภาษาศาสตร์ต้องหาทางสื่อสารก่อนสงครามจะเริ่ม</p><span class="dvd-price">200 บาท</span><a href="#" class="dvd-btn">หยิบใส่ตะกร้า</a></div>
+            </div>
+            <div class="dvd-item fade show">
+                <div class="dvd-poster"><img src="{% static 'movies/images/Movie/The Conjuring/The Conjuring.jpg' %}" alt="The Conjuring DVD"></div>
+                <div class="dvd-info"><h4>The Conjuring</h4><p>คู่สามีภรรยานักปราบผีต้องเผชิญกับคดีที่น่าสะพรึงกลัวที่สุดในชีวิต</p><span class="dvd-price">150 บาท</span><a href="#" class="dvd-btn">หยิบใส่ตะกร้า</a></div>
+            </div>
+            <div class="dvd-item fade show">
+                <div class="dvd-poster"><img src="{% static 'movies/images/Movie/The Thing/The Thing.jpg' %}" alt="The Thing DVD"></div>
+                <div class="dvd-info"><h4>The Thing</h4><p>ทีมนักวิทยาศาสตร์ในแอนตาร์กติกาต้องเผชิญกับสิ่งมีชีวิตต่างดาวที่เลียนแบบมนุษย์ได้</p><span class="dvd-price">150 บาท</span><a href="#" class="dvd-btn">หยิบใส่ตะกร้า</a></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="footer-top">
+    <div class="container">
+        <div class="footer-top-con">
+            <div class="footer-top-item">
+                <h4>ข่าวสารหนังใหม่</h4>
+                <div class="footer-top-item-con">
+                    <div class="date">ก.พ.<br>2026</div>
+                    <div class="info"><a href="#" class="info title">Dune: Prophecy</a><span class="info-descrip">เจาะลึกจุดเริ่มต้นของกลุ่มสตรีผู้ทรงอิทธิพลที่สุดในจักรวาล Dune</span></div>
+                </div>
+                <div class="footer-top-item-con">
+                    <div class="date">เม.ย.<br>2026</div>
+                    <div class="info"><a href="#" class="info title">Mickey 17</a><span class="info-descrip">การผจญภัยสุดระทึกของพนักงาน "ใช้แล้วทิ้ง" ในภารกิจสำรวจดาวน้ำแข็ง</span></div>
+                </div>
+            </div>
+            <div class="footer-top-item">
+                <h4>เกี่ยวกับเรา</h4>
+                <p>Web DoMovie คือแหล่งรวบรวมข้อมูลหนังแนว Sci-Fi และสยองขวัญระดับพรีเมียม</p>
+            </div>
+            <div class="footer-top-item">
+                <h4>ติดตามเรา</h4>
+                <p><a href="#">Facebook: Web DoMovie</a></p>
+                <p><a href="#">X (Twitter): @DoMovieSciFi</a></p>
+                <p><a href="#">Instagram: @domovie_official</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="footer-bottom">&copy; 2026 Web DoMovie. All rights reserved.</div>
+{% endblock %}
+
+{% block js %}
+<script src="{% static 'movies/js/main.js' %}"></script>
+{% endblock %}

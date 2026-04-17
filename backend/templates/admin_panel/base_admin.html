@@ -1,0 +1,142 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel — {% block admin_title %}DO MOVIE{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'movies/css/index.css' %}">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background-color: #1a120b; color: #FFF8E7; font-family: "Segoe UI", sans-serif; display: flex; min-height: 100vh; }
+
+        /* ===== Sidebar ===== */
+        .admin-sidebar {
+            width: 220px; min-width: 220px; background: #2B1F14;
+            border-right: 2px solid #F2C94C;
+            display: flex; flex-direction: column;
+            padding: 1.5rem 0;
+        }
+        .admin-sidebar .logo {
+            font-size: 1.2rem; font-weight: 900; color: #F2C94C;
+            padding: 0 1.5rem 1.5rem; border-bottom: 1px solid rgba(242,201,76,0.2);
+            letter-spacing: 1px;
+        }
+        .admin-sidebar .logo span { color: #FFF8E7; }
+        .sidebar-nav { display: flex; flex-direction: column; padding: 1rem 0; flex: 1; }
+        .sidebar-nav a {
+            color: #FFF8E7; text-decoration: none;
+            padding: 0.75rem 1.5rem; font-size: 0.95rem;
+            transition: all 0.2s; border-left: 3px solid transparent;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .sidebar-nav a:hover { background: rgba(242,201,76,0.08); color: #F2C94C; border-left-color: #F2C94C; }
+        .sidebar-nav a.active { background: rgba(242,201,76,0.12); color: #F2C94C; border-left-color: #F2C94C; font-weight: 600; }
+        .sidebar-nav .nav-divider { height: 1px; background: rgba(242,201,76,0.15); margin: 0.5rem 1.5rem; }
+        .sidebar-bottom { padding: 1rem 1.5rem; border-top: 1px solid rgba(242,201,76,0.2); }
+        .sidebar-bottom a { color: #ff6b6b; text-decoration: none; font-size: 0.9rem; }
+        .sidebar-bottom a:hover { text-decoration: underline; }
+
+        /* ===== Main Content ===== */
+        .admin-main { flex: 1; display: flex; flex-direction: column; overflow-x: auto; }
+        .admin-topbar {
+            background: #2B1F14; padding: 1rem 2rem;
+            border-bottom: 1px solid rgba(242,201,76,0.2);
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .admin-topbar .page-name { font-size: 1rem; color: #888; }
+        .admin-topbar .user-info { font-size: 0.9rem; color: #f5c76a; }
+        .admin-body { padding: 2rem; max-width: 1100px; width: 100%; }
+
+        /* ===== Tables ===== */
+        .admin-table { width: 100%; border-collapse: collapse; margin-top: 1.5rem; }
+        .admin-table th { background: #2B1F14; color: #F2C94C; padding: 12px 14px; text-align: left; font-size: 0.9rem; }
+        .admin-table td { padding: 12px 14px; border-bottom: 1px solid rgba(58,42,26,0.8); font-size: 0.9rem; }
+        .admin-table tr:hover td { background: rgba(242,201,76,0.04); }
+
+        /* ===== Buttons ===== */
+        .btn { display: inline-block; padding: 7px 16px; border-radius: 6px; text-decoration: none; font-size: 0.85rem; cursor: pointer; border: none; transition: 0.2s; font-weight: 500; }
+        .btn-primary { background: #F2C94C; color: #2B1F14; }
+        .btn-primary:hover { background: #C9A227; }
+        .btn-danger { background: #c0392b; color: #fff; }
+        .btn-danger:hover { background: #922b21; }
+        .btn-secondary { background: rgba(255,255,255,0.08); color: #FFF8E7; border: 1px solid rgba(255,255,255,0.15); }
+        .btn-secondary:hover { background: rgba(255,255,255,0.14); }
+
+        /* ===== Forms ===== */
+        .form-group { margin-bottom: 1.2rem; }
+        .form-group label { display: block; margin-bottom: 6px; color: #f5c76a; font-size: 0.88rem; font-weight: 500; }
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%; padding: 10px 14px; border-radius: 8px;
+            border: 1px solid rgba(58,42,26,0.8); background: rgba(255,255,255,0.06);
+            color: #FFF8E7; font-size: 0.95rem; outline: none;
+        }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus { border-color: #F2C94C; }
+        .form-group select option { background: #2B1F14; }
+        .form-card { background: #2B1F14; border-radius: 14px; padding: 2rem; max-width: 700px; border: 1px solid rgba(242,201,76,0.1); }
+        .page-title { color: #F2C94C; font-size: 1.6rem; margin-bottom: 0.5rem; }
+        .current-img { margin-top: 8px; }
+        .current-img img { max-height: 120px; border-radius: 8px; }
+        .confirm-box { background: #2B1F14; border-radius: 14px; padding: 2rem; max-width: 500px; text-align: center; border: 1px solid rgba(242,201,76,0.1); }
+
+        /* ===== Messages ===== */
+        .messages { margin-bottom: 1.5rem; }
+        .msg { padding: 10px 15px; border-radius: 8px; margin-bottom: 8px; font-size: 0.9rem; }
+        .msg-success { background: rgba(76,175,80,0.15); color: #4CAF50; border: 1px solid #4CAF50; }
+        .msg-error { background: rgba(255,107,107,0.15); color: #ff6b6b; border: 1px solid #ff6b6b; }
+
+        /* ===== Dashboard stats ===== */
+        .stat-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 2rem; }
+        .stat-card { background: #2B1F14; border-radius: 12px; padding: 1.5rem; border: 1px solid rgba(242,201,76,0.1); text-align: center; }
+        .stat-card .stat-num { font-size: 2.5rem; font-weight: 900; color: #F2C94C; }
+        .stat-card .stat-label { color: #888; font-size: 0.9rem; margin-top: 4px; }
+    </style>
+</head>
+<body>
+
+<!-- ===== Sidebar ===== -->
+<aside class="admin-sidebar">
+    <div class="logo">DO <span>MOVIE</span><br><small style="font-size:0.65rem; color:#888; font-weight:400;">Admin Panel</small></div>
+    <nav class="sidebar-nav">
+        <a href="{% url 'admin_panel:dashboard' %}" {% if request.resolver_match.url_name == 'dashboard' %}class="active"{% endif %}>
+            📊 Dashboard
+        </a>
+        <div class="nav-divider"></div>
+        <a href="{% url 'admin_panel:movies_list' %}" {% if 'movies' in request.resolver_match.url_name %}class="active"{% endif %}>
+            🎬 หนัง
+        </a>
+        <a href="{% url 'admin_panel:directors_list' %}" {% if 'directors' in request.resolver_match.url_name %}class="active"{% endif %}>
+            🎭 ผู้กำกับ
+        </a>
+        <a href="{% url 'admin_panel:products_list' %}" {% if 'products' in request.resolver_match.url_name %}class="active"{% endif %}>
+            🛍️ สินค้า
+        </a>
+        <div class="nav-divider"></div>
+        <a href="{% url 'movies:index' %}">🌐 กลับหน้าเว็บ</a>
+    </nav>
+    <div class="sidebar-bottom">
+        <p style="font-size:0.8rem; color:#888; margin-bottom:6px;">{{ request.user.username }}</p>
+        <a href="{% url 'accounts:logout' %}">ออกจากระบบ →</a>
+    </div>
+</aside>
+
+<!-- ===== Main ===== -->
+<div class="admin-main">
+    <div class="admin-topbar">
+        <span class="page-name">{% block admin_title %}DO MOVIE{% endblock %}</span>
+        <span class="user-info">Admin: {{ request.user.username }}</span>
+    </div>
+    <div class="admin-body">
+        {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+            <div class="msg {% if message.tags == 'error' %}msg-error{% else %}msg-success{% endif %}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        {% block admin_content %}{% endblock %}
+    </div>
+</div>
+
+</body>
+</html>

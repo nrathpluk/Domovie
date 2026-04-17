@@ -1,0 +1,9 @@
+django>=4.2
+djangorestframework
+djangorestframework-simplejwt
+django-cloudinary-storage
+django-cors-headers
+dj-database-url
+psycopg2-binary
+pillow
+python-dotenv

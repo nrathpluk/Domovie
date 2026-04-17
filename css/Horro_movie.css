@@ -1,122 +1,65 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Sarabun:wght@300;400;600;700&display=swap');
 
-body {
-    background-color: #F5EFE6;
-    color: #3A2A1A;
-    font-family: sans-serif;
-}
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Sarabun', sans-serif; background-color: #1a0505; color: #FFF8E7; }
+.container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+.fade { opacity: 0; transform: translateY(40px); transition: 0.6s; }
+.fade.show { opacity: 1; transform: translateY(0); }
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-}
+/* NAV */
+nav { padding: 0.9rem 0; background-color: #2B1F14; position: sticky; top: 0; z-index: 500; }
+.nav-con { display: flex; justify-content: space-between; align-items: center; }
+.logo a { font-family: 'Cinzel', serif; font-size: 1.7rem; color: #F2C94C; text-decoration: none; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; transition: 0.3s; }
+.logo a span { color: #FFF8E7; transition: 0.3s; }
+.logo a:hover { text-shadow: 0 0 15px rgba(242,201,76,0.4); }
+.logo a:hover span { color: #F2C94C; }
+.menu { display: flex; list-style: none; align-items: center; flex-wrap: wrap; }
+.menu li a { color: #FFF8E7; text-decoration: none; padding: 7px 11px; border-radius: 8px; border: 2px solid transparent; transition: all 0.3s ease; display: inline-block; font-size: 0.88rem; white-space: nowrap; }
+.menu li a:hover, .menu li a.active { color: #F2C94C; background-color: rgba(242,201,76,0.1); border-color: #F2C94C; }
+.has-dropdown { position: relative; }
+.dropdown { display: none; position: absolute; top: calc(100% + 6px); left: 0; background: #2B1F14; border: 1px solid rgba(242,201,76,0.25); border-radius: 10px; min-width: 130px; z-index: 100; padding: 0.4rem 0; box-shadow: 0 8px 24px rgba(0,0,0,0.4); }
+.has-dropdown:hover .dropdown { display: block; }
+.dropdown li { list-style: none; }
+.dropdown li a { padding: 8px 16px; display: block; color: #FFF8E7; border: none; border-radius: 0; font-size: 0.85rem; }
+.dropdown li a:hover { color: #F2C94C; background: rgba(242,201,76,0.1); border-color: transparent; }
 
-/* ===== Menu ===== */
-nav {
-    padding: 1rem;
-    background-color: #2B1F14;
+/* HERO BANNER */
+.genre-hero {
+  background: linear-gradient(135deg, #0a0000 0%, #2e0505 50%, #4a0808 100%);
+  padding: 4rem 0 3rem;
+  text-align: center;
+  border-bottom: 2px solid rgba(180,30,30,0.3);
 }
+.genre-hero-icon { font-size: 3rem; margin-bottom: 1rem; display: block; }
+.genre-hero h1 {
+  font-family: 'Cinzel', serif;
+  font-size: 2.5rem;
+  color: #FFF8E7;
+  margin-bottom: 0.7rem;
+  text-shadow: 0 4px 20px rgba(200,30,30,0.5);
+}
+.genre-hero p { color: rgba(255,248,231,0.6); font-size: 1rem; }
 
-.nav-con {
-    display: flex;
-    justify-content: space-between;
+/* MOVIE GRID */
+.maincontent { background-color: #1a0505; padding: 3rem 0; min-height: 60vh; }
+.movie-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1.8rem;
 }
-
-.logo a {
-    font-size: 2rem;
-    color: #F2C94C;
-    text-decoration: none;
-    font-weight: 900;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    transition: 0.3s;
+.movie-card-item {
+  text-decoration: none;
+  color: #FFF8E7;
+  text-align: center;
+  display: block;
+  transition: transform 0.3s ease;
+  background: #280808;
+  border-radius: 14px;
+  padding: 1rem;
+  border: 1px solid rgba(180,30,30,0.15);
 }
-
-.logo a span {
-    color: #FFF8E7;
-    transition: 0.3s;
-}
-
-.logo a:hover {
-    text-shadow: 0 0 15px rgba(242, 201, 76, 0.4);
-}
-
-.logo a:hover span {
-    color: #F2C94C;
-}
-
-.menu {
-    display: flex;
-    list-style: none;
-    align-items: center;
-}
-
-.menu li {
-    margin: 0 1rem;
-}
-
-.menu li a {
-    color: #FFF8E7;
-    text-decoration: none;
-    padding: 10px 20px;
-    border-radius: 8px;
-    background-color: transparent;
-    border: 2px solid transparent;
-    transition: all 0.3s ease;
-    display: inline-block;
-}
-
-.menu li a:hover {
-    color: #F2C94C;
-    background-color: rgba(242, 201, 76, 0.1);
-    border-color: #F2C94C;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(242, 201, 76, 0.2);
-}
-
-/* ===== Main รูปและข้อมูล INSEPTION===== */
-.maincontent {
-    background-color: #F5EFE6;
-    padding: 4rem 0;
-}
-
-.maincontent-con {
-    max-width: 1100px;
-    margin: auto;
-    display: flex;
-    gap: 3rem;
-    align-items: center;
-}
-
-/* การ์ดหนัง ถ้าจะเพิ่่มก็อปตรงนี้ได้เลย*/
-.TheShinning {
-    text-decoration: none;
-    color: #3A2A1A;
-    text-align: center;
-}
-
-.TheShinning img {
-    width: 220px;
-    aspect-ratio: 2 / 3;
-    /* ทรงโปสเตอร์ */
-    object-fit: cover;
-    border-radius: 12px;
-}
-
-.Scream {
-    text-decoration: none;
-    color: #3A2A1A;
-    text-align: center;
-}
-
-.Scream img {
-    width: 220px;
-    aspect-ratio: 2 / 3;
-    /* ทรงโปสเตอร์ */
-    object-fit: cover;
-    border-radius: 12px;
-}
+.movie-card-item:hover { transform: translateY(-8px); border-color: rgba(180,30,30,0.5); box-shadow: 0 12px 30px rgba(0,0,0,0.5); }
+.movie-card-item img { width: 100%; aspect-ratio: 2/3; object-fit: cover; border-radius: 10px; display: block; }
+.movie-card-item h3 { margin-top: 0.7rem; font-size: 0.95rem; color: #FFF8E7; }
+.movie-card-item span { font-size: 0.8rem; color: rgba(255,248,231,0.5); }
+.empty-state { grid-column: 1/-1; text-align: center; color: rgba(255,248,231,0.4); padding: 4rem 0; font-size: 1rem; }

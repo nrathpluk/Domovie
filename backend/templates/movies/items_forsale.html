@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}DO MOVIE - ของที่ระลึก{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'movies/css/index.css' %}">
+<link rel="stylesheet" href="{% static 'movies/css/DVD_movie.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="dvd-content">
+    <div class="container">
+        <h2 class="dvd-title">ของที่ระลึก</h2>
+        <div class="dvd-grid">
+            <div class="dvd-item fade show">
+                <div class="dvd-poster"><img src="{% static 'movies/images/Item for sell/Interstalla_forsale.jpg' %}" alt="Interstellar"></div>
+                <div class="dvd-info"><h4>Interstellar — ของที่ระลึก</h4><p>สินค้าสะสมจากภาพยนตร์ Interstellar</p><span class="dvd-price">350 บาท</span><a href="#" class="dvd-btn">หยิบใส่ตะกร้า</a></div>
+            </div>
+            <div class="dvd-item fade show">
+                <div class="dvd-poster"><img src="{% static 'movies/images/Item for sell/Scream.jpg' %}" alt="Scream"></div>
+                <div class="dvd-info"><h4>Scream — ของที่ระลึก</h4><p>สินค้าสะสมจากภาพยนตร์ Scream</p><span class="dvd-price">250 บาท</span><a href="#" class="dvd-btn">หยิบใส่ตะกร้า</a></div>
+            </div>
+            <div class="dvd-item fade show">
+                <div class="dvd-poster"><img src="{% static 'movies/images/Item for sell/The_matrixforsael.jpg' %}" alt="The Matrix"></div>
+                <div class="dvd-info"><h4>The Matrix — ของที่ระลึก</h4><p>สินค้าสะสมจากภาพยนตร์ The Matrix</p><span class="dvd-price">300 บาท</span><a href="#" class="dvd-btn">หยิบใส่ตะกร้า</a></div>
+            </div>
+            <div class="dvd-item fade show">
+                <div class="dvd-poster"><img src="{% static 'movies/images/Item for sell/TheShining.jpg' %}" alt="The Shining"></div>
+                <div class="dvd-info"><h4>The Shining — ของที่ระลึก</h4><p>สินค้าสะสมจากภาพยนตร์ The Shining</p><span class="dvd-price">280 บาท</span><a href="#" class="dvd-btn">หยิบใส่ตะกร้า</a></div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="footer-bottom">&copy; 2026 Web DoMovie. All rights reserved.</div>
+{% endblock %}

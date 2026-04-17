@@ -2,60 +2,94 @@
 <html lang="th">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Form Register</title>
-    <!--Enternal CSS-->
-    <link rel="stylesheet" href="../css/regist.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>สมัครสมาชิก — DO MOVIE</title>
+  <link rel="stylesheet" href="../css/regist.css">
+  <script src="../js/config.js"></script>
 </head>
 
 <body>
-    <div class="content-item fade">
-        <div class="register-box">
-            <a href="../pages/index.html" class="back-btn">←</a>
-            <form id="registForm">
-                <h2>สมัครสมาชิก</h2>
 
-                <label>ชื่อ *</label>
-                <input type="text" placeholder="พิมพ์ชื่อ">
+  <div class="auth-wrapper fade">
+    <a href="main.html" class="back-btn">← กลับหน้าหลัก</a>
+    <div class="auth-card">
+      <h2>สมัครสมาชิก</h2>
+      <form id="registForm">
+        <label>Username *</label>
+        <input type="text" id="usernameInput" placeholder="พิมพ์ชื่อผู้ใช้" required>
 
-                <label>นามสกุล *</label>
-                <input type="text" placeholder="นามสกุล">
+        <label>Email *</label>
+        <input type="email" id="emailInput" placeholder="อีเมลของคุณ" required>
 
-                <label>วัน เดือน ปี เกิด</label>
-                <input type="date">
+        <label>Password *</label>
+        <input type="password" id="passwordInput" placeholder="พิมพ์รหัสผ่าน" required>
 
-                <label>อายุ</label>
-                <input type="text" placeholder="อายุ">
+        <label>Confirm Password *</label>
+        <input type="password" id="confirmPasswordInput" placeholder="ยืนยันรหัสผ่าน" required>
 
-                <div class="gender">
-                    <label><input type="radio" name="gender"> ชาย</label>
-                    <label><input type="radio" name="gender"> หญิง</label>
-                </div>
+        <p id="errorMessage" style="color:#ff6b6b;font-size:0.85rem;text-align:center;margin-top:1rem;display:none;"></p>
+        <p id="successMessage" style="color:#4CAF50;font-size:0.85rem;text-align:center;margin-top:1rem;display:none;"></p>
 
-                <label>Email *</label>
-                <input type="email" id="emailInput" placeholder="Enter Email" required>
+        <button type="submit">สมัครสมาชิก</button>
+      </form>
+      <div class="auth-link">
+        มีบัญชีอยู่แล้วใช่หรือไม่? <a href="login.html">เข้าสู่ระบบ</a>
+      </div>
+    </div>
+  </div>
 
-                <!-- <div class="checkbox">
-            <label><input type="checkbox"> ข้อมูลถูกต้อง</label>
-        </div> -->
+  <script>
+    document.querySelectorAll('.fade').forEach(el => el.classList.add('show'));
 
-                <label>Password *</label>
-                <input type="password" id="passwordInput" required>
+    document.getElementById('registForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const username = document.getElementById('usernameInput').value;
+      const email = document.getElementById('emailInput').value;
+      const password = document.getElementById('passwordInput').value;
+      const confirm = document.getElementById('confirmPasswordInput').value;
+      const errorMsg = document.getElementById('errorMessage');
+      const successMsg = document.getElementById('successMessage');
+      const btn = e.target.querySelector('button');
 
-                <label>Confirm Password *</label>
-                <input type="password" id="confirmPasswordInput" required>
+      errorMsg.style.display = 'none';
+      successMsg.style.display = 'none';
 
-                <p id="errorMessage" style="color: #ff6b6b; font-size: 13px; text-align: center; margin-top: 10px; display: none;"></p>
+      if (password !== confirm) {
+        errorMsg.textContent = 'รหัสผ่านไม่ตรงกัน';
+        errorMsg.style.display = 'block';
+        return;
+      }
 
-                <button type="submit">Submit</button>
-                <div style="text-align: center; margin-top: 15px; font-size: 14px;">
-                    <span style="color: #ccc;">มีบัญชีอยู่แล้วใช่หรือไม่?</span> 
-                    <a href="login.html" style="color: #f5c76a; text-decoration: none;">เข้าสู่ระบบ</a>
-                </div>
-            </form>
-        </div>
-        <script type="module" src="../js/regist.js"></script>
+      btn.disabled = true;
+      btn.textContent = 'กำลังสมัคร...';
+
+      try {
+        const res = await fetch(`${API_BASE}/auth/register/`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username, email, password }),
+        });
+        const data = await res.json();
+
+        if (res.ok) {
+          successMsg.textContent = 'สมัครสมาชิกสำเร็จ! กำลังพาไปหน้าเข้าสู่ระบบ...';
+          successMsg.style.display = 'block';
+          setTimeout(() => { window.location.href = 'login.html'; }, 1500);
+        } else {
+          const firstError = Object.values(data)[0];
+          errorMsg.textContent = Array.isArray(firstError) ? firstError[0] : firstError;
+          errorMsg.style.display = 'block';
+        }
+      } catch {
+        errorMsg.textContent = 'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้';
+        errorMsg.style.display = 'block';
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'สมัครสมาชิก';
+      }
+    });
+  </script>
 
 </body>
 

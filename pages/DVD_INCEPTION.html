@@ -1,217 +1,190 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DVD Listings - DO MOVIE</title>
-    <!-- CSS Links -->
-    <link rel="stylesheet" href="../css/index.css">
-    <link rel="stylesheet" href="../css/DVD_movie.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>รายการ DVD — DO MOVIE</title>
+  <link rel="stylesheet" href="../css/index.css">
+  <script src="../js/config.js"></script>
+  <style>
+    body { background-color: #2B1F14; }
+
+    .dvd-section { padding: 3rem 0; min-height: 70vh; }
+    .dvd-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; }
+    .dvd-section-title {
+      font-family: 'Cinzel', serif;
+      font-size: 2rem; color: #F2C94C;
+      font-weight: 900; text-transform: uppercase; letter-spacing: 2px;
+    }
+    .order-link {
+      display: inline-block;
+      padding: 0.6rem 1.4rem;
+      background: rgba(242,201,76,0.15);
+      color: #F2C94C;
+      text-decoration: none;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      border: 1px solid rgba(242,201,76,0.35);
+      transition: all 0.3s;
+    }
+    .order-link:hover { background: #F2C94C; color: #2B1F14; }
+
+    .dvd-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 1.8rem;
+    }
+    .dvd-item {
+      background-color: #3A2A1A;
+      border-radius: 16px;
+      overflow: hidden;
+      border: 1px solid rgba(242,201,76,0.1);
+      transition: all 0.3s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+    .dvd-item:hover { transform: translateY(-6px); border-color: #F2C94C; box-shadow: 0 12px 30px rgba(0,0,0,0.5); }
+    .dvd-poster { width: 100%; aspect-ratio: 2/3; overflow: hidden; background: #1e140c; }
+    .dvd-poster img { width: 100%; height: 100%; object-fit: cover; transition: 0.4s; display: block; }
+    .dvd-item:hover .dvd-poster img { transform: scale(1.05); }
+    .dvd-info { padding: 1.2rem; flex: 1; display: flex; flex-direction: column; }
+    .dvd-info h4 { color: #F2C94C; font-size: 1.05rem; margin-bottom: 0.5rem; }
+    .dvd-info p { color: rgba(255,248,231,0.7); font-size: 0.85rem; line-height: 1.5; margin-bottom: 0.8rem; flex: 1; }
+    .dvd-year { color: #888; font-size: 0.82rem; margin-bottom: 1rem; }
+    .dvd-btn {
+      display: inline-block;
+      padding: 0.55rem 1.2rem;
+      background: #F2C94C;
+      color: #2B1F14;
+      text-decoration: none;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      font-weight: 700;
+      align-self: flex-start;
+      transition: 0.3s;
+    }
+    .dvd-btn:hover { background: #C9A227; }
+    .empty-msg { grid-column: 1/-1; text-align: center; color: rgba(255,248,231,0.4); padding: 4rem 0; }
+  </style>
 </head>
 
 <body>
-    <!-- HTML Menu -->
-    <nav>
-        <div class="container">
-            <div class="nav-con">
-                <div class="logo"><a href="#">DO <span>MOVIE</span></a></div>
-                <ul class="menu">
-                    <li><a href="../pages/main.html">หน้าหลัก</a></li>
-                    <li><a href="../pages/Scifi_movie.html">หนังScifi</a></li>
-                    <li><a href="#">สินค้าที่ระลึก</a></li>
-                    <li><a href="../pages/regist.html">สมัครสมาชิก</a></li>
-                    <li><a href="#">ผู้เขียน</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
 
-    <!-- DVD Content Section -->
-    <section class="dvd-content">
-        <div class="container">
-            <h2 class="dvd-title">รายการแผ่นหนัง (DVD)</h2>
-            <div class="order">
-                <a href="../pages/list_order.html">คำสั่งซื้อ</a>
-            </div>
-
-            <div class="dvd-grid">
-                <!-- Movie 1: Inception -->
-                <div class="dvd-item fade show">
-                    <div class="dvd-poster">
-                        <img src="../images/Movie/Inception/INCEPTION_BD.jpg" alt="Inception DVD">
-                    </div>
-                    <div class="dvd-info">
-                        <h4>Inception</h4>
-                        <p>ความฝันซ้อนความฝัน ภารกิจจารกรรมข้อมูลที่สุดล้ำเหนือจินตนาการ</p>
-                        <span class="dvd-price">300 บาท</span>
-                        <a href="#" class="dvd-btn">หยิบใส่ตะกร้า</a>
-                    </div>
-                </div>
-
-                <!-- Movie 2: Interstellar -->
-                <div class="dvd-item fade show">
-                    <div class="dvd-poster">
-                        <img src="../images/Movie/Inception/INCEPTION.jpg" alt="Interstellar DVD">
-                    </div>
-                    <div class="dvd-info">
-                        <h4>Interstellar</h4>
-                        <p>การเดินทางข้ามกาลเวลาและมิติเพื่อหาบ้านใหม่ให้มนุษยชาติ</p>
-                        <span class="dvd-price">300 บาท</span>
-                        <a href="#" class="dvd-btn">หยิบใส่ตะกร้า</a>
-                    </div>
-                </div>
-
-                <!-- Movie 3: The Matrix -->
-                <div class="dvd-item fade show">
-                    <div class="dvd-poster">
-                        <img src="../images/Movie/The matric/the matric.jpg" alt="The Matrix DVD">
-                    </div>
-                    <div class="dvd-info">
-                        <h4>The Matrix</h4>
-                        <p>ตื่นจากโลกเสมือนจริง และเข้าสู่ความจริงที่ถูกซ่อนไว้โดยเครื่องจักร</p>
-                        <span class="dvd-price">200 บาท</span>
-                        <a href="#" class="dvd-btn">หยิบใส่ตะกร้า</a>
-                    </div>
-                </div>
-
-                <!-- Movie 4: The Shining -->
-                <div class="dvd-item fade show">
-                    <div class="dvd-poster">
-                        <img src="../images/Movie/TheShining/TheShining.jpg" alt="The Shining DVD">
-                    </div>
-                    <div class="dvd-info">
-                        <h4>The Shining</h4>
-                        <p>ความสยองขวัญระดับตำนานในโรงแรมลึกลับกลางหุบเขาหิมะ</p>
-                        <span class="dvd-price">200 บาท</span>
-                        <a href="#" class="dvd-btn">หยิบใส่ตะกร้า</a>
-                    </div>
-                </div>
-
-                <!-- Movie 5: Alien -->
-                <div class="dvd-item fade show">
-                    <div class="dvd-poster">
-                        <img src="../images/Movie/Scream/scream.jpg" alt="Alien DVD">
-                    </div>
-                    <div class="dvd-info">
-                        <h4>Encounter</h4>
-                        <p>เมื่อสิ่งมีชีวิตจากนอกโลกกลายเป็นฝันร้ายที่คุกคามลูกเรืออวกาศ</p>
-                        <span class="dvd-price">150 บาท</span>
-                        <a href="#" class="dvd-btn">หยิบใส่ตะกร้า</a>
-                    </div>
-                </div>
-
-                <!-- Movie 6: Blade Runner 2049 -->
-                <div class="dvd-item fade show">
-                    <div class="dvd-poster">
-                        <img src="../images/Movie/Blade Runner 2049/DVD_BLN.jpg" alt="Blade Runner 2049 DVD">
-                    </div>
-                    <div class="dvd-info">
-                        <h4>Blade Runner 2049</h4>
-                        <p>การค้นพบความลับที่ถูกฝังไว้นานอาจนำไปสู่หายนะของสังคมที่เหลืออยู่</p>
-                        <span class="dvd-price">300 บาท</span>
-                        <a href="#" class="dvd-btn">หยิบใส่ตะกร้า</a>
-                    </div>
-                </div>
-
-                <!-- Movie 7: A Quiet Place -->
-                <div class="dvd-item fade show">
-                    <div class="dvd-poster">
-                        <img src="../images/Movie/A Quiet Place/A Quiet Place.jpg" alt="A Quiet Place DVD">
-                    </div>
-                    <div class="dvd-info">
-                        <h4>A Quiet Place</h4>
-                        <p>ถ้าพวกมันได้ยิน... พวกมันจะออกล่า ครอบครัวหนึ่งต้องใช้ชีวิตในความเงียบเพื่อความอยู่รอด
-                        </p>
-                        <span class="dvd-price">200 บาท</span>
-                        <a href="#" class="dvd-btn">หยิบใส่ตะกร้า</a>
-                    </div>
-                </div>
-
-                <!-- Movie 8: Arrival -->
-                <div class="dvd-item fade show">
-                    <div class="dvd-poster">
-                        <img src="../images/Movie/Arrival/Arrival.jpg" alt="Arrival DVD">
-                    </div>
-                    <div class="dvd-info">
-                        <h4>Arrival</h4>
-                        <p>เมื่อยานอวกาศลึกลับลงจอดทั่วโลก นักภาษาศาสตร์ต้องหาทางสื่อสารก่อนสงครามจะเริ่ม</p>
-                        <span class="dvd-price">200 บาท</span>
-                        <a href="#" class="dvd-btn">หยิบใส่ตะกร้า</a>
-                    </div>
-                </div>
-
-                <!-- Movie 9: The Conjuring -->
-                <div class="dvd-item fade show">
-                    <div class="dvd-poster">
-                        <img src="../images/Movie/The Conjuring/The Conjuring.jpg" alt="The Conjuring DVD">
-                    </div>
-                    <div class="dvd-info">
-                        <h4>The Conjuring</h4>
-                        <p>คู่สามีภรรยานักปราบผีต้องเผชิญกับคดีที่น่าสะพรึงกลัวที่สุดในชีวิต</p>
-                        <span class="dvd-price">150 บาท</span>
-                        <a href="#" class="dvd-btn">หยิบใส่ตะกร้า</a>
-                    </div>
-                </div>
-
-                <!-- Movie 10: The Thing -->
-                <div class="dvd-item fade show">
-                    <div class="dvd-poster">
-                        <img src="../images/Movie/The Thing/The Thing.jpg" alt="The Thing DVD">
-                    </div>
-                    <div class="dvd-info">
-                        <h4>The Thing</h4>
-                        <p>ทีมนักวิทยาศาสตร์ในแอนตาร์กติกาต้องเผชิญกับสิ่งมีชีวิตต่างดาวที่เลียนแบบมนุษย์ได้</p>
-                        <span class="dvd-price">150 บาท</span>
-                        <a href="#" class="dvd-btn">หยิบใส่ตะกร้า</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer Updated Content -->
-    <div class="footer-top">
-        <div class="container">
-            <div class="footer-top-con">
-                <div class="footer-top-item">
-                    <h4>ข่าวสารหนังใหม่</h4>
-                    <div class="footer-top-item-con">
-                        <div class="date">ก.พ.<br>2026</div>
-                        <div class="info">
-                            <a href="#" class="info title">Dune: Prophecy - ปฐมบทแห่งเบนเน เจสเซริต</a>
-                            <span class="info-descrip">เจาะลึกจุดเริ่มต้นของกลุ่มสตรีผู้ทรงอิทธิพลที่สุดในจักรวาล
-                                Dune</span>
-                        </div>
-                    </div>
-                    <div class="footer-top-item-con">
-                        <div class="date">เม.ย.<br>2026</div>
-                        <div class="info">
-                            <a href="#" class="info title">Mickey 17 - ผลงานใหม่จาก บงจุนโฮ</a>
-                            <span class="info-descrip">การผจญภัยสุดระทึกของพนักงาน "ใช้แล้วทิ้ง"
-                                ในภารกิจสำรวจดาวน้ำแข็ง</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="footer-top-item">
-                    <h4>เกี่ยวกับเรา</h4>
-                    <p>Web DoMovie คือแหล่งรวบรวมข้อมูลหนังแนว Sci-Fi และสยองขวัญระดับพรีเมียม
-                        เรามุ่งมั่นที่จะนำเสนอข่าวสาร รีวิว และเกร็ดความรู้จากโลกภาพยนตร์ที่คุณไม่ควรพลาด</p>
-                </div>
-
-                <div class="footer-top-item">
-                    <h4>ติดตามเรา</h4>
-                    <p><a href="#">Facebook: Web DoMovie</a></p>
-                    <p><a href="#">X (Twitter): @DoMovieSciFi</a></p>
-                    <p><a href="#">Instagram: @domovie_official</a></p>
-                </div>
-            </div>
-        </div>
+  <nav>
+    <div class="container">
+      <div class="nav-con">
+        <div class="logo"><a href="main.html">DO <span>MOVIE</span></a></div>
+        <ul class="menu">
+          <li><a href="main.html">หน้าหลัก</a></li>
+          <li class="has-dropdown">
+            <a href="#">หมวดหมู่ ▾</a>
+            <ul class="dropdown">
+              <li><a href="Scifi_movie.html">Sci-Fi</a></li>
+              <li><a href="Horor_movie.html">Horror</a></li>
+            </ul>
+          </li>
+          <li><a href="DVD_INCEPTION.html" class="active">DVD</a></li>
+          <li><a href="Item_forsale.html">ของที่ระลึก</a></li>
+          <li><a href="data_board.html">กระดานรีวิว</a></li>
+          <li><a href="directors.html">ผู้กำกับ</a></li>
+          <li id="authNav"></li>
+        </ul>
+      </div>
     </div>
-    <div class="footer-bottom">
-        &copy; 2026 Web DoMovie. All rights reserved.
+  </nav>
+
+  <section class="dvd-section">
+    <div class="container">
+      <div class="dvd-header">
+        <h2 class="dvd-section-title">รายการแผ่นหนัง (DVD)</h2>
+        <a href="list_order.html" class="order-link">คำสั่งซื้อ →</a>
+      </div>
+      <div class="dvd-grid" id="dvdGrid">
+        <p class="empty-msg">กำลังโหลด...</p>
+      </div>
     </div>
-    <script src="../js/main.js"></script>
+  </section>
+
+  <footer class="footer-top">
+    <div class="container">
+      <div class="footer-top-con">
+        <div class="footer-top-item">
+          <h4>ข่าวสารหนังใหม่</h4>
+          <div class="footer-top-item-con">
+            <div class="date">เม.ย.<br>2026</div>
+            <div class="info">
+              <a href="#" class="info title">Mickey 17 - ผลงานใหม่จาก บงจุนโฮ</a>
+              <span class="info-descrip">การผจญภัยสุดระทึกของพนักงาน "ใช้แล้วทิ้ง" ในภารกิจสำรวจดาวน้ำแข็ง</span>
+            </div>
+          </div>
+          <div class="footer-top-item-con">
+            <div class="date">ก.พ.<br>2026</div>
+            <div class="info">
+              <a href="#" class="info title">Dune: Prophecy - ปฐมบทแห่งเบนเน เจสเซริต</a>
+              <span class="info-descrip">เจาะลึกจุดเริ่มต้นของกลุ่มสตรีผู้ทรงอิทธิพลที่สุดในจักรวาล Dune</span>
+            </div>
+          </div>
+        </div>
+        <div class="footer-top-item">
+          <h4>เกี่ยวกับเรา</h4>
+          <p>Web DoMovie คือแหล่งรวบรวมข้อมูลหนังแนว Sci-Fi และสยองขวัญระดับพรีเมียม</p>
+        </div>
+        <div class="footer-top-item">
+          <h4>ติดตามเรา</h4>
+          <p><a href="#">Facebook: Web DoMovie</a></p>
+          <p><a href="#">X (Twitter): @DoMovieSciFi</a></p>
+          <p><a href="#">Instagram: @domovie_official</a></p>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <div class="footer-bottom">&copy; 2026 Web DoMovie. All rights reserved.</div>
+
+  <script>
+    (function () {
+      const _u = localStorage.getItem('username');
+      const _s = localStorage.getItem('is_staff');
+      const nav = document.getElementById('authNav');
+      if (_u) {
+        nav.innerHTML = `${_s === 'true' ? '<a href="/admin-panel/" style="color:#F2C94C;margin-right:8px;">Admin Panel</a>' : ''}<a href="#" id="logoutBtn" style="color:#ff6b6b;">${_u} (ออก)</a>`;
+        document.getElementById('logoutBtn').addEventListener('click', e => {
+          e.preventDefault(); localStorage.clear(); window.location.href = 'login.html';
+        });
+      } else {
+        nav.innerHTML = '<a href="login.html">เข้าสู่ระบบ</a>';
+      }
+    })();
+
+    fetch(`${API_BASE}/movies/`)
+      .then(r => r.json())
+      .then(movies => {
+        const grid = document.getElementById('dvdGrid');
+        if (!movies.length) {
+          grid.innerHTML = '<p class="empty-msg">ยังไม่มีหนัง</p>';
+          return;
+        }
+        grid.innerHTML = movies.map(m => `
+          <div class="dvd-item" onclick="location.href='movie-detail.html?id=${m.id}'">
+            <div class="dvd-poster">
+              <img src="${getImageUrl(m.poster_image)}" alt="${m.title}" loading="lazy">
+            </div>
+            <div class="dvd-info">
+              <h4>${m.title}</h4>
+              <p>${m.synopsis ? m.synopsis.substring(0, 80) + '...' : ''}</p>
+              <span class="dvd-year">${m.release_year || ''}</span>
+              <a href="movie-detail.html?id=${m.id}" class="dvd-btn">ดูรายละเอียด</a>
+            </div>
+          </div>
+        `).join('');
+      })
+      .catch(() => {
+        document.getElementById('dvdGrid').innerHTML = '<p class="empty-msg">ไม่สามารถโหลดข้อมูลได้</p>';
+      });
+  </script>
+
 </body>
 
 </html>
