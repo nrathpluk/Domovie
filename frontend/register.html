@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register — DoMovie</title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <div class="form-page">
+        <div class="form-page-left">
+            <div class="form-page-left-bg"></div>
+            <div class="form-page-wordmark">DOMOVIE</div>
+            <div class="form-page-accent">
+                <p class="form-page-accent-text">
+                    "Every great film should seem new every time you see it."
+                    <em class="form-page-accent-attr">— Roger Ebert</em>
+                </p>
+            </div>
+        </div>
+
+        <div class="form-page-right">
+            <div class="form-container">
+                <div class="form-brand">DOMOVIE</div>
+                <div class="form-title">Create your account</div>
+
+                <div id="alert" class="alert alert-error"></div>
+
+                <form id="register-form">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" required autocomplete="username" placeholder="choose a username">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email (optional)</label>
+                        <input type="email" id="email" autocomplete="email" placeholder="you@example.com">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password (min 6 characters)</label>
+                        <input type="password" id="password" required autocomplete="new-password" minlength="6" placeholder="••••••••">
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Create Account</button>
+                    </div>
+                </form>
+
+                <div class="form-footer">
+                    Already have an account? <a href="/login.html">Login</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script>
+        if (isLoggedIn()) window.location.href = '/index.html';
+
+        document.getElementById('register-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            var alertEl = document.getElementById('alert');
+            alertEl.style.display = 'none';
+
+            var payload = {
+                username: document.getElementById('username').value.trim(),
+                password: document.getElementById('password').value,
+                email: document.getElementById('email').value.trim(),
+            };
+
+            try {
+                var res = await fetch(API_BASE + '/auth/register/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                });
+                var data = await res.json();
+                if (res.ok) {
+                    setAuth(data);
+                    window.location.href = '/index.html';
+                } else {
+                    var msgs = Object.values(data).flat().join(' ');
+                    alertEl.textContent = msgs || 'Registration failed.';
+                    alertEl.style.display = 'block';
+                }
+            } catch (err) {
+                alertEl.textContent = 'Network error. Try again.';
+                alertEl.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

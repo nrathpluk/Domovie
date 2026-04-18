@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login — DoMovie</title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <div class="form-page">
+        <div class="form-page-left">
+            <div class="form-page-left-bg"></div>
+            <div class="form-page-wordmark">DOMOVIE</div>
+            <div class="form-page-accent">
+                <p class="form-page-accent-text">
+                    "Cinema is a mirror by which we often see ourselves."
+                    <em class="form-page-accent-attr">— DoMovie</em>
+                </p>
+            </div>
+        </div>
+
+        <div class="form-page-right">
+            <div class="form-container">
+                <div class="form-brand">DOMOVIE</div>
+                <div class="form-title">Sign in to your account</div>
+
+                <div id="alert" class="alert alert-error"></div>
+
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" required autocomplete="username" placeholder="your username">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" required autocomplete="current-password" placeholder="••••••••">
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+                </form>
+
+                <div class="form-footer">
+                    No account? <a href="/register.html">Register</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script>
+        if (isLoggedIn()) window.location.href = '/index.html';
+
+        document.getElementById('login-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            var alertEl = document.getElementById('alert');
+            alertEl.style.display = 'none';
+
+            var username = document.getElementById('username').value.trim();
+            var password = document.getElementById('password').value;
+
+            try {
+                var res = await fetch(API_BASE + '/auth/login/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ username: username, password: password }),
+                });
+                var data = await res.json();
+                if (res.ok) {
+                    setAuth(data);
+                    window.location.href = '/index.html';
+                } else {
+                    alertEl.textContent = data.detail || 'Invalid credentials.';
+                    alertEl.style.display = 'block';
+                }
+            } catch (err) {
+                alertEl.textContent = 'Network error. Try again.';
+                alertEl.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>

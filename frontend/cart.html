@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart — DoMovie</title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <nav id="main-nav"></nav>
+
+    <div class="container" style="max-width:780px">
+        <div class="page-header">
+            <h1 class="page-title">Cart</h1>
+        </div>
+
+        <div id="alert" class="alert"></div>
+        <div class="cart-items" id="cart-items">
+            <div class="loading">Loading cart</div>
+        </div>
+        <div class="cart-summary" id="cart-summary" style="display:none">
+            <span class="cart-total-label">Total</span>
+            <span class="cart-total-amount" id="cart-total-amount">$0.00</span>
+        </div>
+        <div class="cart-checkout" id="cart-checkout" style="display:none">
+            <button class="btn btn-success" id="checkout-btn" onclick="checkout()">Checkout</button>
+        </div>
+    </div>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/nav.js"></script>
+    <script src="/js/cart.js"></script>
+    <script>
+        requireAuth();
+
+        var dvdDetails = {};
+
+        async function fetchDVDDetails(ids) {
+            var promises = ids.map(function(id) {
+                return apiFetch('/dvds/' + id + '/').then(function(r) { return r ? r.json() : null; });
+            });
+            var results = await Promise.all(promises);
+            results.forEach(function(dvd) { if (dvd && dvd.id) dvdDetails[dvd.id] = dvd; });
+        }
+
+        async function renderCart() {
+            var cart = getCart();
+            var container = document.getElementById('cart-items');
+            var summaryEl = document.getElementById('cart-summary');
+            var checkoutEl = document.getElementById('cart-checkout');
+
+            if (!cart.length) {
+                container.innerHTML =
+                    '<div class="empty-state">' +
+                    '<p>Your cart is empty.</p>' +
+                    '<a href="/dvds.html" class="btn btn-primary">Browse DVDs</a>' +
+                    '</div>';
+                summaryEl.style.display = 'none';
+                checkoutEl.style.display = 'none';
+                return;
+            }
+
+            await fetchDVDDetails(cart.map(function(i) { return i.dvd; }));
+
+            var total = 0;
+            var html = cart.map(function(item) {
+                var dvd = dvdDetails[item.dvd];
+                if (!dvd) return '';
+                var subtotal = parseFloat(dvd.price) * item.quantity;
+                total += subtotal;
+                return '<div class="cart-item">' +
+                    '<div>' +
+                    '<div class="cart-item-title">' + dvd.movie_title + '</div>' +
+                    '<div class="cart-item-price-label">$' + parseFloat(dvd.price).toFixed(2) + ' each</div>' +
+                    '</div>' +
+                    '<div class="qty-controls">' +
+                    '<button onclick="changeQty(' + dvd.id + ',' + (item.quantity - 1) + ')">−</button>' +
+                    '<span class="qty-value">' + item.quantity + '</span>' +
+                    '<button onclick="changeQty(' + dvd.id + ',' + (item.quantity + 1) + ')">+</button>' +
+                    '</div>' +
+                    '<div class="cart-item-subtotal">$' + subtotal.toFixed(2) + '</div>' +
+                    '<button class="btn btn-danger btn-sm" onclick="removeItem(' + dvd.id + ')">✕</button>' +
+                    '</div>';
+            }).join('');
+
+            container.innerHTML = html;
+            document.getElementById('cart-total-amount').textContent = '$' + total.toFixed(2);
+            summaryEl.style.display = 'flex';
+            checkoutEl.style.display = 'flex';
+        }
+
+        function changeQty(dvdId, qty) {
+            updateCartQuantity(dvdId, qty);
+            renderCart();
+        }
+
+        function removeItem(dvdId) {
+            removeFromCart(dvdId);
+            renderCart();
+        }
+
+        async function checkout() {
+            var cart = getCart();
+            if (!cart.length) return;
+
+            var btn = document.getElementById('checkout-btn');
+            var alertEl = document.getElementById('alert');
+            btn.disabled = true;
+            btn.textContent = 'Processing…';
+
+            var res = await apiFetch('/orders/', {
+                method: 'POST',
+                body: JSON.stringify({ items: cart }),
+            });
+
+            if (!res) {
+                btn.disabled = false;
+                btn.textContent = 'Checkout';
+                return;
+            }
+
+            if (res.ok) {
+                clearCart();
+                alertEl.textContent = 'Order placed successfully! Redirecting…';
+                alertEl.className = 'alert alert-success';
+                alertEl.style.display = 'block';
+                setTimeout(function() { window.location.href = '/orders.html'; }, 2000);
+            } else {
+                var err = await res.json();
+                var msg = err.non_field_errors || err.detail || JSON.stringify(err);
+                alertEl.textContent = Array.isArray(msg) ? msg.join(' ') : msg;
+                alertEl.className = 'alert alert-error';
+                alertEl.style.display = 'block';
+                btn.disabled = false;
+                btn.textContent = 'Checkout';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', renderCart);
+    </script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DoMovie</title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <nav id="main-nav"></nav>
+
+    <div class="hero">
+        <div class="hero-ticker">
+            <div class="hero-ticker-inner">
+                DOMOVIE &nbsp;&mdash;&nbsp; CINEMA &nbsp;&mdash;&nbsp; ORDER DVDs ONLINE &nbsp;&mdash;&nbsp; BROWSE COLLECTION &nbsp;&mdash;&nbsp; DOMOVIE &nbsp;&mdash;&nbsp; CINEMA &nbsp;&mdash;&nbsp; ORDER DVDs ONLINE &nbsp;&mdash;&nbsp; BROWSE COLLECTION &nbsp;&mdash;&nbsp; DOMOVIE &nbsp;&mdash;&nbsp; CINEMA &nbsp;&mdash;&nbsp; ORDER DVDs ONLINE &nbsp;&mdash;&nbsp; BROWSE COLLECTION &nbsp;&mdash;&nbsp;
+            </div>
+        </div>
+
+        <div class="hero-bg"></div>
+
+        <div class="hero-frame">
+            <div class="hero-frame-num">01</div>
+            <div class="hero-frame-label">Frame</div>
+        </div>
+
+        <div class="hero-content">
+            <div class="hero-eyebrow">Your Cinema Collection</div>
+            <h1>DOMOVIE<em>on disc</em></h1>
+            <p class="hero-sub">Browse our curated selection of films and order DVDs delivered straight to your door.</p>
+            <div class="hero-ctas">
+                <a href="/movies.html" class="btn btn-primary">Browse Movies</a>
+                <a href="/dvds.html" class="btn btn-secondary">Shop DVDs</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="page-header">
+            <h2 class="page-title">Featured</h2>
+            <span class="page-sub">A glimpse of our collection</span>
+        </div>
+        <div class="card-grid" id="featured">
+            <div class="loading">Loading</div>
+        </div>
+    </div>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/nav.js"></script>
+    <script>
+        async function loadFeatured() {
+            var res = await apiFetch('/movies/?page=1&page_size=4');
+            if (!res) return;
+            var data = await res.json();
+            var movies = data.results || [];
+            var grid = document.getElementById('featured');
+            if (!movies.length) {
+                grid.innerHTML = '<p class="loading">No movies yet.</p>';
+                return;
+            }
+            grid.innerHTML = movies.map(function(m, i) {
+                var idx = String(i + 1).padStart(2, '0');
+                var year = m.release_date ? m.release_date.slice(0, 4) : '';
+                var meta = [m.director_name || 'Unknown', year].filter(Boolean).join(' \u2022 ');
+                return '<div class="card">' +
+                    '<span class="card-frame">' + idx + '</span>' +
+                    (m.poster_url
+                        ? '<img src="' + m.poster_url + '" alt="' + m.title + '" loading="lazy">'
+                        : '<div class="card-img-placeholder">NO FILM</div>') +
+                    '<div class="card-body">' +
+                    '<div class="card-title">' + m.title + '</div>' +
+                    '<div class="card-meta">' + meta + '</div>' +
+                    '</div></div>';
+            }).join('');
+        }
+        document.addEventListener('DOMContentLoaded', loadFeatured);
+    </script>
+</body>
+</html>

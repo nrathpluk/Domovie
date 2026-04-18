@@ -1,21 +1,42 @@
-# IDEs and Tools
-.claude/
-.superpowers/
-.vscode/
-
-# Firebase
-.firebase/
-
-# Backend (Django/Python)
-backend/db.sqlite3
-backend/media/
-**/__pycache__/
+# Python
+__pycache__/
 *.py[cod]
-*$py.class
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
 
-# OS files
-Thumbs.db
-.DS_Store
+# Django
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+staticfiles/
+media/
 
-# Enviroment variables
+# Environment
 .env
+.env.local
+.env.*.local
+!.env.example
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+
+# IDE / OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Claude Code
+.claude/
