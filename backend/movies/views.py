@@ -25,13 +25,27 @@ class MovieViewSet(viewsets.ModelViewSet):
     filter_backends = [filters.SearchFilter]
     search_fields = ['title']
 
+    def get_queryset(self):
+        qs = Movie.objects.select_related('director').all().order_by('id')
+        director_id = self.request.query_params.get('director')
+        if director_id:
+            qs = qs.filter(director_id=director_id)
+        return qs
+
 
 class DVDViewSet(viewsets.ModelViewSet):
-    queryset = DVD.objects.select_related('movie').all().order_by('id')
+    queryset = DVD.objects.all()
     serializer_class = DVDSerializer
     permission_classes = [IsAdminRoleOrReadOnly]
     filter_backends = [filters.SearchFilter]
     search_fields = ['movie__title']
+
+    def get_queryset(self):
+        qs = DVD.objects.select_related('movie').all().order_by('id')
+        movie_id = self.request.query_params.get('movie')
+        if movie_id:
+            qs = qs.filter(movie_id=movie_id)
+        return qs
 
 
 class OrderViewSet(viewsets.ModelViewSet):

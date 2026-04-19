@@ -448,6 +448,15 @@ nav {
     aspect-ratio: 2/3;
     overflow: hidden;
     background: var(--surface);
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+    transition: transform 300ms var(--ease);
+}
+
+.card:hover {
+    transform: scale(1.03);
+    z-index: 1;
 }
 
 .card img {

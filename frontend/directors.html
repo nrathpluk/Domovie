@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Directors — DoMovie</title>
+    <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+    <nav id="main-nav"></nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h1 class="page-title">Directors</h1>
+            <p class="page-sub">Browse filmmakers</p>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Search by name…">
+            <button class="btn btn-primary" id="search-btn">Search</button>
+        </div>
+
+        <div class="card-grid" id="directors-grid">
+            <div class="loading">Loading directors…</div>
+        </div>
+
+        <div class="pagination" id="pagination"></div>
+    </div>
+
+    <script src="/js/api.js"></script>
+    <script src="/js/auth.js"></script>
+    <script src="/js/nav.js"></script>
+    <script>
+        var currentPage = 1;
+        var currentSearch = '';
+
+        function loadDirectors(page, search) {
+            var grid = document.getElementById('directors-grid');
+            var pager = document.getElementById('pagination');
+            grid.innerHTML = '<div class="loading">Loading directors…</div>';
+
+            var url = '/directors/?page=' + page;
+            if (search) url += '&search=' + encodeURIComponent(search);
+
+            apiFetch(url).then(function(res) {
+                if (!res) return;
+                return res.json();
+            }).then(function(data) {
+                if (!data) return;
+
+                if (!data.results || !data.results.length) {
+                    grid.innerHTML = '<div class="empty-state"><p>No directors found.</p></div>';
+                    pager.innerHTML = '';
+                    return;
+                }
+
+                grid.innerHTML = data.results.map(function(d, i) {
+                    var idx = String(i + 1).padStart(2, '0');
+                    var year = d.birth_date ? d.birth_date.slice(0, 4) : '';
+                    var bio = d.bio ? (d.bio.length > 100 ? d.bio.slice(0, 100) + '…' : d.bio) : '';
+                    return '<a class="card" href="director-detail.html?id=' + d.id + '">' +
+                        '<span class="card-frame">' + idx + '</span>' +
+                        '<div class="card-img-placeholder">NO PHOTO</div>' +
+                        '<div class="card-body">' +
+                            '<div class="card-title">' + d.name + '</div>' +
+                            '<div class="card-meta">' + (year || 'Unknown') + (bio ? ' \u2022 ' + bio : '') + '</div>' +
+                        '</div>' +
+                    '</a>';
+                }).join('');
+
+                renderPagination(data.count, page, pager);
+            });
+        }
+
+        function renderPagination(total, page, container) {
+            var pages = Math.ceil(total / 10);
+            if (pages <= 1) { container.innerHTML = ''; return; }
+
+            var btns = [];
+            if (page > 1) btns.push('<button onclick="go(' + (page - 1) + ')">‹ Prev</button>');
+            for (var i = 1; i <= pages; i++) {
+                btns.push('<button class="' + (i === page ? 'active' : '') + '" onclick="go(' + i + ')">' + i + '</button>');
+            }
+            if (page < pages) btns.push('<button onclick="go(' + (page + 1) + ')">Next ›</button>');
+            container.innerHTML = btns.join('');
+        }
+
+        function go(page) {
+            currentPage = page;
+            loadDirectors(page, currentSearch);
+            window.scrollTo(0, 0);
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            loadDirectors(1, '');
+
+            document.getElementById('search-btn').addEventListener('click', function() {
+                currentSearch = document.getElementById('search-input').value.trim();
+                currentPage = 1;
+                loadDirectors(1, currentSearch);
+            });
+
+            document.getElementById('search-input').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') document.getElementById('search-btn').click();
+            });
+        });
+    </script>
+</body>
+</html>

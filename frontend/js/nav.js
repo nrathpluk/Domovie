@@ -10,6 +10,8 @@ function renderNav() {
         <div class="nav-links">
             <a href="/movies.html">Movies</a>
             <span class="nav-sep"></span>
+            <a href="/directors.html">Directors</a>
+            <span class="nav-sep"></span>
             <a href="/dvds.html">DVDs</a>
             ${loggedIn ? `
                 <span class="nav-sep"></span>

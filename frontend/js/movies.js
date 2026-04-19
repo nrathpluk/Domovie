@@ -1,6 +1,7 @@
 var currentPage = 1;
 var currentSearch = '';
 
+
 async function loadMovies(page, search) {
     var grid = document.getElementById('movies-grid');
     var pager = document.getElementById('pagination');
@@ -23,7 +24,7 @@ async function loadMovies(page, search) {
         var idx = String(i + 1).padStart(2, '0');
         var year = m.release_date ? m.release_date.slice(0, 4) : '';
         var meta = [m.director_name || 'Unknown', year].filter(Boolean).join(' \u2022 ');
-        return '<div class="card">' +
+        return '<a class="card" href="movie-detail.html?id=' + m.id + '" data-id="' + m.id + '">' +
             '<span class="card-frame">' + idx + '</span>' +
             (m.poster_url
                 ? '<img src="' + m.poster_url + '" alt="' + m.title + '" loading="lazy">'
@@ -31,7 +32,7 @@ async function loadMovies(page, search) {
             '<div class="card-body">' +
             '<div class="card-title">' + m.title + '</div>' +
             '<div class="card-meta">' + meta + '</div>' +
-            '</div></div>';
+            '</div></a>';
     }).join('');
 
     renderPagination(data.count, page, pager);
