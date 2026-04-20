@@ -57,13 +57,14 @@
                 grid.innerHTML = data.results.map(function(d, i) {
                     var idx = String(i + 1).padStart(2, '0');
                     var year = d.birth_date ? d.birth_date.slice(0, 4) : '';
-                    var bio = d.bio ? (d.bio.length > 100 ? d.bio.slice(0, 100) + '…' : d.bio) : '';
                     return '<a class="card" href="director-detail.html?id=' + d.id + '">' +
                         '<span class="card-frame">' + idx + '</span>' +
-                        '<div class="card-img-placeholder">NO PHOTO</div>' +
+                        (d.image_url
+                            ? '<img src="' + d.image_url + '" alt="' + d.name + '" loading="lazy">'
+                            : '<div class="card-img-placeholder">NO PHOTO</div>') +
                         '<div class="card-body">' +
                             '<div class="card-title">' + d.name + '</div>' +
-                            '<div class="card-meta">' + (year || 'Unknown') + (bio ? ' \u2022 ' + bio : '') + '</div>' +
+                            '<div class="card-meta">' + (year || 'Unknown') + '</div>' +
                         '</div>' +
                     '</a>';
                 }).join('');

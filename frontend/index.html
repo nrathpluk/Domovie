@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DoMovie</title>
+    <title>DoMovie — Cinema on Disc</title>
     <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
@@ -12,7 +12,7 @@
     <div class="hero">
         <div class="hero-ticker">
             <div class="hero-ticker-inner">
-                DOMOVIE &nbsp;&mdash;&nbsp; CINEMA &nbsp;&mdash;&nbsp; ORDER DVDs ONLINE &nbsp;&mdash;&nbsp; BROWSE COLLECTION &nbsp;&mdash;&nbsp; DOMOVIE &nbsp;&mdash;&nbsp; CINEMA &nbsp;&mdash;&nbsp; ORDER DVDs ONLINE &nbsp;&mdash;&nbsp; BROWSE COLLECTION &nbsp;&mdash;&nbsp; DOMOVIE &nbsp;&mdash;&nbsp; CINEMA &nbsp;&mdash;&nbsp; ORDER DVDs ONLINE &nbsp;&mdash;&nbsp; BROWSE COLLECTION &nbsp;&mdash;&nbsp;
+                DOMOVIE &nbsp;&mdash;&nbsp; CINEMA &nbsp;&mdash;&nbsp; ORDER DVDs ONLINE &nbsp;&mdash;&nbsp; BROWSE COLLECTION &nbsp;&mdash;&nbsp; NEW ARRIVALS &nbsp;&mdash;&nbsp; FREE SHIPPING ON 3+ &nbsp;&mdash;&nbsp; DOMOVIE &nbsp;&mdash;&nbsp; CINEMA &nbsp;&mdash;&nbsp; ORDER DVDs ONLINE &nbsp;&mdash;&nbsp; BROWSE COLLECTION &nbsp;&mdash;&nbsp; NEW ARRIVALS &nbsp;&mdash;&nbsp; FREE SHIPPING ON 3+ &nbsp;&mdash;&nbsp;
             </div>
         </div>
 
@@ -26,7 +26,7 @@
         <div class="hero-content">
             <div class="hero-eyebrow">Your Cinema Collection</div>
             <h1>DOMOVIE<em>on disc</em></h1>
-            <p class="hero-sub">Browse our curated selection of films and order DVDs delivered straight to your door.</p>
+            <p class="hero-sub">A curated selection of cinema — browse, collect, and order DVDs delivered to your door.</p>
             <div class="hero-ctas">
                 <a href="/movies.html" class="btn btn-primary">Browse Movies</a>
                 <a href="/dvds.html" class="btn btn-secondary">Shop DVDs</a>
@@ -34,10 +34,32 @@
         </div>
     </div>
 
+    <div class="hero-stats">
+        <div class="hero-stat">
+            <div class="hero-stat-num" id="stat-movies">—</div>
+            <div class="hero-stat-label">Films</div>
+        </div>
+        <div class="hero-stat">
+            <div class="hero-stat-num" id="stat-directors">—</div>
+            <div class="hero-stat-label">Directors</div>
+        </div>
+        <div class="hero-stat">
+            <div class="hero-stat-num" id="stat-dvds">—</div>
+            <div class="hero-stat-label">DVDs Available</div>
+        </div>
+        <div class="hero-stat">
+            <div class="hero-stat-num">10%</div>
+            <div class="hero-stat-label">Discount on 3+</div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="page-header">
-            <h2 class="page-title">Featured</h2>
-            <span class="page-sub">A glimpse of our collection</span>
+            <div>
+                <div class="page-sub">A glimpse of our collection</div>
+                <h2 class="page-title">Featured</h2>
+            </div>
+            <a href="/movies.html" class="btn btn-ghost btn-sm">View all</a>
         </div>
         <div class="card-grid" id="featured">
             <div class="loading">Loading</div>
@@ -48,6 +70,26 @@
     <script src="/js/auth.js"></script>
     <script src="/js/nav.js"></script>
     <script>
+        async function loadStats() {
+            var [movRes, dirRes, dvdRes] = await Promise.all([
+                apiFetch('/movies/?page=1'),
+                apiFetch('/directors/?page=1'),
+                apiFetch('/dvds/?page=1'),
+            ]);
+            if (movRes && movRes.ok) {
+                var d = await movRes.json();
+                document.getElementById('stat-movies').textContent = d.count || '—';
+            }
+            if (dirRes && dirRes.ok) {
+                var d = await dirRes.json();
+                document.getElementById('stat-directors').textContent = d.count || '—';
+            }
+            if (dvdRes && dvdRes.ok) {
+                var d = await dvdRes.json();
+                document.getElementById('stat-dvds').textContent = d.count || '—';
+            }
+        }
+
         async function loadFeatured() {
             var res = await apiFetch('/movies/?page=1&page_size=4');
             if (!res) return;
@@ -55,7 +97,7 @@
             var movies = data.results || [];
             var grid = document.getElementById('featured');
             if (!movies.length) {
-                grid.innerHTML = '<p class="loading">No movies yet.</p>';
+                grid.innerHTML = '<div class="empty-state"><p>No movies yet.</p></div>';
                 return;
             }
             grid.innerHTML = movies.map(function(m, i) {
@@ -73,7 +115,11 @@
                     '</div></a>';
             }).join('');
         }
-        document.addEventListener('DOMContentLoaded', loadFeatured);
+
+        document.addEventListener('DOMContentLoaded', function () {
+            loadFeatured();
+            loadStats();
+        });
     </script>
 </body>
 </html>

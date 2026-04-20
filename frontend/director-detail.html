@@ -5,102 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Director — DoMovie</title>
     <link rel="stylesheet" href="/css/main.css">
-    <style>
-        .detail-wrap {
-            display: flex;
-            gap: 3rem;
-            padding: 3rem 0;
-            align-items: flex-start;
-        }
-        .detail-poster {
-            flex-shrink: 0;
-            width: 260px;
-        }
-        .detail-poster .card-img-placeholder {
-            width: 100%;
-            aspect-ratio: 2/3;
-        }
-        .detail-poster img {
-            width: 100%;
-            aspect-ratio: 2/3;
-            object-fit: cover;
-            display: block;
-        }
-        .detail-info {
-            flex: 1;
-        }
-        .detail-title {
-            font-family: var(--font-d);
-            font-size: 2.8rem;
-            letter-spacing: 0.03em;
-            color: var(--cream);
-            margin-bottom: 0.4rem;
-            line-height: 1;
-        }
-        .detail-meta {
-            font-size: 0.65rem;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            color: var(--muted);
-            margin-bottom: 1.8rem;
-        }
-        .detail-synopsis {
-            font-size: 0.95rem;
-            color: var(--text);
-            line-height: 1.7;
-            max-width: 560px;
-            margin-bottom: 2.5rem;
-        }
-        .detail-section-title {
-            font-family: var(--font-b);
-            font-size: 0.6rem;
-            letter-spacing: 0.14em;
-            text-transform: uppercase;
-            color: var(--muted);
-            margin-bottom: 1rem;
-        }
-        .movie-row {
-            display: flex;
-            align-items: center;
-            gap: 1.2rem;
-            padding: 0.9rem 1.1rem;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            margin-bottom: 0.5rem;
-            text-decoration: none;
-            color: inherit;
-            transition: border-color 220ms var(--ease);
-        }
-        .movie-row:hover {
-            border-color: var(--border-h);
-        }
-        .movie-row-title {
-            font-family: var(--font-d);
-            font-size: 1.1rem;
-            color: var(--cream);
-            flex: 1;
-        }
-        .movie-row-year {
-            font-size: 0.6rem;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--muted);
-        }
-        .back-link {
-            display: inline-block;
-            font-size: 0.65rem;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--muted);
-            text-decoration: none;
-            margin-bottom: 2rem;
-        }
-        .back-link:hover { color: var(--cream); }
-        @media (max-width: 640px) {
-            .detail-wrap { flex-direction: column; }
-            .detail-poster { width: 100%; max-width: 260px; }
-        }
-    </style>
 </head>
 <body>
     <nav id="main-nav"></nav>
@@ -124,7 +28,6 @@
         function loadDetail() {
             var params = new URLSearchParams(window.location.search);
             var id = params.get('id');
-            console.log('director-detail id:', id);
 
             if (!id) {
                 document.getElementById('detail-content').innerHTML = '<p>No director ID provided.</p>';
@@ -140,7 +43,6 @@
                 return res.json();
             }).then(function(director) {
                 if (!director) return;
-                console.log('director data:', director);
 
                 document.title = director.name + ' — DoMovie';
 
@@ -148,7 +50,6 @@
                     var moviesHtml = '';
                     if (movRes && movRes.ok) {
                         return movRes.json().then(function(movData) {
-                            console.log('movies data:', movData);
                             var movies = movData.results || movData;
                             if (movies.length) {
                                 moviesHtml = '<div class="detail-section-title">Filmography</div>' +

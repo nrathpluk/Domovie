@@ -7,6 +7,23 @@ const API_BASE = (() => {
     return 'https://domovie.onrender.com/api';
 })();
 
+function showToast(message, type) {
+    var container = document.querySelector('.toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.className = 'toast-container';
+        document.body.appendChild(container);
+    }
+    var toast = document.createElement('div');
+    toast.className = 'toast' + (type ? ' toast-' + type : '');
+    toast.textContent = message;
+    container.appendChild(toast);
+    setTimeout(function () {
+        toast.style.animation = 'toast-out 0.25s var(--ease) forwards';
+        setTimeout(function () { toast.remove(); }, 260);
+    }, 3000);
+}
+
 async function apiFetch(endpoint, options = {}) {
     const token = localStorage.getItem('access_token');
     const headers = {
