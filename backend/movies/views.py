@@ -1,3 +1,5 @@
+import traceback
+
 from rest_framework import viewsets, filters, status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -31,6 +33,13 @@ class MovieViewSet(viewsets.ModelViewSet):
         if director_id:
             qs = qs.filter(director_id=director_id)
         return qs
+
+    def list(self, request, *args, **kwargs):
+        try:
+            return super().list(request, *args, **kwargs)
+        except Exception as e:
+            traceback.print_exc()
+            raise
 
 
 class DVDViewSet(viewsets.ModelViewSet):
