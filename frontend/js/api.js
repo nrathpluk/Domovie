@@ -4,7 +4,7 @@ const API_BASE = (() => {
         return 'http://localhost:8000/api';
     }
     // Update this after deploying to Render
-    return 'https://domovie-backend.onrender.com/api';
+    return 'https://domovie.onrender.com/api';
 })();
 
 async function apiFetch(endpoint, options = {}) {
