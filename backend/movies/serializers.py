@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from rest_framework import serializers
 from django.db import transaction
 
@@ -81,8 +83,18 @@ class OrderCreateSerializer(serializers.Serializer):
                 total += dvd.price * qty
                 built_items.append({'dvd': dvd, 'quantity': qty, 'price': dvd.price})
 
-            order = Order.objects.create(user=user, total_price=total)
+            original_total = total
+            total_qty = sum(item['quantity'] for item in built_items)
+            discount_applied = total_qty >= 3
+            final_total = (original_total * Decimal('0.90')).quantize(Decimal('0.01')) if discount_applied else original_total
+
+            order = Order.objects.create(user=user, total_price=final_total)
             for item in built_items:
                 OrderItem.objects.create(order=order, **item)
 
-            return order
+            return {
+                'order': order,
+                'discount_applied': discount_applied,
+                'original_total': original_total,
+                'final_total': final_total,
+            }

@@ -77,5 +77,9 @@ class OrderViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         serializer = OrderCreateSerializer(data=request.data, context={'request': request})
         serializer.is_valid(raise_exception=True)
-        order = serializer.save()
-        return Response(OrderSerializer(order).data, status=status.HTTP_201_CREATED)
+        result = serializer.save()
+        data = OrderSerializer(result['order']).data
+        data['discount_applied'] = result['discount_applied']
+        data['original_total'] = str(result['original_total'])
+        data['final_total'] = str(result['final_total'])
+        return Response(data, status=status.HTTP_201_CREATED)

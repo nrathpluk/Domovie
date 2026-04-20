@@ -15,12 +15,17 @@
         </div>
 
         <div id="alert" class="alert"></div>
+        <div id="discount-banner" style="display:none;background:#1a3d1a;border:1px solid #2e6b2e;color:#6fcf6f;padding:0.85rem 1.1rem;margin-bottom:1rem;font-size:0.85rem;letter-spacing:0.04em;">
+            🎉 Buy 3+ DVDs: 10% discount applied!
+        </div>
         <div class="cart-items" id="cart-items">
             <div class="loading">Loading cart</div>
         </div>
         <div class="cart-summary" id="cart-summary" style="display:none">
             <span class="cart-total-label">Total</span>
-            <span class="cart-total-amount" id="cart-total-amount">$0.00</span>
+            <span id="cart-total-wrapper">
+                <span class="cart-total-amount" id="cart-total-amount">$0.00</span>
+            </span>
         </div>
         <div class="cart-checkout" id="cart-checkout" style="display:none">
             <button class="btn btn-success" id="checkout-btn" onclick="checkout()">Checkout</button>
@@ -64,11 +69,13 @@
             await fetchDVDDetails(cart.map(function(i) { return i.dvd; }));
 
             var total = 0;
+            var totalQty = 0;
             var html = cart.map(function(item) {
                 var dvd = dvdDetails[item.dvd];
                 if (!dvd) return '';
                 var subtotal = parseFloat(dvd.price) * item.quantity;
                 total += subtotal;
+                totalQty += item.quantity;
                 return '<div class="cart-item">' +
                     '<div>' +
                     '<div class="cart-item-title">' + dvd.movie_title + '</div>' +
@@ -85,7 +92,20 @@
             }).join('');
 
             container.innerHTML = html;
-            document.getElementById('cart-total-amount').textContent = '$' + total.toFixed(2);
+
+            var discountBanner = document.getElementById('discount-banner');
+            var totalWrapper = document.getElementById('cart-total-wrapper');
+            if (totalQty >= 3) {
+                var discounted = (total * 0.90).toFixed(2);
+                discountBanner.style.display = 'block';
+                totalWrapper.innerHTML =
+                    '<span style="text-decoration:line-through;color:var(--muted);margin-right:0.6rem;">$' + total.toFixed(2) + '</span>' +
+                    '<span class="cart-total-amount" id="cart-total-amount" style="color:#6fcf6f;">$' + discounted + '</span>';
+            } else {
+                discountBanner.style.display = 'none';
+                totalWrapper.innerHTML = '<span class="cart-total-amount" id="cart-total-amount">$' + total.toFixed(2) + '</span>';
+            }
+
             summaryEl.style.display = 'flex';
             checkoutEl.style.display = 'flex';
         }
