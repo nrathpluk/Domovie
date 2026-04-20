@@ -20,6 +20,12 @@
             width: 100%;
             aspect-ratio: 2/3;
         }
+        .detail-poster img {
+            width: 100%;
+            aspect-ratio: 2/3;
+            object-fit: cover;
+            display: block;
+        }
         .detail-info {
             flex: 1;
         }
@@ -170,7 +176,9 @@
             document.getElementById('detail-content').innerHTML =
                 '<div class="detail-wrap">' +
                     '<div class="detail-poster">' +
-                        '<div class="card-img-placeholder">NO PHOTO</div>' +
+                        (director.image_url
+                            ? '<img src="' + director.image_url + '" alt="' + director.name + '">'
+                            : '<div class="card-img-placeholder">NO PHOTO</div>') +
                     '</div>' +
                     '<div class="detail-info">' +
                         '<div class="detail-title">' + director.name + '</div>' +

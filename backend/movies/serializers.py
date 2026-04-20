@@ -7,7 +7,7 @@ from .models import Director, Movie, DVD, Order, OrderItem
 class DirectorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Director
-        fields = ['id', 'name', 'bio', 'birth_date']
+        fields = ['id', 'name', 'bio', 'birth_date', 'image_url']
 
 
 class MovieSerializer(serializers.ModelSerializer):
