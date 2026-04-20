@@ -1,125 +1,125 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DoMovie — Cinema on Disc</title>
-    <link rel="stylesheet" href="/css/main.css">
-</head>
-<body>
-    <nav id="main-nav"></nav>
+<!DOCTYPE html> <!-- ตายตัว: บอก browser ว่าเป็น HTML5 -->
+<html lang="en"> <!-- ตายตัว: root element ระบุภาษาหลักเป็นอังกฤษ -->
+<head> <!-- ตายตัว: เปิด section meta -->
+    <meta charset="UTF-8"> <!-- ตายตัว: encoding UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- ตายตัว: responsive สำหรับมือถือ -->
+    <title>DoMovie — Cinema on Disc</title> <!-- ชื่อ tab หน้าหลัก -->
+    <link rel="stylesheet" href="/css/main.css"> <!-- ตายตัว: โหลด CSS หลัก -->
+</head> <!-- ตายตัว: ปิด head -->
+<body> <!-- ตายตัว: เปิด section เนื้อหา -->
+    <nav id="main-nav"></nav> <!-- container ว่างสำหรับ nav bar — nav.js inject HTML เข้ามา -->
 
-    <div class="hero">
-        <div class="hero-ticker">
-            <div class="hero-ticker-inner">
+    <div class="hero"> <!-- section hero ความสูง 72vh แสดง branding หลัก -->
+        <div class="hero-ticker"> <!-- แถบ ticker เลื่อนอยู่บนสุดของ hero สีแดง -->
+            <div class="hero-ticker-inner"> <!-- ข้อความที่เคลื่อนที่ด้วย animation "ticker" — ซ้ำ 2 รอบเพื่อให้ loop ราบรื่น -->
                 DOMOVIE &nbsp;&mdash;&nbsp; CINEMA &nbsp;&mdash;&nbsp; ORDER DVDs ONLINE &nbsp;&mdash;&nbsp; BROWSE COLLECTION &nbsp;&mdash;&nbsp; NEW ARRIVALS &nbsp;&mdash;&nbsp; FREE SHIPPING ON 3+ &nbsp;&mdash;&nbsp; DOMOVIE &nbsp;&mdash;&nbsp; CINEMA &nbsp;&mdash;&nbsp; ORDER DVDs ONLINE &nbsp;&mdash;&nbsp; BROWSE COLLECTION &nbsp;&mdash;&nbsp; NEW ARRIVALS &nbsp;&mdash;&nbsp; FREE SHIPPING ON 3+ &nbsp;&mdash;&nbsp;
-            </div>
-        </div>
+            </div> <!-- ปิด hero-ticker-inner -->
+        </div> <!-- ปิด hero-ticker -->
 
-        <div class="hero-bg"></div>
+        <div class="hero-bg"></div> <!-- gradient background ตกแต่ง hero (radial gradient สีแดงและทอง) -->
 
-        <div class="hero-frame">
-            <div class="hero-frame-num">01</div>
-            <div class="hero-frame-label">Frame</div>
-        </div>
+        <div class="hero-frame"> <!-- decorative element เลข frame มุมบนขวา (ซ่อนบนมือถือ) -->
+            <div class="hero-frame-num">01</div> <!-- ตัวเลข "01" ขนาดใหญ่ opacity ต่ำ -->
+            <div class="hero-frame-label">Frame</div> <!-- ป้ายกำกับ "Frame" ขนาดเล็กใต้ตัวเลข -->
+        </div> <!-- ปิด hero-frame -->
 
-        <div class="hero-content">
-            <div class="hero-eyebrow">Your Cinema Collection</div>
-            <h1>DOMOVIE<em>on disc</em></h1>
-            <p class="hero-sub">A curated selection of cinema — browse, collect, and order DVDs delivered to your door.</p>
-            <div class="hero-ctas">
-                <a href="/movies.html" class="btn btn-primary">Browse Movies</a>
-                <a href="/dvds.html" class="btn btn-secondary">Shop DVDs</a>
-            </div>
-        </div>
-    </div>
+        <div class="hero-content"> <!-- content หลัก: eyebrow, h1, subtitle, CTA buttons -->
+            <div class="hero-eyebrow">Your Cinema Collection</div> <!-- ข้อความ eyebrow เล็กเหนือ h1 (สีแดง พร้อม line ด้านหน้า) -->
+            <h1>DOMOVIE<em>on disc</em></h1> <!-- หัวข้อหลักขนาดใหญ่ + em italic สีทองด้านล่าง -->
+            <p class="hero-sub">A curated selection of cinema — browse, collect, and order DVDs delivered to your door.</p> <!-- คำอธิบาย hero -->
+            <div class="hero-ctas"> <!-- container ปุ่ม CTA -->
+                <a href="/movies.html" class="btn btn-primary">Browse Movies</a> <!-- ปุ่มหลัก ไปหน้า Movies -->
+                <a href="/dvds.html" class="btn btn-secondary">Shop DVDs</a> <!-- ปุ่มรอง ไปหน้า DVDs -->
+            </div> <!-- ปิด hero-ctas -->
+        </div> <!-- ปิด hero-content -->
+    </div> <!-- ปิด hero -->
 
-    <div class="hero-stats">
-        <div class="hero-stat">
-            <div class="hero-stat-num" id="stat-movies">—</div>
-            <div class="hero-stat-label">Films</div>
-        </div>
-        <div class="hero-stat">
-            <div class="hero-stat-num" id="stat-directors">—</div>
-            <div class="hero-stat-label">Directors</div>
-        </div>
-        <div class="hero-stat">
-            <div class="hero-stat-num" id="stat-dvds">—</div>
-            <div class="hero-stat-label">DVDs Available</div>
-        </div>
-        <div class="hero-stat">
-            <div class="hero-stat-num">10%</div>
-            <div class="hero-stat-label">Discount on 3+</div>
-        </div>
-    </div>
+    <div class="hero-stats"> <!-- แถบสถิติ 4 ช่องใต้ hero -->
+        <div class="hero-stat"> <!-- ช่องสถิติจำนวนหนัง -->
+            <div class="hero-stat-num" id="stat-movies">—</div> <!-- ตัวเลขจำนวนหนัง — JavaScript อัปเดตจาก API -->
+            <div class="hero-stat-label">Films</div> <!-- ป้ายกำกับ "Films" -->
+        </div> <!-- ปิด hero-stat movies -->
+        <div class="hero-stat"> <!-- ช่องสถิติจำนวนผู้กำกับ -->
+            <div class="hero-stat-num" id="stat-directors">—</div> <!-- ตัวเลขจำนวนผู้กำกับ — JavaScript อัปเดตจาก API -->
+            <div class="hero-stat-label">Directors</div> <!-- ป้ายกำกับ "Directors" -->
+        </div> <!-- ปิด hero-stat directors -->
+        <div class="hero-stat"> <!-- ช่องสถิติจำนวน DVD -->
+            <div class="hero-stat-num" id="stat-dvds">—</div> <!-- ตัวเลขจำนวน DVD — JavaScript อัปเดตจาก API -->
+            <div class="hero-stat-label">DVDs Available</div> <!-- ป้ายกำกับ "DVDs Available" -->
+        </div> <!-- ปิด hero-stat dvds -->
+        <div class="hero-stat"> <!-- ช่องโปรโมชั่นส่วนลด 10% -->
+            <div class="hero-stat-num">10%</div> <!-- ตัวเลข "10%" แสดงตายตัว -->
+            <div class="hero-stat-label">Discount on 3+</div> <!-- ป้ายกำกับส่วนลด -->
+        </div> <!-- ปิด hero-stat discount -->
+    </div> <!-- ปิด hero-stats -->
 
-    <div class="container">
-        <div class="page-header">
-            <div>
-                <div class="page-sub">A glimpse of our collection</div>
-                <h2 class="page-title">Featured</h2>
-            </div>
-            <a href="/movies.html" class="btn btn-ghost btn-sm">View all</a>
-        </div>
-        <div class="card-grid" id="featured">
-            <div class="loading">Loading</div>
-        </div>
-    </div>
+    <div class="container"> <!-- wrapper content หลักใต้ hero -->
+        <div class="page-header"> <!-- header section Featured Movies -->
+            <div> <!-- group หัวข้อและ subtitle -->
+                <div class="page-sub">A glimpse of our collection</div> <!-- subtitle เล็กเหนือหัวข้อ -->
+                <h2 class="page-title">Featured</h2> <!-- หัวข้อ section -->
+            </div> <!-- ปิด group หัวข้อ -->
+            <a href="/movies.html" class="btn btn-ghost btn-sm">View all</a> <!-- ปุ่มลิงก์ไปหน้า Movies ทั้งหมด -->
+        </div> <!-- ปิด page-header -->
+        <div class="card-grid" id="featured"> <!-- grid สำหรับแสดง movie cards — JavaScript inject HTML เข้ามา -->
+            <div class="loading">Loading</div> <!-- loading indicator ก่อน JavaScript โหลดข้อมูล -->
+        </div> <!-- ปิด card-grid -->
+    </div> <!-- ปิด container -->
 
-    <script src="/js/api.js"></script>
-    <script src="/js/auth.js"></script>
-    <script src="/js/nav.js"></script>
+    <script src="/js/api.js"></script> <!-- ตายตัว: โหลด API utilities -->
+    <script src="/js/auth.js"></script> <!-- ตายตัว: โหลด authentication utilities -->
+    <script src="/js/nav.js"></script> <!-- ตายตัว: โหลด nav renderer -->
     <script>
-        async function loadStats() {
-            var [movRes, dirRes, dvdRes] = await Promise.all([
-                apiFetch('/movies/?page=1'),
-                apiFetch('/directors/?page=1'),
-                apiFetch('/dvds/?page=1'),
+        async function loadStats() { // ฟังก์ชัน async โหลดสถิติตัวเลขสำหรับ hero-stats strip
+            var [movRes, dirRes, dvdRes] = await Promise.all([ // fetch ทั้ง 3 API พร้อมกันด้วย Promise.all
+                apiFetch('/movies/?page=1'), // เรียก API movies เพื่อดู count รวม
+                apiFetch('/directors/?page=1'), // เรียก API directors เพื่อดู count รวม
+                apiFetch('/dvds/?page=1'), // เรียก API dvds เพื่อดู count รวม
             ]);
-            if (movRes && movRes.ok) {
-                var d = await movRes.json();
-                document.getElementById('stat-movies').textContent = d.count || '—';
+            if (movRes && movRes.ok) { // ถ้า movies API สำเร็จ
+                var d = await movRes.json(); // แปลง response
+                document.getElementById('stat-movies').textContent = d.count || '—'; // อัปเดตตัวเลขหรือแสดง "—" ถ้าไม่มีข้อมูล
             }
-            if (dirRes && dirRes.ok) {
-                var d = await dirRes.json();
-                document.getElementById('stat-directors').textContent = d.count || '—';
+            if (dirRes && dirRes.ok) { // ถ้า directors API สำเร็จ
+                var d = await dirRes.json(); // แปลง response
+                document.getElementById('stat-directors').textContent = d.count || '—'; // อัปเดตตัวเลข
             }
-            if (dvdRes && dvdRes.ok) {
-                var d = await dvdRes.json();
-                document.getElementById('stat-dvds').textContent = d.count || '—';
+            if (dvdRes && dvdRes.ok) { // ถ้า dvds API สำเร็จ
+                var d = await dvdRes.json(); // แปลง response
+                document.getElementById('stat-dvds').textContent = d.count || '—'; // อัปเดตตัวเลข
             }
         }
 
-        async function loadFeatured() {
-            var res = await apiFetch('/movies/?page=1&page_size=4');
-            if (!res) return;
-            var data = await res.json();
-            var movies = data.results || [];
-            var grid = document.getElementById('featured');
-            if (!movies.length) {
-                grid.innerHTML = '<div class="empty-state"><p>No movies yet.</p></div>';
-                return;
+        async function loadFeatured() { // ฟังก์ชัน async โหลดหนัง 4 เรื่องแรกสำหรับ Featured section
+            var res = await apiFetch('/movies/?page=1&page_size=4'); // เรียก API movies จำกัด 4 รายการ
+            if (!res) return; // ถ้า response null (401 → redirect) → หยุด
+            var data = await res.json(); // แปลง response
+            var movies = data.results || []; // ดึง array หนังหรือ array ว่าง
+            var grid = document.getElementById('featured'); // หา grid element
+            if (!movies.length) { // ถ้าไม่มีหนัง
+                grid.innerHTML = '<div class="empty-state"><p>No movies yet.</p></div>'; // แสดง empty state
+                return; // หยุด
             }
-            grid.innerHTML = movies.map(function(m, i) {
-                var idx = String(i + 1).padStart(2, '0');
-                var year = m.release_date ? m.release_date.slice(0, 4) : '';
-                var meta = [m.director_name || 'Unknown', year].filter(Boolean).join(' \u2022 ');
-                return '<a class="card" href="/movie-detail.html?id=' + m.id + '">' +
-                    '<span class="card-frame">' + idx + '</span>' +
-                    (m.poster_url
-                        ? '<img src="' + m.poster_url + '" alt="' + m.title + '" loading="lazy">'
-                        : '<div class="card-img-placeholder">NO FILM</div>') +
-                    '<div class="card-body">' +
-                    '<div class="card-title">' + m.title + '</div>' +
-                    '<div class="card-meta">' + meta + '</div>' +
-                    '</div></a>';
-            }).join('');
+            grid.innerHTML = movies.map(function(m, i) { // วน loop สร้าง HTML card แต่ละเรื่อง
+                var idx = String(i + 1).padStart(2, '0'); // เลข index เช่น "01", "02"
+                var year = m.release_date ? m.release_date.slice(0, 4) : ''; // ดึงปีจาก release_date
+                var meta = [m.director_name || 'Unknown', year].filter(Boolean).join(' \u2022 '); // ชื่อผู้กำกับ • ปี
+                return '<a class="card" href="/movie-detail.html?id=' + m.id + '">' + // card เป็น link ไปหน้า detail
+                    '<span class="card-frame">' + idx + '</span>' + // ป้ายเลข frame มุมบนซ้าย
+                    (m.poster_url // ถ้ามีโปสเตอร์
+                        ? '<img src="' + m.poster_url + '" alt="' + m.title + '" loading="lazy">' // แสดงรูปพร้อม lazy loading
+                        : '<div class="card-img-placeholder">NO FILM</div>') + // ไม่มีรูป → placeholder
+                    '<div class="card-body">' + // panel ข้อมูลด้านล่าง card
+                    '<div class="card-title">' + m.title + '</div>' + // ชื่อหนัง
+                    '<div class="card-meta">' + meta + '</div>' + // meta ผู้กำกับ • ปี
+                    '</div></a>'; // ปิด card-body และ card link
+            }).join(''); // รวม HTML ทุก card
         }
 
-        document.addEventListener('DOMContentLoaded', function () {
-            loadFeatured();
-            loadStats();
+        document.addEventListener('DOMContentLoaded', function () { // ตายตัว: รันเมื่อ DOM โหลดเสร็จ
+            loadFeatured(); // โหลดหนัง Featured
+            loadStats(); // โหลดสถิติตัวเลข
         });
     </script>
-</body>
-</html>
+</body> <!-- ตายตัว: ปิด body -->
+</html> <!-- ตายตัว: ปิด root element -->

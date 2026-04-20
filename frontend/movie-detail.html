@@ -1,102 +1,102 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movie — DoMovie</title>
-    <link rel="stylesheet" href="/css/main.css">
-</head>
-<body>
-    <nav id="main-nav"></nav>
+<!DOCTYPE html> <!-- ตายตัว: บอก browser ว่าเป็น HTML5 -->
+<html lang="en"> <!-- ตายตัว: root element ระบุภาษาหลักเป็นอังกฤษ -->
+<head> <!-- ตายตัว: เปิด section meta -->
+    <meta charset="UTF-8"> <!-- ตายตัว: encoding UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- ตายตัว: responsive สำหรับมือถือ -->
+    <title>Movie — DoMovie</title> <!-- ชื่อ tab เริ่มต้น — JavaScript จะเปลี่ยนเป็นชื่อหนังจริง -->
+    <link rel="stylesheet" href="/css/main.css"> <!-- ตายตัว: โหลด CSS หลัก -->
+</head> <!-- ตายตัว: ปิด head -->
+<body> <!-- ตายตัว: เปิด section เนื้อหา -->
+    <nav id="main-nav"></nav> <!-- container ว่างสำหรับ nav bar — nav.js inject HTML เข้ามา -->
 
-    <div class="container">
-        <a class="back-link" href="movies.html">← Back to Movies</a>
-        <div id="detail-content"><div class="loading">Loading…</div></div>
-    </div>
+    <div class="container"> <!-- wrapper จำกัดความกว้างและเพิ่ม padding -->
+        <a class="back-link" href="movies.html">← Back to Movies</a> <!-- ลิงก์กลับหน้า Movies -->
+        <div id="detail-content"><div class="loading">Loading…</div></div> <!-- container สำหรับ detail — JavaScript inject HTML เข้ามา พร้อม loading state -->
+    </div> <!-- ปิด container -->
 
-    <script src="/js/api.js"></script>
-    <script src="/js/auth.js"></script>
-    <script src="/js/nav.js"></script>
+    <script src="/js/api.js"></script> <!-- ตายตัว: โหลด API utilities รวมถึง apiFetch และ showToast -->
+    <script src="/js/auth.js"></script> <!-- ตายตัว: โหลด authentication utilities -->
+    <script src="/js/nav.js"></script> <!-- ตายตัว: โหลด nav renderer -->
     <script>
-        async function loadDetail() {
-            var params = new URLSearchParams(window.location.search);
-            var id = params.get('id');
-            if (!id) {
-                document.getElementById('detail-content').innerHTML = '<p>No movie ID provided.</p>';
-                return;
+        async function loadDetail() { // ฟังก์ชัน async โหลดและแสดงรายละเอียดหนัง
+            var params = new URLSearchParams(window.location.search); // อ่าน query string จาก URL
+            var id = params.get('id'); // ดึงค่า id จาก query parameter
+            if (!id) { // ถ้าไม่มี id ใน URL
+                document.getElementById('detail-content').innerHTML = '<p>No movie ID provided.</p>'; // แสดงข้อความ error
+                return; // หยุดทำงาน
             }
 
-            var res = await apiFetch('/movies/' + id + '/');
-            if (!res) return;
-            if (!res.ok) {
-                document.getElementById('detail-content').innerHTML = '<p>Movie not found.</p>';
-                return;
+            var res = await apiFetch('/movies/' + id + '/'); // เรียก GET /movies/{id}/
+            if (!res) return; // ถ้า response null (401 → redirect) → หยุด
+            if (!res.ok) { // ถ้า status ไม่ใช่ 200 เช่น 404
+                document.getElementById('detail-content').innerHTML = '<p>Movie not found.</p>'; // แสดงข้อความ not found
+                return; // หยุดทำงาน
             }
-            var m = await res.json();
+            var m = await res.json(); // แปลง response เป็น movie object
 
-            document.title = m.title + ' — DoMovie';
+            document.title = m.title + ' — DoMovie'; // อัปเดต title tab เป็นชื่อหนัง
 
-            var year = m.release_date ? m.release_date.slice(0, 4) : '';
-            var meta = [m.director_name || 'Unknown Director', year].filter(Boolean).join(' \u2022 ');
+            var year = m.release_date ? m.release_date.slice(0, 4) : ''; // ดึงปีจาก release_date หรือ string ว่าง
+            var meta = [m.director_name || 'Unknown Director', year].filter(Boolean).join(' \u2022 '); // รวมชื่อผู้กำกับและปีด้วย bullet •
 
-            var dvdsHtml = '';
-            var dvdRes = await apiFetch('/dvds/?movie=' + id);
-            if (dvdRes && dvdRes.ok) {
-                var dvdData = await dvdRes.json();
-                var dvds = dvdData.results || dvdData;
-                if (dvds.length) {
-                    dvdsHtml = '<div class="detail-dvds-title">Available on DVD</div>' +
-                        dvds.map(function(d) {
-                            var stockLabel = d.stock > 0 ? d.stock + ' in stock' : 'Out of stock';
-                            var stockClass = d.stock > 0 ? '' : ' out';
-                            return '<div class="dvd-row">' +
-                                '<span class="dvd-row-price">$' + parseFloat(d.price).toFixed(2) + '</span>' +
-                                '<span class="dvd-row-stock' + stockClass + '">' + stockLabel + '</span>' +
-                                (d.stock > 0
+            var dvdsHtml = ''; // string สำหรับ HTML ส่วน DVD
+            var dvdRes = await apiFetch('/dvds/?movie=' + id); // เรียก GET /dvds/?movie={id} ดึง DVD ที่เป็นของหนังนี้
+            if (dvdRes && dvdRes.ok) { // ถ้าได้รับ DVD response สำเร็จ
+                var dvdData = await dvdRes.json(); // แปลง response เป็น object
+                var dvds = dvdData.results || dvdData; // รองรับ response ทั้ง paginated และไม่ paginated
+                if (dvds.length) { // ถ้ามี DVD
+                    dvdsHtml = '<div class="detail-dvds-title">Available on DVD</div>' + // หัวข้อส่วน DVD
+                        dvds.map(function(d) { // วน loop สร้าง DVD row แต่ละรายการ
+                            var stockLabel = d.stock > 0 ? d.stock + ' in stock' : 'Out of stock'; // ป้ายสต็อก
+                            var stockClass = d.stock > 0 ? '' : ' out'; // CSS class เพิ่ม ถ้าหมดสต็อก
+                            return '<div class="dvd-row">' + // เปิด DVD row
+                                '<span class="dvd-row-price">$' + parseFloat(d.price).toFixed(2) + '</span>' + // ราคา DVD
+                                '<span class="dvd-row-stock' + stockClass + '">' + stockLabel + '</span>' + // สถานะสต็อก
+                                (d.stock > 0 // ถ้ามีสต็อก → แสดงปุ่ม Add to Cart
                                     ? '<button class="btn btn-primary btn-sm" onclick="addToCart(' + d.id + ', this)">Add to Cart</button>'
-                                    : '') +
-                                '</div>';
-                        }).join('');
-                } else {
-                    dvdsHtml = '<div class="detail-dvds-title">No DVDs available</div>';
+                                    : '') + // ไม่มีสต็อก → ไม่แสดงปุ่ม
+                                '</div>'; // ปิด dvd-row
+                        }).join(''); // รวม HTML ทุก DVD row
+                } else { // ถ้าไม่มี DVD
+                    dvdsHtml = '<div class="detail-dvds-title">No DVDs available</div>'; // แสดงข้อความไม่มี DVD
                 }
             }
 
-            document.getElementById('detail-content').innerHTML =
-                '<div class="detail-wrap">' +
-                    '<div class="detail-poster">' +
-                        (m.poster_url
-                            ? '<img src="' + m.poster_url + '" alt="' + m.title + '">'
-                            : '<div class="card-img-placeholder">NO FILM</div>') +
-                    '</div>' +
-                    '<div class="detail-info">' +
-                        '<div class="detail-title">' + m.title + '</div>' +
-                        '<div class="detail-meta">' + meta + '</div>' +
-                        (m.synopsis ? '<div class="detail-synopsis">' + m.synopsis + '</div>' : '') +
-                        dvdsHtml +
-                    '</div>' +
-                '</div>';
+            document.getElementById('detail-content').innerHTML = // render HTML รายละเอียดหนังทั้งหมดลง DOM
+                '<div class="detail-wrap">' + // layout wrapper 2 คอลัมน์: poster | info
+                    '<div class="detail-poster">' + // column โปสเตอร์
+                        (m.poster_url // ถ้ามีรูปโปสเตอร์
+                            ? '<img src="' + m.poster_url + '" alt="' + m.title + '">' // แสดงรูปโปสเตอร์
+                            : '<div class="card-img-placeholder">NO FILM</div>') + // ไม่มีรูป → แสดง placeholder
+                    '</div>' + // ปิด detail-poster
+                    '<div class="detail-info">' + // column ข้อมูลหนัง
+                        '<div class="detail-title">' + m.title + '</div>' + // ชื่อหนัง
+                        '<div class="detail-meta">' + meta + '</div>' + // ผู้กำกับ • ปี
+                        (m.synopsis ? '<div class="detail-synopsis">' + m.synopsis + '</div>' : '') + // เนื้อเรื่องย่อ ถ้ามี
+                        dvdsHtml + // HTML ส่วน DVD
+                    '</div>' + // ปิด detail-info
+                '</div>'; // ปิด detail-wrap
         }
 
-        function addToCart(dvdId, btn) {
-            var cart = JSON.parse(localStorage.getItem('cart') || '[]');
-            var existing = cart.find(function(i) { return i.dvd === dvdId; });
-            if (existing) {
-                existing.quantity += 1;
-            } else {
-                cart.push({ dvd: dvdId, quantity: 1 });
+        function addToCart(dvdId, btn) { // ฟังก์ชันเพิ่ม DVD ลงตะกร้า (ไม่ต้องพึ่ง cart.js เพราะโหลดบนหน้านี้)
+            var cart = JSON.parse(localStorage.getItem('cart') || '[]'); // อ่าน cart จาก localStorage
+            var existing = cart.find(function(i) { return i.dvd === dvdId; }); // ค้นหา DVD นี้ใน cart
+            if (existing) { // ถ้ามีอยู่แล้ว
+                existing.quantity += 1; // เพิ่มจำนวน
+            } else { // ถ้ายังไม่มี
+                cart.push({ dvd: dvdId, quantity: 1 }); // เพิ่มรายการใหม่
             }
-            localStorage.setItem('cart', JSON.stringify(cart));
-            showToast('Added to cart', 'success');
-            if (btn) {
-                var orig = btn.textContent;
-                btn.textContent = 'Added';
-                btn.disabled = true;
-                setTimeout(function () { btn.textContent = orig; btn.disabled = false; }, 1400);
+            localStorage.setItem('cart', JSON.stringify(cart)); // บันทึก cart กลับ localStorage
+            showToast('Added to cart', 'success'); // แสดง toast แจ้งว่าเพิ่มสำเร็จ
+            if (btn) { // ถ้ามี button reference
+                var orig = btn.textContent; // เก็บข้อความปุ่มเดิม
+                btn.textContent = 'Added'; // เปลี่ยนข้อความเป็น "Added"
+                btn.disabled = true; // disable ชั่วคราว
+                setTimeout(function () { btn.textContent = orig; btn.disabled = false; }, 1400); // คืนสถานะปุ่มหลัง 1.4 วินาที
             }
         }
 
-        document.addEventListener('DOMContentLoaded', loadDetail);
+        document.addEventListener('DOMContentLoaded', loadDetail); // ตายตัว: โหลด detail เมื่อ DOM พร้อม
     </script>
-</body>
-</html>
+</body> <!-- ตายตัว: ปิด body -->
+</html> <!-- ตายตัว: ปิด root element -->

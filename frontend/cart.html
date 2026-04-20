@@ -1,163 +1,163 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cart — DoMovie</title>
-    <link rel="stylesheet" href="/css/main.css">
-</head>
-<body>
-    <nav id="main-nav"></nav>
+<!DOCTYPE html> <!-- ตายตัว: บอก browser ว่าเป็น HTML5 -->
+<html lang="en"> <!-- ตายตัว: root element ระบุภาษาหลักเป็นอังกฤษ -->
+<head> <!-- ตายตัว: เปิด section meta -->
+    <meta charset="UTF-8"> <!-- ตายตัว: encoding UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- ตายตัว: responsive สำหรับมือถือ -->
+    <title>Cart — DoMovie</title> <!-- ชื่อ tab หน้าตะกร้าสินค้า -->
+    <link rel="stylesheet" href="/css/main.css"> <!-- ตายตัว: โหลด CSS หลัก -->
+</head> <!-- ตายตัว: ปิด head -->
+<body> <!-- ตายตัว: เปิด section เนื้อหา -->
+    <nav id="main-nav"></nav> <!-- container ว่างสำหรับ nav bar — nav.js inject HTML เข้ามา -->
 
-    <div class="container" style="max-width:780px">
-        <div class="page-header">
-            <h1 class="page-title">Cart</h1>
-        </div>
+    <div class="container" style="max-width:780px"> <!-- wrapper จำกัดความกว้าง 780px เพื่อให้ cart layout ดูกระชับ -->
+        <div class="page-header"> <!-- header หน้า Cart -->
+            <h1 class="page-title">Cart</h1> <!-- หัวข้อหน้าตะกร้าสินค้า -->
+        </div> <!-- ปิด page-header -->
 
-        <div id="alert" class="alert"></div>
-        <div id="discount-banner" style="display:none;background:#1a3d1a;border:1px solid #2e6b2e;color:#6fcf6f;padding:0.85rem 1.1rem;margin-bottom:1rem;font-size:0.85rem;letter-spacing:0.04em;">
-            🎉 Buy 3+ DVDs: 10% discount applied!
-        </div>
-        <div class="cart-items" id="cart-items">
-            <div class="loading">Loading cart</div>
-        </div>
-        <div class="cart-summary" id="cart-summary" style="display:none">
-            <span class="cart-total-label">Total</span>
-            <span id="cart-total-wrapper">
-                <span class="cart-total-amount" id="cart-total-amount">$0.00</span>
-            </span>
-        </div>
-        <div class="cart-checkout" id="cart-checkout" style="display:none">
-            <button class="btn btn-success" id="checkout-btn" onclick="checkout()">Checkout</button>
-        </div>
-    </div>
+        <div id="alert" class="alert"></div> <!-- element แสดง alert (success/error) — ซ่อนโดย default -->
+        <div id="discount-banner" style="display:none;background:#1a3d1a;border:1px solid #2e6b2e;color:#6fcf6f;padding:0.85rem 1.1rem;margin-bottom:1rem;font-size:0.85rem;letter-spacing:0.04em;"> <!-- banner แสดงส่วนลด 10% — ซ่อนโดย default แสดงเมื่อ qty >= 3 -->
+            🎉 Buy 3+ DVDs: 10% discount applied! <!-- ข้อความแจ้งส่วนลด -->
+        </div> <!-- ปิด discount-banner -->
+        <div class="cart-items" id="cart-items"> <!-- container สำหรับแสดงรายการ cart items — JavaScript render เข้ามา -->
+            <div class="loading">Loading cart</div> <!-- loading indicator ก่อน JavaScript โหลดข้อมูล -->
+        </div> <!-- ปิด cart-items -->
+        <div class="cart-summary" id="cart-summary" style="display:none"> <!-- summary แสดงยอดรวม — ซ่อนก่อน render -->
+            <span class="cart-total-label">Total</span> <!-- ป้ายกำกับ "Total" -->
+            <span id="cart-total-wrapper"> <!-- wrapper สำหรับตัวเลขราคา — ถูกแทนที่เมื่อมีส่วนลด -->
+                <span class="cart-total-amount" id="cart-total-amount">$0.00</span> <!-- ยอดรวมเริ่มต้น $0.00 -->
+            </span> <!-- ปิด cart-total-wrapper -->
+        </div> <!-- ปิด cart-summary -->
+        <div class="cart-checkout" id="cart-checkout" style="display:none"> <!-- container ปุ่ม Checkout — ซ่อนถ้า cart ว่าง -->
+            <button class="btn btn-success" id="checkout-btn" onclick="checkout()">Checkout</button> <!-- ปุ่ม Checkout เรียกฟังก์ชัน checkout() -->
+        </div> <!-- ปิด cart-checkout -->
+    </div> <!-- ปิด container -->
 
-    <script src="/js/api.js"></script>
-    <script src="/js/auth.js"></script>
-    <script src="/js/nav.js"></script>
-    <script src="/js/cart.js"></script>
+    <script src="/js/api.js"></script> <!-- ตายตัว: โหลด API utilities -->
+    <script src="/js/auth.js"></script> <!-- ตายตัว: โหลด authentication utilities -->
+    <script src="/js/nav.js"></script> <!-- ตายตัว: โหลด nav renderer -->
+    <script src="/js/cart.js"></script> <!-- โหลด cart.js ก่อนเพราะ script นี้ใช้ getCart, updateCartQuantity, removeFromCart, clearCart -->
     <script>
-        requireAuth();
+        requireAuth(); // ตรวจสอบ auth — ถ้าไม่ login → redirect ไปหน้า login
 
-        var dvdDetails = {};
+        var dvdDetails = {}; // object เก็บข้อมูล DVD แต่ละรายการ key=id, value=dvd object
 
-        async function fetchDVDDetails(ids) {
-            var promises = ids.map(function(id) {
-                return apiFetch('/dvds/' + id + '/').then(function(r) { return r ? r.json() : null; });
+        async function fetchDVDDetails(ids) { // ฟังก์ชัน async โหลดข้อมูล DVD ทุก id พร้อมกัน
+            var promises = ids.map(function(id) { // วน loop สร้าง array ของ Promise
+                return apiFetch('/dvds/' + id + '/').then(function(r) { return r ? r.json() : null; }); // fetch DVD แต่ละตัว แปลงเป็น object
             });
-            var results = await Promise.all(promises);
-            results.forEach(function(dvd) { if (dvd && dvd.id) dvdDetails[dvd.id] = dvd; });
+            var results = await Promise.all(promises); // รอทุก Promise เสร็จพร้อมกัน
+            results.forEach(function(dvd) { if (dvd && dvd.id) dvdDetails[dvd.id] = dvd; }); // เก็บผลลัพธ์ใน dvdDetails
         }
 
-        async function renderCart() {
-            var cart = getCart();
-            var container = document.getElementById('cart-items');
-            var summaryEl = document.getElementById('cart-summary');
-            var checkoutEl = document.getElementById('cart-checkout');
+        async function renderCart() { // ฟังก์ชัน async render cart ทั้งหมด
+            var cart = getCart(); // ดึง cart array จาก localStorage
+            var container = document.getElementById('cart-items'); // หา element แสดงรายการ
+            var summaryEl = document.getElementById('cart-summary'); // หา element summary
+            var checkoutEl = document.getElementById('cart-checkout'); // หา element checkout button
 
-            if (!cart.length) {
-                container.innerHTML =
+            if (!cart.length) { // ถ้าตะกร้าว่าง
+                container.innerHTML = // แสดง empty state พร้อมลิงก์ไปหน้า DVDs
                     '<div class="empty-state">' +
                     '<p>Your cart is empty.</p>' +
                     '<a href="/dvds.html" class="btn btn-primary">Browse DVDs</a>' +
                     '</div>';
-                summaryEl.style.display = 'none';
-                checkoutEl.style.display = 'none';
-                return;
+                summaryEl.style.display = 'none'; // ซ่อน summary
+                checkoutEl.style.display = 'none'; // ซ่อน checkout button
+                return; // หยุดทำงาน
             }
 
-            await fetchDVDDetails(cart.map(function(i) { return i.dvd; }));
+            await fetchDVDDetails(cart.map(function(i) { return i.dvd; })); // โหลดข้อมูล DVD ทุกรายการใน cart
 
-            var total = 0;
-            var totalQty = 0;
-            var html = cart.map(function(item) {
-                var dvd = dvdDetails[item.dvd];
-                if (!dvd) return '';
-                var subtotal = parseFloat(dvd.price) * item.quantity;
-                total += subtotal;
-                totalQty += item.quantity;
-                return '<div class="cart-item">' +
-                    '<div>' +
-                    '<div class="cart-item-title">' + dvd.movie_title + '</div>' +
-                    '<div class="cart-item-price-label">$' + parseFloat(dvd.price).toFixed(2) + ' each</div>' +
-                    '</div>' +
-                    '<div class="qty-controls">' +
-                    '<button onclick="changeQty(' + dvd.id + ',' + (item.quantity - 1) + ')">−</button>' +
-                    '<span class="qty-value">' + item.quantity + '</span>' +
-                    '<button onclick="changeQty(' + dvd.id + ',' + (item.quantity + 1) + ')">+</button>' +
-                    '</div>' +
-                    '<div class="cart-item-subtotal">$' + subtotal.toFixed(2) + '</div>' +
-                    '<button class="btn btn-danger btn-sm" onclick="removeItem(' + dvd.id + ')">✕</button>' +
-                    '</div>';
-            }).join('');
+            var total = 0; // ตัวแปรสะสมราคารวม
+            var totalQty = 0; // ตัวแปรสะสมจำนวน DVD ทั้งหมด
+            var html = cart.map(function(item) { // วน loop สร้าง HTML แต่ละรายการ
+                var dvd = dvdDetails[item.dvd]; // ดึงข้อมูล DVD จาก cache
+                if (!dvd) return ''; // ถ้าไม่มีข้อมูล → ข้าม
+                var subtotal = parseFloat(dvd.price) * item.quantity; // คำนวณราคาย่อยของรายการนี้
+                total += subtotal; // บวกเพิ่มราคารวม
+                totalQty += item.quantity; // บวกเพิ่มจำนวนรวม
+                return '<div class="cart-item">' + // เปิด cart item row
+                    '<div>' + // เปิด group ข้อมูลชื่อและราคา
+                    '<div class="cart-item-title">' + dvd.movie_title + '</div>' + // ชื่อหนัง
+                    '<div class="cart-item-price-label">$' + parseFloat(dvd.price).toFixed(2) + ' each</div>' + // ราคาต่อหน่วย
+                    '</div>' + // ปิด group ข้อมูล
+                    '<div class="qty-controls">' + // เปิด quantity controls
+                    '<button onclick="changeQty(' + dvd.id + ',' + (item.quantity - 1) + ')">−</button>' + // ปุ่มลดจำนวน
+                    '<span class="qty-value">' + item.quantity + '</span>' + // แสดงจำนวนปัจจุบัน
+                    '<button onclick="changeQty(' + dvd.id + ',' + (item.quantity + 1) + ')">+</button>' + // ปุ่มเพิ่มจำนวน
+                    '</div>' + // ปิด qty-controls
+                    '<div class="cart-item-subtotal">$' + subtotal.toFixed(2) + '</div>' + // ราคารวมของรายการนี้
+                    '<button class="btn btn-danger btn-sm" onclick="removeItem(' + dvd.id + ')">✕</button>' + // ปุ่มลบรายการ
+                    '</div>'; // ปิด cart-item
+            }).join(''); // รวม HTML ทุกรายการ
 
-            container.innerHTML = html;
+            container.innerHTML = html; // render รายการลง DOM
 
-            var discountBanner = document.getElementById('discount-banner');
-            var totalWrapper = document.getElementById('cart-total-wrapper');
-            if (totalQty >= 3) {
-                var discounted = (total * 0.90).toFixed(2);
-                discountBanner.style.display = 'block';
-                totalWrapper.innerHTML =
+            var discountBanner = document.getElementById('discount-banner'); // หา discount banner element
+            var totalWrapper = document.getElementById('cart-total-wrapper'); // หา wrapper ราคารวม
+            if (totalQty >= 3) { // ถ้าจำนวน DVD รวม >= 3 → แสดงส่วนลด 10%
+                var discounted = (total * 0.90).toFixed(2); // คำนวณราคาหลังหัก 10%
+                discountBanner.style.display = 'block'; // แสดง banner ส่วนลด
+                totalWrapper.innerHTML = // แสดงราคาเดิม (ขีดฆ่า) + ราคาหลังส่วนลด (สีเขียว)
                     '<span style="text-decoration:line-through;color:var(--muted);margin-right:0.6rem;">$' + total.toFixed(2) + '</span>' +
                     '<span class="cart-total-amount" id="cart-total-amount" style="color:#6fcf6f;">$' + discounted + '</span>';
-            } else {
-                discountBanner.style.display = 'none';
-                totalWrapper.innerHTML = '<span class="cart-total-amount" id="cart-total-amount">$' + total.toFixed(2) + '</span>';
+            } else { // ถ้าจำนวนน้อยกว่า 3 → ไม่แสดงส่วนลด
+                discountBanner.style.display = 'none'; // ซ่อน discount banner
+                totalWrapper.innerHTML = '<span class="cart-total-amount" id="cart-total-amount">$' + total.toFixed(2) + '</span>'; // แสดงราคาปกติ
             }
 
-            summaryEl.style.display = 'flex';
-            checkoutEl.style.display = 'flex';
+            summaryEl.style.display = 'flex'; // แสดง summary section
+            checkoutEl.style.display = 'flex'; // แสดง checkout button
         }
 
-        function changeQty(dvdId, qty) {
-            updateCartQuantity(dvdId, qty);
-            renderCart();
+        function changeQty(dvdId, qty) { // ฟังก์ชันเปลี่ยนจำนวน DVD ใน cart
+            updateCartQuantity(dvdId, qty); // อัปเดต cart ใน localStorage (qty=0 → ลบรายการ)
+            renderCart(); // render cart ใหม่
         }
 
-        function removeItem(dvdId) {
-            removeFromCart(dvdId);
-            renderCart();
+        function removeItem(dvdId) { // ฟังก์ชันลบ DVD ออกจาก cart
+            removeFromCart(dvdId); // ลบ DVD ออกจาก localStorage
+            renderCart(); // render cart ใหม่
         }
 
-        async function checkout() {
-            var cart = getCart();
-            if (!cart.length) return;
+        async function checkout() { // ฟังก์ชัน async สั่งซื้อ
+            var cart = getCart(); // ดึง cart จาก localStorage
+            if (!cart.length) return; // ถ้า cart ว่าง → หยุด
 
-            var btn = document.getElementById('checkout-btn');
-            var alertEl = document.getElementById('alert');
-            btn.disabled = true;
-            btn.textContent = 'Processing…';
+            var btn = document.getElementById('checkout-btn'); // หา checkout button
+            var alertEl = document.getElementById('alert'); // หา alert element
+            btn.disabled = true; // disable ปุ่มระหว่างประมวลผล
+            btn.textContent = 'Processing…'; // เปลี่ยนข้อความปุ่ม
 
-            var res = await apiFetch('/orders/', {
-                method: 'POST',
-                body: JSON.stringify({ items: cart }),
+            var res = await apiFetch('/orders/', { // เรียก POST /orders/ สร้าง order ใหม่
+                method: 'POST', // ระบุ method เป็น POST
+                body: JSON.stringify({ items: cart }), // ส่ง cart items เป็น JSON
             });
 
-            if (!res) {
-                btn.disabled = false;
-                btn.textContent = 'Checkout';
-                return;
+            if (!res) { // ถ้า response null (เช่น 401 → redirect)
+                btn.disabled = false; // re-enable ปุ่ม
+                btn.textContent = 'Checkout'; // คืนข้อความปุ่ม
+                return; // หยุดทำงาน
             }
 
-            if (res.ok) {
-                clearCart();
-                alertEl.textContent = 'Order placed successfully! Redirecting…';
-                alertEl.className = 'alert alert-success';
-                alertEl.style.display = 'block';
-                setTimeout(function() { window.location.href = '/orders.html'; }, 2000);
-            } else {
-                var err = await res.json();
-                var msg = err.non_field_errors || err.detail || JSON.stringify(err);
-                alertEl.textContent = Array.isArray(msg) ? msg.join(' ') : msg;
-                alertEl.className = 'alert alert-error';
-                alertEl.style.display = 'block';
-                btn.disabled = false;
-                btn.textContent = 'Checkout';
+            if (res.ok) { // ถ้าสั่งซื้อสำเร็จ
+                clearCart(); // ล้าง cart ใน localStorage
+                alertEl.textContent = 'Order placed successfully! Redirecting…'; // แจ้งสำเร็จ
+                alertEl.className = 'alert alert-success'; // ตั้ง style สีเขียว
+                alertEl.style.display = 'block'; // แสดง alert
+                setTimeout(function() { window.location.href = '/orders.html'; }, 2000); // redirect ไปหน้า orders หลัง 2 วินาที
+            } else { // ถ้า order ล้มเหลว (เช่น stock หมด)
+                var err = await res.json(); // อ่าน error จาก response
+                var msg = err.non_field_errors || err.detail || JSON.stringify(err); // ดึง error message
+                alertEl.textContent = Array.isArray(msg) ? msg.join(' ') : msg; // แสดง error
+                alertEl.className = 'alert alert-error'; // ตั้ง style สีแดง
+                alertEl.style.display = 'block'; // แสดง alert
+                btn.disabled = false; // re-enable ปุ่ม
+                btn.textContent = 'Checkout'; // คืนข้อความปุ่ม
             }
         }
 
-        document.addEventListener('DOMContentLoaded', renderCart);
+        document.addEventListener('DOMContentLoaded', renderCart); // ตายตัว: render cart เมื่อ DOM โหลดเสร็จ
     </script>
-</body>
-</html>
+</body> <!-- ตายตัว: ปิด body -->
+</html> <!-- ตายตัว: ปิด root element -->

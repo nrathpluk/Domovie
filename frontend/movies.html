@@ -1,35 +1,35 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Movies — DoMovie</title>
-    <link rel="stylesheet" href="/css/main.css">
-</head>
-<body>
-    <nav id="main-nav"></nav>
+<!DOCTYPE html> <!-- ตายตัว: บอก browser ว่าเป็น HTML5 -->
+<html lang="en"> <!-- ตายตัว: root element ระบุภาษาหลักเป็นอังกฤษ -->
+<head> <!-- ตายตัว: เปิด section meta ของหน้า -->
+    <meta charset="UTF-8"> <!-- ตายตัว: encoding UTF-8 รองรับทุกภาษา -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- ตายตัว: ทำให้ responsive บนมือถือ -->
+    <title>Movies — DoMovie</title> <!-- ชื่อ tab เฉพาะหน้า Movies -->
+    <link rel="stylesheet" href="/css/main.css"> <!-- ตายตัว: โหลด CSS หลัก -->
+</head> <!-- ตายตัว: ปิด head -->
+<body> <!-- ตายตัว: เปิด section เนื้อหา -->
+    <nav id="main-nav"></nav> <!-- container ว่างสำหรับ nav bar — nav.js inject HTML เข้ามา -->
 
-    <div class="container">
-        <div class="page-header">
-            <h1 class="page-title">Movies</h1>
-            <p class="page-sub">Browse our full collection</p>
-        </div>
+    <div class="container"> <!-- wrapper จำกัดความกว้างและเพิ่ม padding -->
+        <div class="page-header"> <!-- header แสดงชื่อหน้า -->
+            <h1 class="page-title">Movies</h1> <!-- หัวข้อหน้า Movies ใช้ font Bebas Neue ขนาดใหญ่ -->
+            <p class="page-sub">Browse our full collection</p> <!-- คำอธิบายสั้น -->
+        </div> <!-- ปิด page-header -->
 
-        <div class="search-bar">
-            <input type="text" id="search-input" placeholder="Search by title…">
-            <button class="btn btn-primary" id="search-btn">Search</button>
-        </div>
+        <div class="search-bar"> <!-- แถบค้นหา — flex layout รวม input และปุ่ม -->
+            <input type="text" id="search-input" placeholder="Search by title…"> <!-- ช่องรับคำค้นหาชื่อหนัง -->
+            <button class="btn btn-primary" id="search-btn">Search</button> <!-- ปุ่ม trigger การค้นหา -->
+        </div> <!-- ปิด search-bar -->
 
-        <div class="card-grid" id="movies-grid">
-            <div class="loading">Loading movies…</div>
-        </div>
+        <div class="card-grid" id="movies-grid"> <!-- grid สำหรับแสดง movie cards — movies.js จะ inject HTML -->
+            <div class="loading">Loading movies…</div> <!-- loading indicator แสดงก่อนข้อมูลโหลดเสร็จ -->
+        </div> <!-- ปิด card-grid -->
 
-        <div class="pagination" id="pagination"></div>
-    </div>
+        <div class="pagination" id="pagination"></div> <!-- container สำหรับ pagination buttons — movies.js render เข้ามา -->
+    </div> <!-- ปิด container -->
 
-    <script src="/js/api.js"></script>
-    <script src="/js/auth.js"></script>
-    <script src="/js/nav.js"></script>
-    <script src="/js/movies.js"></script>
-</body>
-</html>
+    <script src="/js/api.js"></script> <!-- ตายตัว: โหลด API utilities -->
+    <script src="/js/auth.js"></script> <!-- ตายตัว: โหลด authentication utilities -->
+    <script src="/js/nav.js"></script> <!-- ตายตัว: โหลด nav renderer -->
+    <script src="/js/movies.js"></script> <!-- โหลด movies.js ที่มี logic โหลดและแสดงหนัง -->
+</body> <!-- ตายตัว: ปิด body -->
+</html> <!-- ตายตัว: ปิด root element -->

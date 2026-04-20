@@ -1,38 +1,38 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DVDs — DoMovie</title>
-    <link rel="stylesheet" href="/css/main.css">
-</head>
-<body>
-    <nav id="main-nav"></nav>
+<!DOCTYPE html> <!-- ตายตัว: บอก browser ว่าเป็น HTML5 -->
+<html lang="en"> <!-- ตายตัว: root element ระบุภาษาหลักเป็นอังกฤษ -->
+<head> <!-- ตายตัว: เปิด section meta ของหน้า -->
+    <meta charset="UTF-8"> <!-- ตายตัว: encoding UTF-8 รองรับทุกภาษา -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- ตายตัว: ทำให้ responsive บนมือถือ -->
+    <title>DVDs — DoMovie</title> <!-- ชื่อ tab เฉพาะหน้า DVDs -->
+    <link rel="stylesheet" href="/css/main.css"> <!-- ตายตัว: โหลด CSS หลัก -->
+</head> <!-- ตายตัว: ปิด head -->
+<body> <!-- ตายตัว: เปิด section เนื้อหา -->
+    <nav id="main-nav"></nav> <!-- container ว่างสำหรับ nav bar — nav.js inject HTML เข้ามา -->
 
-    <div class="container">
-        <div class="page-header">
-            <h1 class="page-title">DVDs</h1>
-            <p class="page-sub">Add to cart and checkout</p>
-        </div>
+    <div class="container"> <!-- wrapper จำกัดความกว้างและเพิ่ม padding -->
+        <div class="page-header"> <!-- header แสดงชื่อหน้า -->
+            <h1 class="page-title">DVDs</h1> <!-- หัวข้อหน้า DVDs ใช้ font Bebas Neue -->
+            <p class="page-sub">Add to cart and checkout</p> <!-- คำอธิบายสั้นแนะนำให้ add to cart -->
+        </div> <!-- ปิด page-header -->
 
-        <div id="alert" class="alert alert-success"></div>
+        <div id="alert" class="alert alert-success"></div> <!-- element แสดง alert "Added to cart!" — ซ่อนโดย default (CSS: display:none) -->
 
-        <div class="search-bar">
-            <input type="text" id="search-input" placeholder="Search by movie title…">
-            <button class="btn btn-primary" id="search-btn">Search</button>
-        </div>
+        <div class="search-bar"> <!-- แถบค้นหา -->
+            <input type="text" id="search-input" placeholder="Search by movie title…"> <!-- ช่องรับคำค้นหาชื่อหนัง -->
+            <button class="btn btn-primary" id="search-btn">Search</button> <!-- ปุ่ม trigger การค้นหา -->
+        </div> <!-- ปิด search-bar -->
 
-        <div class="card-grid" id="dvds-grid">
-            <div class="loading">Loading DVDs…</div>
-        </div>
+        <div class="card-grid" id="dvds-grid"> <!-- grid สำหรับแสดง DVD cards — dvds.js inject HTML เข้ามา -->
+            <div class="loading">Loading DVDs…</div> <!-- loading indicator ก่อนข้อมูลโหลดเสร็จ -->
+        </div> <!-- ปิด card-grid -->
 
-        <div class="pagination" id="pagination"></div>
-    </div>
+        <div class="pagination" id="pagination"></div> <!-- container สำหรับ pagination buttons -->
+    </div> <!-- ปิด container -->
 
-    <script src="/js/api.js"></script>
-    <script src="/js/auth.js"></script>
-    <script src="/js/nav.js"></script>
-    <script src="/js/cart.js"></script>
-    <script src="/js/dvds.js"></script>
-</body>
-</html>
+    <script src="/js/api.js"></script> <!-- ตายตัว: โหลด API utilities -->
+    <script src="/js/auth.js"></script> <!-- ตายตัว: โหลด authentication utilities -->
+    <script src="/js/nav.js"></script> <!-- ตายตัว: โหลด nav renderer -->
+    <script src="/js/cart.js"></script> <!-- โหลด cart.js ก่อน dvds.js เพราะ dvds.js ใช้ addToCart() -->
+    <script src="/js/dvds.js"></script> <!-- โหลด dvds.js ที่มี logic โหลดและแสดง DVDs -->
+</body> <!-- ตายตัว: ปิด body -->
+</html> <!-- ตายตัว: ปิด root element -->

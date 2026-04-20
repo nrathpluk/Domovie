@@ -1,100 +1,100 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Director — DoMovie</title>
-    <link rel="stylesheet" href="/css/main.css">
-</head>
-<body>
-    <nav id="main-nav"></nav>
+<!DOCTYPE html> <!-- ตายตัว: บอก browser ว่าเป็น HTML5 -->
+<html lang="en"> <!-- ตายตัว: root element ระบุภาษาหลักเป็นอังกฤษ -->
+<head> <!-- ตายตัว: เปิด section meta -->
+    <meta charset="UTF-8"> <!-- ตายตัว: encoding UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- ตายตัว: responsive สำหรับมือถือ -->
+    <title>Director — DoMovie</title> <!-- ชื่อ tab เริ่มต้น — JavaScript จะเปลี่ยนเป็นชื่อผู้กำกับจริง -->
+    <link rel="stylesheet" href="/css/main.css"> <!-- ตายตัว: โหลด CSS หลัก -->
+</head> <!-- ตายตัว: ปิด head -->
+<body> <!-- ตายตัว: เปิด section เนื้อหา -->
+    <nav id="main-nav"></nav> <!-- container ว่างสำหรับ nav bar — nav.js inject HTML เข้ามา -->
 
-    <div class="container">
-        <a class="back-link" href="directors.html">← Back to Directors</a>
-        <div id="detail-content"><div class="loading">Loading…</div></div>
-    </div>
+    <div class="container"> <!-- wrapper จำกัดความกว้างและเพิ่ม padding -->
+        <a class="back-link" href="directors.html">← Back to Directors</a> <!-- ลิงก์กลับหน้ารายการผู้กำกับ -->
+        <div id="detail-content"><div class="loading">Loading…</div></div> <!-- container สำหรับ detail — JavaScript inject HTML เข้ามา พร้อม loading state -->
+    </div> <!-- ปิด container -->
 
-    <script src="/js/api.js"></script>
-    <script src="/js/auth.js"></script>
-    <script src="/js/nav.js"></script>
+    <script src="/js/api.js"></script> <!-- ตายตัว: โหลด API utilities -->
+    <script src="/js/auth.js"></script> <!-- ตายตัว: โหลด authentication utilities -->
+    <script src="/js/nav.js"></script> <!-- ตายตัว: โหลด nav renderer -->
     <script>
-        function formatDate(dateStr) {
-            if (!dateStr) return '';
-            var d = new Date(dateStr);
-            var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-            return String(d.getUTCDate()).padStart(2, '0') + ' ' + months[d.getUTCMonth()] + ' ' + d.getUTCFullYear();
+        function formatDate(dateStr) { // ฟังก์ชันแปลง date string เป็นรูปแบบ "DD Mon YYYY"
+            if (!dateStr) return ''; // ถ้าไม่มีวันที่ → คืน string ว่าง
+            var d = new Date(dateStr); // แปลงเป็น Date object
+            var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']; // array ชื่อเดือนย่อ
+            return String(d.getUTCDate()).padStart(2, '0') + ' ' + months[d.getUTCMonth()] + ' ' + d.getUTCFullYear(); // รวมเป็น "DD Mon YYYY" (ใช้ UTC เพื่อหลีกเลี่ยง timezone shift)
         }
 
-        function loadDetail() {
-            var params = new URLSearchParams(window.location.search);
-            var id = params.get('id');
+        function loadDetail() { // ฟังก์ชันโหลดและแสดงรายละเอียดผู้กำกับ
+            var params = new URLSearchParams(window.location.search); // อ่าน query string จาก URL
+            var id = params.get('id'); // ดึงค่า id จาก query parameter
 
-            if (!id) {
-                document.getElementById('detail-content').innerHTML = '<p>No director ID provided.</p>';
-                return;
+            if (!id) { // ถ้าไม่มี id ใน URL
+                document.getElementById('detail-content').innerHTML = '<p>No director ID provided.</p>'; // แสดง error
+                return; // หยุดทำงาน
             }
 
-            apiFetch('/directors/' + id + '/').then(function(res) {
-                if (!res) return;
-                if (!res.ok) {
-                    document.getElementById('detail-content').innerHTML = '<p>Director not found.</p>';
-                    return;
+            apiFetch('/directors/' + id + '/').then(function(res) { // เรียก GET /directors/{id}/
+                if (!res) return; // ถ้า response null (401 → redirect) → หยุด
+                if (!res.ok) { // ถ้า status ไม่ใช่ 200 เช่น 404
+                    document.getElementById('detail-content').innerHTML = '<p>Director not found.</p>'; // แสดง not found
+                    return; // หยุดทำงาน
                 }
-                return res.json();
-            }).then(function(director) {
-                if (!director) return;
+                return res.json(); // แปลง response เป็น director object
+            }).then(function(director) { // รับ director object
+                if (!director) return; // ถ้าไม่มีข้อมูล → หยุด
 
-                document.title = director.name + ' — DoMovie';
+                document.title = director.name + ' — DoMovie'; // อัปเดต title tab
 
-                return apiFetch('/movies/?director=' + id).then(function(movRes) {
-                    var moviesHtml = '';
-                    if (movRes && movRes.ok) {
-                        return movRes.json().then(function(movData) {
-                            var movies = movData.results || movData;
-                            if (movies.length) {
-                                moviesHtml = '<div class="detail-section-title">Filmography</div>' +
-                                    movies.map(function(m) {
-                                        var year = m.release_date ? m.release_date.slice(0, 4) : '';
-                                        return '<a class="movie-row" href="movie-detail.html?id=' + m.id + '">' +
-                                            '<span class="movie-row-title">' + m.title + '</span>' +
-                                            (year ? '<span class="movie-row-year">' + year + '</span>' : '') +
-                                        '</a>';
-                                    }).join('');
-                            } else {
-                                moviesHtml = '<div class="detail-section-title">Filmography</div>' +
-                                    '<p style="color:var(--muted);font-size:0.85rem;">No movies found.</p>';
+                return apiFetch('/movies/?director=' + id).then(function(movRes) { // เรียก GET /movies/?director={id} ดึงหนังทั้งหมดของผู้กำกับนี้
+                    var moviesHtml = ''; // string สำหรับ HTML ส่วน filmography
+                    if (movRes && movRes.ok) { // ถ้าได้รับ response สำเร็จ
+                        return movRes.json().then(function(movData) { // แปลง response เป็น object
+                            var movies = movData.results || movData; // รองรับ response ทั้ง paginated และไม่ paginated
+                            if (movies.length) { // ถ้ามีหนัง
+                                moviesHtml = '<div class="detail-section-title">Filmography</div>' + // หัวข้อ Filmography
+                                    movies.map(function(m) { // วน loop สร้าง movie row แต่ละรายการ
+                                        var year = m.release_date ? m.release_date.slice(0, 4) : ''; // ดึงปีจาก release_date
+                                        return '<a class="movie-row" href="movie-detail.html?id=' + m.id + '">' + // movie row เป็นลิงก์ไปหน้า detail
+                                            '<span class="movie-row-title">' + m.title + '</span>' + // ชื่อหนัง
+                                            (year ? '<span class="movie-row-year">' + year + '</span>' : '') + // ปีฉาย ถ้ามี
+                                        '</a>'; // ปิด movie-row link
+                                    }).join(''); // รวม HTML ทุก movie row
+                            } else { // ถ้าไม่มีหนัง
+                                moviesHtml = '<div class="detail-section-title">Filmography</div>' + // หัวข้อ
+                                    '<p style="color:var(--muted);font-size:0.85rem;">No movies found.</p>'; // แสดงว่าไม่มีหนัง
                             }
-                            renderDetail(director, moviesHtml);
+                            renderDetail(director, moviesHtml); // render detail page
                         });
-                    } else {
-                        renderDetail(director, moviesHtml);
+                    } else { // ถ้า movies API ล้มเหลว
+                        renderDetail(director, moviesHtml); // render detail โดยไม่มี filmography
                     }
                 });
             });
         }
 
-        function renderDetail(director, moviesHtml) {
-            document.getElementById('detail-content').innerHTML =
-                '<div class="detail-wrap">' +
-                    '<div class="detail-poster">' +
-                        (director.image_url
-                            ? '<img src="' + director.image_url + '" alt="' + director.name + '">'
-                            : '<div class="card-img-placeholder">NO PHOTO</div>') +
-                    '</div>' +
-                    '<div class="detail-info">' +
-                        '<div class="detail-title">' + director.name + '</div>' +
-                        (director.birth_date
-                            ? '<div class="detail-meta">' + formatDate(director.birth_date) + '</div>'
-                            : '') +
-                        (director.bio
-                            ? '<div class="detail-synopsis">' + director.bio + '</div>'
-                            : '') +
-                        moviesHtml +
-                    '</div>' +
-                '</div>';
+        function renderDetail(director, moviesHtml) { // ฟังก์ชัน render HTML รายละเอียดผู้กำกับลง DOM
+            document.getElementById('detail-content').innerHTML = // inject HTML ลง detail-content
+                '<div class="detail-wrap">' + // layout wrapper 2 คอลัมน์: ภาพ | ข้อมูล
+                    '<div class="detail-poster">' + // column รูปภาพผู้กำกับ
+                        (director.image_url // ถ้ามีรูปภาพ
+                            ? '<img src="' + director.image_url + '" alt="' + director.name + '">' // แสดงรูปภาพ
+                            : '<div class="card-img-placeholder">NO PHOTO</div>') + // ไม่มีรูป → แสดง placeholder
+                    '</div>' + // ปิด detail-poster
+                    '<div class="detail-info">' + // column ข้อมูลผู้กำกับ
+                        '<div class="detail-title">' + director.name + '</div>' + // ชื่อผู้กำกับ
+                        (director.birth_date // ถ้ามีวันเกิด
+                            ? '<div class="detail-meta">' + formatDate(director.birth_date) + '</div>' // แสดงวันเกิด format "DD Mon YYYY"
+                            : '') + // ไม่มีวันเกิด → ไม่แสดง
+                        (director.bio // ถ้ามีประวัติ
+                            ? '<div class="detail-synopsis">' + director.bio + '</div>' // แสดงประวัติ
+                            : '') + // ไม่มีประวัติ → ไม่แสดง
+                        moviesHtml + // HTML ส่วน filmography
+                    '</div>' + // ปิด detail-info
+                '</div>'; // ปิด detail-wrap
         }
 
-        document.addEventListener('DOMContentLoaded', loadDetail);
+        document.addEventListener('DOMContentLoaded', loadDetail); // ตายตัว: โหลด detail เมื่อ DOM พร้อม
     </script>
-</body>
-</html>
+</body> <!-- ตายตัว: ปิด body -->
+</html> <!-- ตายตัว: ปิด root element -->

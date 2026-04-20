@@ -1,84 +1,84 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login — DoMovie</title>
-    <link rel="stylesheet" href="/css/main.css">
-</head>
-<body>
-    <div class="form-page">
-        <div class="form-page-left">
-            <div class="form-page-left-bg"></div>
-            <div class="form-page-wordmark">DOMOVIE</div>
-            <div class="form-page-accent">
-                <p class="form-page-accent-text">
-                    "Cinema is a mirror by which we often see ourselves."
-                    <em class="form-page-accent-attr">— DoMovie</em>
-                </p>
-            </div>
-        </div>
+<!DOCTYPE html> <!-- ตายตัว: บอก browser ว่าเป็น HTML5 -->
+<html lang="en"> <!-- ตายตัว: root element ระบุภาษาหลักเป็นอังกฤษ -->
+<head> <!-- ตายตัว: เปิด section meta -->
+    <meta charset="UTF-8"> <!-- ตายตัว: encoding UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- ตายตัว: responsive สำหรับมือถือ -->
+    <title>Login — DoMovie</title> <!-- ชื่อ tab หน้า Login -->
+    <link rel="stylesheet" href="/css/main.css"> <!-- ตายตัว: โหลด CSS หลัก -->
+</head> <!-- ตายตัว: ปิด head -->
+<body> <!-- ตายตัว: เปิด section เนื้อหา -->
+    <div class="form-page"> <!-- layout แบบ 2 คอลัมน์: ซ้ายตกแต่ง / ขวาฟอร์ม -->
+        <div class="form-page-left"> <!-- panel ซ้ายสำหรับตกแต่ง (ซ่อนบนมือถือ) -->
+            <div class="form-page-left-bg"></div> <!-- gradient background ตกแต่ง panel ซ้าย -->
+            <div class="form-page-wordmark">DOMOVIE</div> <!-- ชื่อแบรนด์แนวตั้งขนาดใหญ่ (opacity ต่ำ) -->
+            <div class="form-page-accent"> <!-- container คำโควตที่มุมล่างซ้าย -->
+                <p class="form-page-accent-text"> <!-- ย่อหน้าคำโควต Cinema -->
+                    "Cinema is a mirror by which we often see ourselves." <!-- ข้อความโควต -->
+                    <em class="form-page-accent-attr">— DoMovie</em> <!-- แหล่งที่มาของโควต -->
+                </p> <!-- ปิด paragraph -->
+            </div> <!-- ปิด form-page-accent -->
+        </div> <!-- ปิด form-page-left -->
 
-        <div class="form-page-right">
-            <div class="form-container">
-                <div class="form-brand">DOMOVIE</div>
-                <div class="form-title">Sign in to your account</div>
+        <div class="form-page-right"> <!-- panel ขวาสำหรับ form เข้าสู่ระบบ -->
+            <div class="form-container"> <!-- wrapper จำกัดความกว้างสูงสุด 380px -->
+                <div class="form-brand">DOMOVIE</div> <!-- ชื่อแบรนด์หัวฟอร์ม พร้อม dot สีแดง (ผ่าน ::before) -->
+                <div class="form-title">Sign in to your account</div> <!-- คำอธิบายย่อยใต้แบรนด์ -->
 
-                <div id="alert" class="alert alert-error"></div>
+                <div id="alert" class="alert alert-error"></div> <!-- element แสดง error message — ซ่อนโดย default -->
 
-                <form id="login-form">
-                    <div class="form-group">
-                        <label for="username">Username</label>
-                        <input type="text" id="username" required autocomplete="username" placeholder="your username">
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" required autocomplete="current-password" placeholder="••••••••">
-                    </div>
-                    <div class="form-actions">
-                        <button type="submit" class="btn btn-primary">Login</button>
-                    </div>
-                </form>
+                <form id="login-form"> <!-- form เข้าสู่ระบบ — JavaScript ดัก submit -->
+                    <div class="form-group"> <!-- กลุ่ม input username -->
+                        <label for="username">Username</label> <!-- label ผูกกับ input id="username" -->
+                        <input type="text" id="username" required autocomplete="username" placeholder="your username"> <!-- ช่อง username บังคับกรอก พร้อม autocomplete -->
+                    </div> <!-- ปิด form-group username -->
+                    <div class="form-group"> <!-- กลุ่ม input password -->
+                        <label for="password">Password</label> <!-- label ผูกกับ input id="password" -->
+                        <input type="password" id="password" required autocomplete="current-password" placeholder="••••••••"> <!-- ช่อง password บังคับกรอก พร้อม autocomplete -->
+                    </div> <!-- ปิด form-group password -->
+                    <div class="form-actions"> <!-- wrapper ปุ่ม submit -->
+                        <button type="submit" class="btn btn-primary">Login</button> <!-- ปุ่ม submit ฟอร์ม -->
+                    </div> <!-- ปิด form-actions -->
+                </form> <!-- ปิด form -->
 
-                <div class="form-footer">
-                    No account? <a href="/register.html">Register</a>
-                </div>
-            </div>
-        </div>
-    </div>
+                <div class="form-footer"> <!-- footer ของฟอร์มสำหรับ link ไปหน้า Register -->
+                    No account? <a href="/register.html">Register</a> <!-- ข้อความและลิงก์ไปหน้าสมัครสมาชิก -->
+                </div> <!-- ปิด form-footer -->
+            </div> <!-- ปิด form-container -->
+        </div> <!-- ปิด form-page-right -->
+    </div> <!-- ปิด form-page -->
 
-    <script src="/js/api.js"></script>
-    <script src="/js/auth.js"></script>
+    <script src="/js/api.js"></script> <!-- ตายตัว: โหลด API utilities รวมถึง API_BASE และ apiFetch -->
+    <script src="/js/auth.js"></script> <!-- ตายตัว: โหลด auth utilities รวมถึง isLoggedIn และ setAuth -->
     <script>
-        if (isLoggedIn()) window.location.href = '/index.html';
+        if (isLoggedIn()) window.location.href = '/index.html'; // ถ้า login อยู่แล้ว → redirect ไปหน้าหลักทันที
 
-        document.getElementById('login-form').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            var alertEl = document.getElementById('alert');
-            alertEl.style.display = 'none';
+        document.getElementById('login-form').addEventListener('submit', async function(e) { // ดักจับ submit form
+            e.preventDefault(); // ป้องกัน browser reload หน้าตามพฤติกรรมปกติ
+            var alertEl = document.getElementById('alert'); // หา element alert
+            alertEl.style.display = 'none'; // ซ่อน alert เก่าก่อนส่งคำขอใหม่
 
-            var username = document.getElementById('username').value.trim();
-            var password = document.getElementById('password').value;
+            var username = document.getElementById('username').value.trim(); // อ่านค่า username และตัด whitespace
+            var password = document.getElementById('password').value; // อ่านค่า password (ไม่ trim เพราะ space อาจเป็นส่วนหนึ่งของรหัส)
 
-            try {
-                var res = await fetch(API_BASE + '/auth/login/', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ username: username, password: password }),
+            try { // ลอง fetch API
+                var res = await fetch(API_BASE + '/auth/login/', { // เรียก POST /auth/login/
+                    method: 'POST', // ระบุ method เป็น POST
+                    headers: { 'Content-Type': 'application/json' }, // ส่งข้อมูลเป็น JSON
+                    body: JSON.stringify({ username: username, password: password }), // แปลง object เป็น JSON string
                 });
-                var data = await res.json();
-                if (res.ok) {
-                    setAuth(data);
-                    window.location.href = '/index.html';
-                } else {
-                    alertEl.textContent = data.detail || 'Invalid credentials.';
-                    alertEl.style.display = 'block';
+                var data = await res.json(); // แปลง response เป็น object
+                if (res.ok) { // ถ้า status 200-299
+                    setAuth(data); // บันทึก token และข้อมูล user ลง localStorage
+                    window.location.href = '/index.html'; // redirect ไปหน้าหลัก
+                } else { // ถ้า status ไม่ใช่ 200 เช่น 401
+                    alertEl.textContent = data.detail || 'Invalid credentials.'; // แสดง error จาก API หรือ fallback
+                    alertEl.style.display = 'block'; // แสดง alert
                 }
-            } catch (err) {
-                alertEl.textContent = 'Network error. Try again.';
-                alertEl.style.display = 'block';
+            } catch (err) { // ถ้า network error หรือ fetch ล้มเหลว
+                alertEl.textContent = 'Network error. Try again.'; // แสดงข้อความ network error
+                alertEl.style.display = 'block'; // แสดง alert
             }
         });
     </script>
-</body>
-</html>
+</body> <!-- ตายตัว: ปิด body -->
+</html> <!-- ตายตัว: ปิด root element -->

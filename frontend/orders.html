@@ -1,27 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Orders — DoMovie</title>
-    <link rel="stylesheet" href="/css/main.css">
-</head>
-<body>
-    <nav id="main-nav"></nav>
+<!DOCTYPE html> <!-- ตายตัว: บอก browser ว่าเป็น HTML5 -->
+<html lang="en"> <!-- ตายตัว: root element ของ HTML, ระบุภาษาหลักเป็นอังกฤษ -->
+<head> <!-- ตายตัว: เปิด section ข้อมูล meta ของหน้า -->
+    <meta charset="UTF-8"> <!-- ตายตัว: กำหนด encoding เป็น UTF-8 รองรับทุกภาษา -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- ตายตัว: ทำให้ responsive บนมือถือ -->
+    <title>My Orders — DoMovie</title> <!-- ชื่อที่แสดงใน tab ของ browser -->
+    <link rel="stylesheet" href="/css/main.css"> <!-- ตายตัว: โหลด CSS หลักของโปรเจกต์ -->
+</head> <!-- ตายตัว: ปิด head -->
+<body> <!-- ตายตัว: เปิด section เนื้อหาที่มองเห็นได้ -->
+    <nav id="main-nav"></nav> <!-- container ว่างสำหรับ nav bar — nav.js จะ inject HTML เข้ามา -->
 
-    <div class="container">
-        <div class="page-header">
-            <h1 class="page-title">My Orders</h1>
-            <p class="page-sub">Your order history</p>
-        </div>
-        <div id="orders-container">
-            <div class="loading">Loading orders…</div>
-        </div>
-    </div>
+    <div class="container"> <!-- wrapper จำกัดความกว้างสูงสุด 1280px และเพิ่ม padding -->
+        <div class="page-header"> <!-- header ของ section แสดงชื่อหน้าและ subtitle -->
+            <h1 class="page-title">My Orders</h1> <!-- หัวข้อหน้า ใช้ font Bebas Neue -->
+            <p class="page-sub">Your order history</p> <!-- คำอธิบายสั้นใต้หัวข้อ -->
+        </div> <!-- ปิด page-header -->
+        <div id="orders-container"> <!-- container สำหรับแสดงตาราง orders — orders.js จะ render HTML เข้ามา -->
+            <div class="loading">Loading orders…</div> <!-- ข้อความ loading แสดงก่อน JavaScript โหลดข้อมูล -->
+        </div> <!-- ปิด orders-container -->
+    </div> <!-- ปิด container -->
 
-    <script src="/js/api.js"></script>
-    <script src="/js/auth.js"></script>
-    <script src="/js/nav.js"></script>
-    <script src="/js/orders.js"></script>
-</body>
-</html>
+    <script src="/js/api.js"></script> <!-- ตายตัว: โหลด API utilities (apiFetch, showToast) -->
+    <script src="/js/auth.js"></script> <!-- ตายตัว: โหลด authentication utilities (isLoggedIn, requireAuth ฯลฯ) -->
+    <script src="/js/nav.js"></script> <!-- ตายตัว: โหลด nav renderer พร้อม hamburger menu -->
+    <script src="/js/orders.js"></script> <!-- โหลด orders.js ที่มี logic ดึงและแสดง orders -->
+</body> <!-- ตายตัว: ปิด body -->
+</html> <!-- ตายตัว: ปิด root element -->

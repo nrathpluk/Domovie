@@ -1,110 +1,113 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Directors — DoMovie</title>
-    <link rel="stylesheet" href="/css/main.css">
-</head>
-<body>
-    <nav id="main-nav"></nav>
+<!DOCTYPE html> <!-- ตายตัว: บอก browser ว่าเป็น HTML5 -->
+<html lang="en"> <!-- ตายตัว: root element ระบุภาษาหลักเป็นอังกฤษ -->
+<head> <!-- ตายตัว: เปิด section meta -->
+    <meta charset="UTF-8"> <!-- ตายตัว: encoding UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- ตายตัว: responsive สำหรับมือถือ -->
+    <title>Directors — DoMovie</title> <!-- ชื่อ tab เฉพาะหน้า Directors -->
+    <link rel="stylesheet" href="/css/main.css"> <!-- ตายตัว: โหลด CSS หลัก -->
+</head> <!-- ตายตัว: ปิด head -->
+<body> <!-- ตายตัว: เปิด section เนื้อหา -->
+    <nav id="main-nav"></nav> <!-- container ว่างสำหรับ nav bar -->
 
-    <div class="container">
-        <div class="page-header">
-            <h1 class="page-title">Directors</h1>
-            <p class="page-sub">Browse filmmakers</p>
-        </div>
+    <div class="container"> <!-- wrapper จำกัดความกว้าง -->
+        <div class="page-header"> <!-- header หน้า -->
+            <h1 class="page-title">Directors</h1> <!-- หัวข้อหน้า Directors -->
+            <p class="page-sub">Browse filmmakers</p> <!-- คำอธิบายสั้น -->
+        </div> <!-- ปิด page-header -->
 
-        <div class="search-bar">
-            <input type="text" id="search-input" placeholder="Search by name…">
-            <button class="btn btn-primary" id="search-btn">Search</button>
-        </div>
+        <div class="search-bar"> <!-- แถบค้นหาผู้กำกับ -->
+            <input type="text" id="search-input" placeholder="Search by name…"> <!-- ช่องรับคำค้นหาชื่อผู้กำกับ -->
+            <button class="btn btn-primary" id="search-btn">Search</button> <!-- ปุ่ม trigger การค้นหา -->
+        </div> <!-- ปิด search-bar -->
 
-        <div class="card-grid" id="directors-grid">
-            <div class="loading">Loading directors…</div>
-        </div>
+        <div class="card-grid" id="directors-grid"> <!-- grid สำหรับแสดง director cards — JavaScript inject HTML เข้ามา -->
+            <div class="loading">Loading directors…</div> <!-- loading indicator ก่อนข้อมูลโหลดเสร็จ -->
+        </div> <!-- ปิด card-grid -->
 
-        <div class="pagination" id="pagination"></div>
-    </div>
+        <div class="pagination" id="pagination"></div> <!-- container สำหรับ pagination buttons -->
+    </div> <!-- ปิด container -->
 
-    <script src="/js/api.js"></script>
-    <script src="/js/auth.js"></script>
-    <script src="/js/nav.js"></script>
+    <script src="/js/api.js"></script> <!-- ตายตัว: โหลด API utilities -->
+    <script src="/js/auth.js"></script> <!-- ตายตัว: โหลด authentication utilities -->
+    <script src="/js/nav.js"></script> <!-- ตายตัว: โหลด nav renderer -->
     <script>
-        var currentPage = 1;
-        var currentSearch = '';
+        var currentPage = 1; // ตัวแปร global เก็บหน้าปัจจุบัน
+        var currentSearch = ''; // ตัวแปร global เก็บคำค้นหาปัจจุบัน
 
+        // ฟังก์ชันโหลดและแสดงรายการผู้กำกับ
         function loadDirectors(page, search) {
-            var grid = document.getElementById('directors-grid');
-            var pager = document.getElementById('pagination');
-            grid.innerHTML = '<div class="loading">Loading directors…</div>';
+            var grid = document.getElementById('directors-grid'); // หา grid element
+            var pager = document.getElementById('pagination'); // หา pagination element
+            grid.innerHTML = '<div class="loading">Loading directors…</div>'; // แสดง loading ก่อนดึงข้อมูล
 
-            var url = '/directors/?page=' + page;
-            if (search) url += '&search=' + encodeURIComponent(search);
+            var url = '/directors/?page=' + page; // สร้าง URL API พื้นฐาน
+            if (search) url += '&search=' + encodeURIComponent(search); // ถ้ามีคำค้นหา → เพิ่ม query string
 
-            apiFetch(url).then(function(res) {
-                if (!res) return;
-                return res.json();
-            }).then(function(data) {
-                if (!data) return;
+            apiFetch(url).then(function(res) { // เรียก API แบบ Promise chain
+                if (!res) return; // ถ้าได้รับ null → หยุด
+                return res.json(); // แปลง response เป็น object
+            }).then(function(data) { // รับข้อมูลที่แปลงแล้ว
+                if (!data) return; // ถ้าไม่มีข้อมูล → หยุด
 
-                if (!data.results || !data.results.length) {
-                    grid.innerHTML = '<div class="empty-state"><p>No directors found.</p></div>';
-                    pager.innerHTML = '';
-                    return;
+                if (!data.results || !data.results.length) { // ถ้าไม่มีผลลัพธ์
+                    grid.innerHTML = '<div class="empty-state"><p>No directors found.</p></div>'; // แสดง empty state
+                    pager.innerHTML = ''; // ล้าง pagination
+                    return; // หยุด
                 }
 
-                grid.innerHTML = data.results.map(function(d, i) {
-                    var idx = String(i + 1).padStart(2, '0');
-                    var year = d.birth_date ? d.birth_date.slice(0, 4) : '';
-                    return '<a class="card" href="director-detail.html?id=' + d.id + '">' +
-                        '<span class="card-frame">' + idx + '</span>' +
-                        (d.image_url
-                            ? '<img src="' + d.image_url + '" alt="' + d.name + '" loading="lazy">'
-                            : '<div class="card-img-placeholder">NO PHOTO</div>') +
-                        '<div class="card-body">' +
-                            '<div class="card-title">' + d.name + '</div>' +
-                            '<div class="card-meta">' + (year || 'Unknown') + '</div>' +
-                        '</div>' +
-                    '</a>';
-                }).join('');
+                grid.innerHTML = data.results.map(function(d, i) { // วน loop สร้าง HTML card แต่ละผู้กำกับ
+                    var idx = String(i + 1).padStart(2, '0'); // เลข index เช่น "01", "02"
+                    var year = d.birth_date ? d.birth_date.slice(0, 4) : ''; // ดึงปีเกิดจาก birth_date หรือ string ว่าง
+                    return '<a class="card" href="director-detail.html?id=' + d.id + '">' + // เปิด card เป็น link ไปหน้า detail
+                        '<span class="card-frame">' + idx + '</span>' + // ป้ายเลข frame มุมบนซ้าย
+                        (d.image_url // ตรวจว่า director มีรูปภาพหรือไม่
+                            ? '<img src="' + d.image_url + '" alt="' + d.name + '" loading="lazy">' // มี → แสดงรูปพร้อม lazy loading
+                            : '<div class="card-img-placeholder">NO PHOTO</div>') + // ไม่มี → แสดง placeholder
+                        '<div class="card-body">' + // เปิด panel ข้อมูลด้านล่าง card
+                            '<div class="card-title">' + d.name + '</div>' + // ชื่อผู้กำกับ
+                            '<div class="card-meta">' + (year || 'Unknown') + '</div>' + // ปีเกิด หรือ "Unknown"
+                        '</div>' + // ปิด card-body
+                    '</a>'; // ปิด card link
+                }).join(''); // รวม HTML ทุก card
 
-                renderPagination(data.count, page, pager);
+                renderPagination(data.count, page, pager); // สร้าง pagination
             });
         }
 
+        // ฟังก์ชันสร้าง pagination buttons
         function renderPagination(total, page, container) {
-            var pages = Math.ceil(total / 10);
-            if (pages <= 1) { container.innerHTML = ''; return; }
+            var pages = Math.ceil(total / 10); // คำนวณจำนวนหน้าทั้งหมด
+            if (pages <= 1) { container.innerHTML = ''; return; } // ถ้ามีหน้าเดียว → ซ่อน pagination
 
-            var btns = [];
-            if (page > 1) btns.push('<button onclick="go(' + (page - 1) + ')">‹ Prev</button>');
-            for (var i = 1; i <= pages; i++) {
-                btns.push('<button class="' + (i === page ? 'active' : '') + '" onclick="go(' + i + ')">' + i + '</button>');
+            var btns = []; // array เก็บ HTML ของปุ่ม
+            if (page > 1) btns.push('<button onclick="go(' + (page - 1) + ')">‹ Prev</button>'); // ปุ่ม Prev
+            for (var i = 1; i <= pages; i++) { // วน loop ทุกหน้า
+                btns.push('<button class="' + (i === page ? 'active' : '') + '" onclick="go(' + i + ')">' + i + '</button>'); // ปุ่มตัวเลข
             }
-            if (page < pages) btns.push('<button onclick="go(' + (page + 1) + ')">Next ›</button>');
-            container.innerHTML = btns.join('');
+            if (page < pages) btns.push('<button onclick="go(' + (page + 1) + ')">Next ›</button>'); // ปุ่ม Next
+            container.innerHTML = btns.join(''); // render ลง DOM
         }
 
+        // ฟังก์ชันเปลี่ยนหน้า
         function go(page) {
-            currentPage = page;
-            loadDirectors(page, currentSearch);
-            window.scrollTo(0, 0);
+            currentPage = page; // อัปเดตหน้าปัจจุบัน
+            loadDirectors(page, currentSearch); // โหลด directors หน้าใหม่
+            window.scrollTo(0, 0); // เลื่อน scroll ขึ้นบน
         }
 
-        document.addEventListener('DOMContentLoaded', function() {
-            loadDirectors(1, '');
+        document.addEventListener('DOMContentLoaded', function() { // ตายตัว: รันเมื่อ DOM โหลดเสร็จ
+            loadDirectors(1, ''); // โหลด directors หน้าแรก
 
-            document.getElementById('search-btn').addEventListener('click', function() {
-                currentSearch = document.getElementById('search-input').value.trim();
-                currentPage = 1;
-                loadDirectors(1, currentSearch);
+            document.getElementById('search-btn').addEventListener('click', function() { // ดักจับ click ปุ่ม Search
+                currentSearch = document.getElementById('search-input').value.trim(); // อ่านคำค้นหา
+                currentPage = 1; // reset หน้าเป็น 1
+                loadDirectors(1, currentSearch); // โหลดใหม่ด้วยคำค้นหา
             });
 
-            document.getElementById('search-input').addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') document.getElementById('search-btn').click();
+            document.getElementById('search-input').addEventListener('keydown', function(e) { // ดักจับ keydown
+                if (e.key === 'Enter') document.getElementById('search-btn').click(); // กด Enter → trigger Search
             });
         });
     </script>
-</body>
-</html>
+</body> <!-- ตายตัว: ปิด body -->
+</html> <!-- ตายตัว: ปิด root element -->
