@@ -235,36 +235,6 @@ nav {
     border-bottom: 1px solid var(--border);
 }
 
-.hero-ticker {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 26px;
-    background: var(--accent);
-    overflow: hidden;
-    z-index: 2;
-}
-
-.hero-ticker-inner {
-    display: inline-flex;
-    align-items: center;
-    white-space: nowrap;
-    height: 100%;
-    font-family: var(--font-b);
-    font-size: 0.58rem;
-    letter-spacing: 0.22em;
-    text-transform: uppercase;
-    color: rgba(255,255,255,0.9);
-    animation: ticker 28s linear infinite;
-    gap: 3rem;
-    padding-left: 2rem;
-}
-
-@keyframes ticker {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
-}
 
 .hero-bg {
     position: absolute;
