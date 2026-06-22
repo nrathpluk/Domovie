@@ -1,4 +1,4 @@
-﻿// ฟังก์ชันสร้างและ render navigation bar
+// ฟังก์ชันสร้างและ render navigation bar
 function renderNav() {
     const nav = document.getElementById('main-nav'); // หา element nav ที่มี id="main-nav"
     if (!nav) return; // ถ้าไม่มี element นี้ → หยุดทำงาน (ป้องกัน error)
@@ -19,11 +19,11 @@ function renderNav() {
             <span></span><span></span><span></span>
         </button>
         <div class="nav-links" id="nav-links">
-            <a href="/movies.html"${activeClass('/movies.html')}>Movies</a>
+            <a href="/movies.html"${activeClass('/movies.html')}>anime</a>
             <span class="nav-sep"></span>
             <a href="/directors.html"${activeClass('/directors.html')}>Directors</a>
             <span class="nav-sep"></span>
-            <a href="/dvds.html"${activeClass('/dvds.html')}>DVDs</a>
+            <a href="/dvds.html"${activeClass('/dvds.html')}>หนังสือ</a>
             ${loggedIn ? `
                 <span class="nav-sep"></span>
                 <a href="/cart.html"${activeClass('/cart.html')}>Cart</a>

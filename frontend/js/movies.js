@@ -2,21 +2,21 @@ var currentPage = 1; // ตัวแปร global เก็บหน้าปั
 var currentSearch = ''; // ตัวแปร global เก็บคำค้นหาปัจจุบัน (ว่างเปล่า = ไม่ได้ค้นหา)
 
 
-// ฟังก์ชัน async โหลดและแสดงรายการหนัง
+// ฟังก์ชัน async โหลดและแสดงรายการอนิเมะ
 async function loadMovies(page, search) {
-    var grid = document.getElementById('movies-grid'); // หา element grid สำหรับแสดง movie cards
+    var grid = document.getElementById('movies-grid'); // หา element grid สำหรับแสดง anime cards
     var pager = document.getElementById('pagination'); // หา element สำหรับแสดง pagination buttons
-    grid.innerHTML = '<div class="loading">Loading movies…</div>'; // แสดง loading indicator ก่อนดึงข้อมูล
+    grid.innerHTML = '<div class="loading">Loading anime.</div>'; // แสดง loading indicator ระหว่างรอข้อมูล
 
     var url = '/movies/?page=' + page; // สร้าง URL พื้นฐานสำหรับเรียก API หน้าที่ต้องการ
     if (search) url += '&search=' + encodeURIComponent(search); // ถ้ามีคำค้นหา → เพิ่ม query string (encode เพื่อความปลอดภัย)
 
-    var res = await apiFetch(url); // เรียก API ดึงรายการหนัง
+    var res = await apiFetch(url); // เรียก API ดึงรายการอนิเมะ
     if (!res) return; // ถ้าได้รับ null (กรณี 401) → หยุดทำงาน
     var data = await res.json(); // แปลง response เป็น JavaScript object
 
     if (!data.results || !data.results.length) { // ถ้าไม่มีผลลัพธ์
-        grid.innerHTML = '<div class="empty-state"><p>No movies found.</p></div>'; // แสดง empty state
+        grid.innerHTML = '<div class="empty-state"><p>No anime found.</p></div>'; // แสดง empty state
         pager.innerHTML = ''; // ล้าง pagination
         return; // หยุดทำงาน
     }

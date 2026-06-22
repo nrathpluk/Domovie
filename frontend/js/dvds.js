@@ -1,11 +1,11 @@
 var currentPage = 1; // ตัวแปร global เก็บหน้าปัจจุบันที่กำลังแสดงอยู่
 var currentSearch = ''; // ตัวแปร global เก็บคำค้นหาปัจจุบัน
 
-// ฟังก์ชัน async โหลดและแสดงรายการ DVDs
+// ฟังก์ชัน async โหลดและแสดงรายการ หนังสือ
 async function loadDVDs(page, search) {
-    var grid = document.getElementById('dvds-grid'); // หา element grid สำหรับแสดง DVD cards
+    var grid = document.getElementById('dvds-grid'); // หา element grid สำหรับแสดง หนังสือ cards
     var pager = document.getElementById('pagination'); // หา element สำหรับ pagination buttons
-    grid.innerHTML = '<div class="loading">Loading DVDs…</div>'; // แสดง loading indicator ก่อนดึงข้อมูล
+    grid.innerHTML = '<div class="loading">Loading หนังสือ.</div>'; // แสดง loading indicator ระหว่างรอข้อมูล
 
     var url = '/dvds/?page=' + page; // สร้าง URL พื้นฐานสำหรับเรียก API
     if (search) url += '&search=' + encodeURIComponent(search); // ถ้ามีคำค้นหา → เพิ่ม query string
@@ -15,7 +15,7 @@ async function loadDVDs(page, search) {
     var data = await res.json(); // แปลง response เป็น JavaScript object
 
     if (!data.results || !data.results.length) { // ถ้าไม่มีผลลัพธ์
-        grid.innerHTML = '<div class="empty-state"><p>No DVDs found.</p></div>'; // แสดง empty state
+        grid.innerHTML = '<div class="empty-state"><p>No หนังสือ found.</p></div>'; // แสดง empty state
         pager.innerHTML = ''; // ล้าง pagination
         return; // หยุดทำงาน
     }

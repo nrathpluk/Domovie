@@ -1,16 +1,16 @@
-﻿<!DOCTYPE html> <!-- ตายตัว: บอก browser ว่าเป็น HTML5 -->
+<!DOCTYPE html> <!-- ตายตัว: บอก browser ว่าเป็น HTML5 -->
 <html lang="en"> <!-- ตายตัว: root element ระบุภาษาหลักเป็นอังกฤษ -->
 <head> <!-- ตายตัว: เปิด section meta -->
     <meta charset="UTF-8"> <!-- ตายตัว: encoding UTF-8 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- ตายตัว: responsive สำหรับมือถือ -->
-    <title>Movie — Animo</title> <!-- ชื่อ tab เริ่มต้น — JavaScript จะเปลี่ยนเป็นชื่อหนังจริง -->
+    <title>anime — Animo</title> <!-- ชื่อ tab ของหน้า — JavaScript เปลี่ยนให้ตามชื่อหนัง -->
     <link rel="stylesheet" href="/css/main.css"> <!-- ตายตัว: โหลด CSS หลัก -->
 </head> <!-- ตายตัว: ปิด head -->
 <body> <!-- ตายตัว: เปิด section เนื้อหา -->
     <nav id="main-nav"></nav> <!-- container ว่างสำหรับ nav bar — nav.js inject HTML เข้ามา -->
 
     <div class="container"> <!-- wrapper จำกัดความกว้างและเพิ่ม padding -->
-        <a class="back-link" href="movies.html">← Back to Movies</a> <!-- ลิงก์กลับหน้า Movies -->
+        <a class="back-link" href="movies.html">← Back to anime</a> <!-- ลิงก์กลับหน้า Movies -->
         <div id="detail-content"><div class="loading">Loading…</div></div> <!-- container สำหรับ detail — JavaScript inject HTML เข้ามา พร้อม loading state -->
     </div> <!-- ปิด container -->
 
@@ -22,14 +22,14 @@
             var params = new URLSearchParams(window.location.search); // อ่าน query string จาก URL
             var id = params.get('id'); // ดึงค่า id จาก query parameter
             if (!id) { // ถ้าไม่มี id ใน URL
-                document.getElementById('detail-content').innerHTML = '<p>No movie ID provided.</p>'; // แสดงข้อความ error
+                document.getElementById('detail-content').innerHTML = '<p>No anime ID provided.</p>'; // แสดงข้อความ error
                 return; // หยุดทำงาน
             }
 
             var res = await apiFetch('/movies/' + id + '/'); // เรียก GET /movies/{id}/
             if (!res) return; // ถ้า response null (401 → redirect) → หยุด
             if (!res.ok) { // ถ้า status ไม่ใช่ 200 เช่น 404
-                document.getElementById('detail-content').innerHTML = '<p>Movie not found.</p>'; // แสดงข้อความ not found
+                document.getElementById('detail-content').innerHTML = '<p>anime not found.</p>'; // แสดงข้อความ not found
                 return; // หยุดทำงาน
             }
             var m = await res.json(); // แปลง response เป็น movie object
@@ -45,7 +45,7 @@
                 var dvdData = await dvdRes.json(); // แปลง response เป็น object
                 var dvds = dvdData.results || dvdData; // รองรับ response ทั้ง paginated และไม่ paginated
                 if (dvds.length) { // ถ้ามี DVD
-                    dvdsHtml = '<div class="detail-dvds-title">Available on DVD</div>' + // หัวข้อส่วน DVD
+                    dvdsHtml = '<div class="detail-dvds-title">Available on media</div>' + // หัวข้อส่วน DVD
                         dvds.map(function(d) { // วน loop สร้าง DVD row แต่ละรายการ
                             var stockLabel = d.stock > 0 ? d.stock + ' in stock' : 'Out of stock'; // ป้ายสต็อก
                             var stockClass = d.stock > 0 ? '' : ' out'; // CSS class เพิ่ม ถ้าหมดสต็อก
@@ -58,7 +58,7 @@
                                 '</div>'; // ปิด dvd-row
                         }).join(''); // รวม HTML ทุก DVD row
                 } else { // ถ้าไม่มี DVD
-                    dvdsHtml = '<div class="detail-dvds-title">No DVDs available</div>'; // แสดงข้อความไม่มี DVD
+                    dvdsHtml = '<div class="detail-dvds-title">No media available</div>'; // แสดงข้อความไม่มี DVD
                 }
             }
 
