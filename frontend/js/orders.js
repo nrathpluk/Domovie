@@ -25,7 +25,7 @@ async function loadOrders() {
         '<tbody>' + // ตายตัว: เปิด body ของตาราง
         orders.map(function(order) { // วน loop แต่ละ order
             var itemsText = order.items.map(function(i) { // วน loop items ภายใน order
-                return 'DVD #' + i.dvd + ' \u00d7 ' + i.quantity + ' @ $' + parseFloat(i.price).toFixed(2); // สร้างข้อความ เช่น "DVD #3 × 2 @ $12.99" (\u00d7 = ×)
+                return 'หนังสือ #' + i.dvd + ' \u00d7 ' + i.quantity + ' @ $' + parseFloat(i.price).toFixed(2); // รูปแบบสรุป เช่น "หนังสือ #3 x 2 @ $12.99" (\u00d7 = เครื่องหมายคูณ)
             }).join(', '); // รวมทุก item ด้วย comma
 
             return '<tr>' + // เปิด row
