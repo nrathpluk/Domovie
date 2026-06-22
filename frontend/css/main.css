@@ -1,4 +1,4 @@
-﻿/* ═══════════════════════════════════════════════════════════════════
+/* ═══════════════════════════════════════════════════════════════════
    KINOSCOPE — Animo Design System
    Dark arthouse cinema brutalism.
    Bebas Neue (display) + DM Mono (body) + Cormorant Garamond (accent)
@@ -45,7 +45,8 @@ button { cursor: pointer; }
 
 /* ── Base ───────────────────────────────────────────────────────── */
 body {
-    background: var(--bg);
+    background: linear-gradient(rgba(8, 8, 8, 0.7), rgba(8, 8, 8, 0.7)), url('https://media.online-station.net/images/2023/05/836ba3849da4b9c45d3f0bd0ca33b696.webp') no-repeat center center fixed;
+    background-size: cover;
     color: var(--cream);
     font-family: var(--font-b);
     font-size: 14px;
