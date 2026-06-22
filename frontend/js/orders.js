@@ -12,7 +12,7 @@ async function loadOrders() {
         container.innerHTML = // แสดง empty state พร้อมปุ่มไปหน้า DVDs
             '<div class="empty-state">' +
             '<p>No orders yet.</p>' +
-            '<a href="/dvds.html" class="btn btn-primary">Browse DVDs</a>' +
+            '<a href="/dvds.html" class="btn btn-primary">Browse</a>' +
             '</div>';
         return; // หยุดทำงาน ไม่ต้อง render ตาราง
     }
